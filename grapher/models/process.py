@@ -1,51 +1,14 @@
 import unicodedata
 import re
 import os
-from .stop_word import StopwordDetection, SkipPhrase
+from .stop_word import StopwordDetection
 
 DEV_MODE = os.getenv('DEV_MODE', '')  # if `without_stopword`, skip stopword detection
 SKIP_SYMBOL = ['・', '=']
 
-def only_roman_chars(unistr):
-    latin_letters = {}
-
-    def is_latin(uchr):
-        try:
-            return latin_letters[uchr]
-        except KeyError:
-            return latin_letters.setdefault(uchr, 'LATIN' in unicodedata.name(uchr))
-
-    return all(is_latin(_uchr) for _uchr in unistr if _uchr.isalpha())
-
 
 # Minimum character length of keyphrase (less than this values will be eliminated from candidate lists)
 MIN_LENGTH = 2
-
-
-def exclude_ticker(string):
-    """ Filter to exclude ticker and some tag, indicating news
-
-    - news tag
-    [ID:~]
-    [nL4N1V7386]
-
-    - ticker, which has various format
-    [IGO.AX]
-    <TEF.MC>,
-    <.STOXX>
-    <0#.INDEX>
-    [O/SING1]
-    <MKS.L>.
-    """
-
-    # convert html tag
-    string = string.replace('&amp;', '&')
-    string = string.replace('&lt;', '<')
-    string = string.replace('&gt;', '>')
-    # remove ticker
-    string = re.sub(r'<[^<>]*>', '', string)
-    string = re.sub(r'\[[^[\]]*]', '', string)
-    return string
 
 
 class CleaningStr:
@@ -53,7 +16,6 @@ class CleaningStr:
 
      List of feature
     --------------------
-    * killed ticker for english (see above `exclude_ticker`)
     * remove redundant half-space (make them single half-space)
         * more than 2 repetition of half-space will be replaced by `.`
     * convert full width to half width
@@ -64,16 +26,8 @@ class CleaningStr:
                  language: str = 'en',
                  skip_phrase: list = None):
         self.__language = language
-        self.__skip_phrase_detector = SkipPhrase(skip_phrase)
 
     def process(self, sentence: str):
-        if self.__language == 'en':
-            sentence = exclude_ticker(sentence)
-            if not only_roman_chars(sentence):
-                # avoid to get non-roman, like jp, russian, arabic
-                return ''
-        if self.__skip_phrase_detector.apply(sentence):
-            return ''
         sentence = self.single_halfspace(sentence, split=2)
         sentence = self.full_to_half(sentence)
         sentence = self.web_url(sentence, self.__language)
