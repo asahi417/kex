@@ -18,11 +18,18 @@ pip install .
 ```
 
 ## Basic Usage
-*Grapher* retrieves keywords from a document with various graph-based algorithms  
+*Grapher* retrieves keywords from a document with various graph-based algorithms:
+- [TextRank, Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
+- [SingleRank, Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
+- [TopicRank, Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
+- [PositionRank, Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
+- [MultipartiteRank, Boudin 18](https://arxiv.org/pdf/1803.08721.pdf)
+
+All the algorithms can be simply used as below.
 
 ```python
 >>> import grapher
->>> model = grapher.TopicRank()
+>>> model = grapher.TopicRank()  # any algorithm listed above
 >>> sample = '''
 We propose a novel unsupervised keyphrase extraction approach that filters candidate keywords using outlier detection.
 It starts by training word embeddings on the target document to capture semantic regularities among the words. It then
@@ -53,15 +60,29 @@ of-the-art and recent unsupervised keyphrase extraction methods.
 ]
 ```
 
-## Algorithms
-- Graph-based Algorithms
-    - [TextRank, Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
-    - [SingleRank, Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
-    - [TopicRank, Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
-    - [PositionRank, Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
-    - [MultipartiteRank, Boudin 18](https://arxiv.org/pdf/1803.08721.pdf)
-- Graph-based Algorithms (with statistic prior)
-    - [TopicalPageRank, Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
-    - [SingleTopicalPageRank, Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
+### Algorithm with LDA prior
+You can also use algorithms with LDA prior:
+- [TopicalPageRank, Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
+- [SingleTopicalPageRank, Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
 
- 
+Those require to compute LDA over available documents beforehand as
+```python
+>>> import grapher
+>>> model = grapher.TopicalPageRank()
+>>> test_sentences = ['documentA', 'documentB', 'documentC']
+>>> model.train(test_sentences)
+>>> model.get_keywords('document to get keyword')
+``` 
+
+Then, you can use as same as other algorithms. LDA files can be loaded on the fly
+
+```python
+>>> import grapher
+>>> model = grapher.TopicalPageRank()
+>>> test_sentences = ['documentA', 'documentB', 'documentC']
+>>> model.train(test_sentences, export_directory='./tmp')
+>>> model.load('./tmp')
+```
+
+### Benchamrk on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf)
+TBA
