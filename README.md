@@ -85,4 +85,5 @@ Then, you can use as same as other algorithms. LDA files can be loaded on the fl
 ```
 
 ### Benchamrk on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf)
-TBA
+Run a benchamrk on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf) dataset, processed by 
+[Boudin et al., 16](https://www.aclweb.org/anthology/W16-3917.pdf).
