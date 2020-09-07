@@ -3,8 +3,8 @@
 
 
 <p align="center">
-  <img src="./asset/topic_rank_fig.png" width="700">
-  <br><i>Fig 1: Graph created by TopicRank (quote from Bougouin et al.,13) </i>
+  <img src="./asset/topic_rank_fig.png" width="800">
+  <br><i>Fig 1: Graph created by TopicRank (Bougouin et al.,13) </i>
 </p>
 
 
