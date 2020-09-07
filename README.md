@@ -1,4 +1,4 @@
-# Grapher: Graph-based Keyword Extraction Library
+# Grapher: Graph-based Keyword Extraction Algorithms
 
 <p align="center">
   <img src="./asset/topic_rank_fig.png" width="800">
@@ -6,7 +6,7 @@
 </p>
 
 
-*Grapher*, a python library of modern unsurpervised keyword extraction algorithms based on graph approach.
+*Grapher*, a quick python library of graph-based unsurpervised keyword extraction algorithms.
 
 ## Get Started
 Clone and install
