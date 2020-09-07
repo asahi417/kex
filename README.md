@@ -61,7 +61,6 @@ of-the-art and recent unsupervised keyphrase extraction methods.
     - [PositionRank, Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
     - [MultipartiteRank, Boudin 18](https://arxiv.org/pdf/1803.08721.pdf)
 - Graph-based Algorithms (with statistic prior)
-    - [ExpandRank, Wan et al., 08](https://pdfs.semanticscholar.org/8a99/634e0b418ee61c9bd81f61d334b80486dc53.pdf)
     - [TopicalPageRank, Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
     - [SingleTopicalPageRank, Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
 
