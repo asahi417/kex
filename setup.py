@@ -23,7 +23,6 @@ setup(
         'spacy==2.1.4',
         'networkx==2.3',
         'numpy>=1.16.1',
-        'pandas',
         'mecab-python3==0.996.2',
     ]
 )

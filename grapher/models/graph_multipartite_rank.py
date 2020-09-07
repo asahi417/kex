@@ -1,28 +1,25 @@
-""" Implementation of TopicRank """
-from itertools import chain, combinations, product
-
+""" Implementation of MultipartiteRank """
 import networkx as nx
 import numpy as np
-from scipy.cluster.hierarchy import linkage, fcluster
-from scipy.spatial.distance import pdist
-from ._phrase_constructor import PhraseConstructor
+from itertools import chain
+from .graph_topic_rank import TopicRank
 
-__all__ = 'TopicRank'
+__all__ = "MultipartiteRank"
 
 
-class TopicRank:
-    """TopicRank
+class MultipartiteRank(TopicRank):
+    """ MultipartiteRank
 
      Usage
     -----------------
-    >>> model = TopicRank()
+    >>> model = MultipartiteRank()
     >>> sample =
     'We propose a novel unsupervised keyphrase extraction approach that filters candidate keywords using outlier '
     'detection. It starts by training word embeddings on the target document to capture semantic regularities among '
     'the words. It then uses the minimum covariance determinant estimator to model the distribution of non-keyphrase '
     'word vectors, under the assumption that these vectors come from the same distribution, indicative of their '
     'irrelevance to the semantics expressed by the dimensions of the learned vector representation. Candidate '
-    'keywords only consist of words that are detected as outliers of this dominant distribution. Empirical results '
+    'keyphrases only consist of words that are detected as outliers of this dominant distribution. Empirical results '
     'show that our approach outperforms stateof-the-art and recent unsupervised keyphrase extraction methods.'
     >>> model.get_keywords(sample)
     [[
@@ -45,12 +42,12 @@ class TopicRank:
 
     def __init__(self,
                  language: str = 'en',
+                 parameter_adjust_weight: float = 1.1,
                  random_prob: float = 0.85,
                  tol: float = 0.0001,
                  clustering_threshold: float = 0.74,
-                 linkage_method: str = 'average',
-                 add_verb: bool = False):
-        """ TopicRank
+                 linkage_method: str = 'average'):
+        """ MultipartiteRank
 
          Parameter
         ------------------------
@@ -69,44 +66,14 @@ class TopicRank:
         add_verb: bool
             take verbs into account
         """
-        self.__random_prob = random_prob
-        self.__tol = tol
 
-        self.__linkage_method = linkage_method
-        self.__clustering_threshold = clustering_threshold
-
-        self.phrase_constructor = PhraseConstructor(language=language, add_verb=add_verb)
-
-    def topic_clustering(self, stemmed_phrases: list):
-        """ grouping given phrases to topic based on HAC by there tokens
-
-         Parameter
-        --------------------
-        stemmed_phrases: list
-            list of stemmed keywords
-
-         Return
-        --------------------
-        grouped_phrase: list
-            grouped keywords
-        """
-        unique_token = set(chain(*[p.split() for p in stemmed_phrases]))
-        token_to_id = dict([(t, i) for i, t in enumerate(unique_token)])
-
-        # convert phrases to vector spanned by unique token
-        matrix = np.zeros((len(stemmed_phrases), len(unique_token)))
-        for n, p in enumerate(stemmed_phrases):
-            indices = [token_to_id[_p] for _p in set(p.split())]
-            matrix[n, indices] = 1
-
-        # calculate distance
-        distance = pdist(matrix, 'jaccard')
-        # compute the clusters
-        links = linkage(distance, method=self.__linkage_method)
-        # get cluster id: len(clusters) == len(stemmed_phrases)
-        clusters = fcluster(links, t=self.__clustering_threshold, criterion='distance')
-        grouped_phrase = [np.array(stemmed_phrases)[clusters == c_id].tolist() for c_id in set(clusters)]
-        return grouped_phrase
+        super(MultipartiteRank, self).__init__(language=language,
+                                               random_prob=random_prob,
+                                               tol=tol,
+                                               clustering_threshold=clustering_threshold,
+                                               linkage_method=linkage_method)
+        self.parameter_adjust_weight = parameter_adjust_weight
+        self.weighted_graph = True
 
     def build_graph(self, document: str):
         """ Build basic graph with Topic """
@@ -122,32 +89,70 @@ class TopicRank:
         group_id = list(range(len(grouped_phrases)))
 
         # initialize graph instance
-        graph = nx.Graph()
+        graph = nx.DiGraph()
 
         # add nodes
-        graph.add_nodes_from(group_id)
+        unique_tokens_in_candidate = list(set(chain(*[i.split() for i in phrase_instance.keys()])))
+        graph.add_nodes_from(unique_tokens_in_candidate)
 
-        def offset_distance(a: list, b: list):
-            return sum([1/abs(i[0] - i[1]) for i in product(range(*a), range(*b))])
+        def get_group_id(__phrase):
+            return np.argmax([int(__phrase in g) for g in grouped_phrases])
 
-        # add edges with weight
-        for id_x, id_y in combinations(group_id, 2):
-            # list of offset
-            x_offsets = list(chain(*[phrase_instance[_x_phrase]['offset'] for _x_phrase in grouped_phrases[id_x]]))
-            y_offsets = list(chain(*[phrase_instance[_y_phrase]['offset'] for _y_phrase in grouped_phrases[id_y]]))
-            weight = sum([offset_distance(_x, _y) for _x, _y in product(x_offsets, y_offsets)])
-            graph.add_edge(id_x, id_y, weight=weight)
+        # add edges
+        for position, __start_node in enumerate(tokens):
+
+            # ignore invalid token
+            if __start_node not in unique_tokens_in_candidate:
+                continue
+
+            for __position in range(position, len(tokens)):
+                __end_node = tokens[__position]
+
+                # ignore invalid token
+                if __end_node not in unique_tokens_in_candidate:
+                    continue
+
+                # ignore intra-topic connection
+                if get_group_id(__start_node) == get_group_id(__end_node):
+                    continue
+
+                weight = 1 / abs(position - __position)
+
+                if not graph.has_edge(__start_node, __end_node):
+                    graph.add_edge(__start_node, __end_node, weight=weight)
+                    graph.add_edge(__end_node, __start_node, weight=weight)
+                else:
+                    graph[__start_node][__end_node]['weight'] += weight
+                    graph[__end_node][__start_node]['weight'] += weight
+
+        # weight adjustment
+        for i in group_id:
+            stemmed_phrases = grouped_phrases[i]
+            offset_phrase = [(phrase_instance[phrase]['offset'][0][0], phrase) for phrase in stemmed_phrases]
+            offset_phrase_sort = sorted(offset_phrase, key=lambda key_value: key_value[0])
+            first_position, first_phrase = offset_phrase_sort[0]
+            scale = self.parameter_adjust_weight * np.exp(1 / (1+first_position))
+
+            neighbour_w = [
+                (
+                    np.sum([
+                        graph[__start][__end]['weight']
+                        for __start, __end in graph.edges(start)
+                        if get_group_id(__start) == i and __start != first_phrase and __end == start
+                    ]),
+                    start
+                )
+                for start, end in graph.edges(first_phrase) if end == first_phrase
+            ]
+            for w, start in neighbour_w:
+                graph[start][first_phrase]['weight'] += scale*w
 
         return graph, phrase_instance, grouped_phrases, len(tokens)
-
-    def run_pagerank(self, graph):
-        node_score = nx.pagerank(G=graph, alpha=self.__random_prob, tol=self.__tol, weight='weight')
-        return node_score
 
     def get_keywords(self, document: str, n_keywords: int = 10):
         """ Get keywords
 
-         Parameter
+        Parameter
         ------------------
         document: str
         n_keywords: int
@@ -168,10 +173,9 @@ class TopicRank:
 
         # combine score to get score of phrase
         phrase_score_dict = dict()
-        for group_id, phrases in enumerate(grouped_phrases):
-            first_phrase_id = np.argmin([phrase_instance[p]['offset'][0][0] for p in phrases])
-            phrase = phrases[first_phrase_id]
-            phrase_score_dict[phrase] = node_score[group_id]
+        for candidate_phrase_stemmed_form in phrase_instance.keys():
+            tokens_in_phrase = candidate_phrase_stemmed_form.split()
+            phrase_score_dict[candidate_phrase_stemmed_form] = sum([node_score[t] for t in tokens_in_phrase])
 
         # sorting
         phrase_score_sorted_list = sorted(phrase_score_dict.items(), key=lambda key_value: key_value[1], reverse=True)
