@@ -3,7 +3,7 @@ import unittest
 import logging
 from logging.config import dictConfig
 
-from grapher.models import PhraseConstructor
+from grapher import PhraseConstructor
 
 dictConfig({
     "version": 1,

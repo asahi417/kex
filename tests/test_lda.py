@@ -3,7 +3,7 @@ import unittest
 import logging
 from logging.config import dictConfig
 
-from grapher.models import LDA
+from grapher import LDA
 
 dictConfig({
     "version": 1,
