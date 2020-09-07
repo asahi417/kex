@@ -164,6 +164,10 @@ class PhraseConstructor:
         spacy_processor.tokenizer = custom_tokenizer()
         return spacy_processor
 
+    def tokenization(self, document: str):
+        """ tokenization """
+        return [spacy_object.text for spacy_object in self.__spacy_processor(document)]
+
     def get_phrase(self, document: str):
         """ get phrase
 

@@ -3,7 +3,7 @@ import unittest
 import logging
 from logging.config import dictConfig
 
-from grapher.models import TopicRank, MultipartiteRank
+from grapher import TopicRank, MultipartiteRank
 
 dictConfig({
     "version": 1,

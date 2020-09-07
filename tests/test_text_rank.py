@@ -3,7 +3,7 @@ import unittest
 import logging
 from logging.config import dictConfig
 
-from grapher.models import TextRank, SingleRank, PositionRank
+from grapher import TextRank, SingleRank, PositionRank
 
 dictConfig({
     "version": 1,

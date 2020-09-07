@@ -27,28 +27,6 @@ class TextRank:
     'keyphrases only consist of words that are detected as outliers of this dominant distribution. Empirical results '
     'show that our approach outperforms stateof-the-art and recent unsupervised keyphrase extraction methods.'
     >>> model.get_keywords(sample)
-    [
-        {
-            'stemmed': 'novel unsupervis keyphras extract approach',
-            'pos': 'ADJ ADJ NOUN NOUN NOUN',
-            'raw': 'novel unsupervised keyphrase extraction approach',
-            'lemma': 'novel unsupervised keyphrase extraction approach',
-            'offset': [[3, 7]],
-            'count': 1,
-            'score': 0.2570445598381217,
-            'n_source_tokens': 5
-        },
-        {
-            'stemmed': 'keyphras word vector',
-            'pos': 'NOUN NOUN NOUN',
-            'raw': 'keyphrase word vectors',
-            'lemma': 'keyphrase word vector',
-            'offset': [[49, 51]],
-            'count': 1,
-            'score': 0.19388916977478182,
-            'n_source_tokens': 5
-        }
-    ]
     """
 
     def __init__(self,
@@ -78,6 +56,7 @@ class TextRank:
 
         self.phrase_constructor = PhraseConstructor(language=language, add_verb=add_verb)
         self.weighted_graph = False
+        self.direct_graph = False
 
     def get_keywords(self, document: str, n_keywords: int = 10):
         """ Get keywords
@@ -148,7 +127,10 @@ class TextRank:
             return None
 
         # initialize graph instance
-        graph = nx.Graph()
+        if self.direct_graph:
+            graph = nx.DiGraph()
+        else:
+            graph = nx.Graph()
 
         # add nodes
         unique_tokens_in_candidate = list(set(chain(*[i.split() for i in phrase_instance.keys()])))
@@ -201,6 +183,7 @@ class PositionRank(TextRank):
     def __init__(self, *args, **kwargs):
         """ PositionRank """
         super(PositionRank, self).__init__(*args, **kwargs)
+        self.weighted_graph = True
 
     def get_keywords(self, document: str, n_keywords: int = 10):
         """ Get keywords

@@ -25,22 +25,6 @@ class TopicRank:
     'keywords only consist of words that are detected as outliers of this dominant distribution. Empirical results '
     'show that our approach outperforms stateof-the-art and recent unsupervised keyphrase extraction methods.'
     >>> model.get_keywords(sample)
-    [[
-        ('novel unsupervis keyphras extract approach', 0.2570445598381217,
-           {'stemmed': 'novel unsupervis keyphras extract approach',
-            'pos': 'ADJ ADJ NOUN NOUN NOUN',
-            'raw': ['novel unsupervised keyphrase extraction approach'],
-            'lemma': ['novel unsupervised keyphrase extraction approach'],
-            'offset': [[3, 7]],
-            'count': 1}),
-        ('keyphras word vector', 0.19388916977478182,
-           {'stemmed': 'keyphras word vector',
-            'pos': 'NOUN NOUN NOUN',
-            'raw': ['keyphrase word vectors'],
-            'lemma': ['keyphrase word vector'],
-            'offset': [[49, 51]],
-            'count': 1})
-    ]]
     """
 
     def __init__(self,
