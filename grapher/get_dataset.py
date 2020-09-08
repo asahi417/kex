@@ -28,10 +28,10 @@ def get_benchmark_dataset(data: str = 'SemEval2010', cache_dir: str = None):
             os.system('unzip {0}/master.zip -d {0}'.format(cache_dir))
         gold_keys = json.load(open(
             '{}/semeval-2010-pre-master/references/test.combined.stem.json'.format(cache_dir), 'r'))
-        answer_dict = {
-            k: {'keywords': list(chain(*v)),
-                'source': decode_xml('{0}/semeval-2010-pre-master/test/lvl-4/{1}.xml'.format(cache_dir, k))}
-            for k, v in gold_keys.items()}
+        answer_dict = [{
+            'keywords': list(chain(*v)),
+            'source': decode_xml('{0}/semeval-2010-pre-master/test/lvl-4/{1}.xml'.format(cache_dir, k)),
+            'id': k} for k, v in gold_keys.items()]
     else:
         raise ValueError('undefined data name: {}'.format(data))
 

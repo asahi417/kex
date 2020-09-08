@@ -11,7 +11,7 @@
 ## Get Started
 Clone and install
 
-```bash
+```shell script
 git clone https://github.com/asahi417/grapher
 cd grapher
 pip install .
@@ -86,4 +86,11 @@ LDA files can be loaded on the fly from a checkpoint
 
 ### Benchamrk on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf)
 Run a benchamrk on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf) dataset, processed by 
-[Boudin et al., 16](https://www.aclweb.org/anthology/W16-3917.pdf).
+[Boudin et al., 16](https://www.aclweb.org/anthology/W16-3917.pdf). We use Lvl 4 processed dataset.
+
+|       Model      |    F1 (P/R) @5    |    F1 (P/R) @10   |     F1 (P/R) @15    | Approx time (sec) |
+|:----------------:|:-----------------:|:-----------------:|:-------------------:|:-----------------:|
+|     TextRank     | 0.058 (0.2/0.034) | 0.102 (0.2/0.068) | 0.181 (0.266/0.137) |              8.51 |
+|    SingleRank    | 0.058 (0.2/0.034) | 0.153 (0.3/0.103) | 0.181 (0.266/0.137) |             18.99 |
+|     TopicRank    | 0.117 (0.4/0.068) | 0.154 (0.3/0.103) |  0.181 (0.26/0.137) |             41.43 |
+| MultipartiteRank | 0.117 (0.4/0.068) | 0.154 (0.3/0.103) |  0.181 (0.26/0.137) |            410.52 |

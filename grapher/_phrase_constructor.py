@@ -5,7 +5,6 @@ from nltk import SnowballStemmer
 import re
 
 __all__ = 'PhraseConstructor'
-# SKIP_SYMBOL = ['・', '=']
 
 
 class Phrase:

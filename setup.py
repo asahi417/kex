@@ -24,6 +24,7 @@ setup(
         'networkx==2.3',
         'numpy>=1.16.1',
         'mecab-python3==0.996.2',
-        'untangle'
+        'untangle',
+        'tqdm'
     ]
 )
