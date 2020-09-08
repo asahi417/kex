@@ -6,7 +6,7 @@
 </p>
 
 
-*Grapher*, a quick python library of graph-based unsurpervised keyword extraction algorithms.
+*Grapher*, a quick python library to work on graph-based unsurpervised keyword extraction algorithms.
 
 ## Get Started
 Clone and install
@@ -65,7 +65,7 @@ You can also use algorithms with LDA prior:
 - [TopicalPageRank, Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
 - [SingleTopicalPageRank, Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
 
-Those require to compute LDA over available documents beforehand as
+Those require to compute LDA on a corpus beforehand, and can be used in a same way once you've set the model. 
 ```python
 >>> import grapher
 >>> model = grapher.TopicalPageRank()
@@ -74,7 +74,7 @@ Those require to compute LDA over available documents beforehand as
 >>> model.get_keywords('document to get keyword')
 ``` 
 
-Then, you can use as same as other algorithms. LDA files can be loaded on the fly
+LDA files can be loaded on the fly from a checkpoint
 
 ```python
 >>> import grapher
