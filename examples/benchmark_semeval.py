@@ -35,6 +35,9 @@ if __name__ == '__main__':
     opt = get_options()
 
     # load model
+    lda = False
+    tfidf = False
+
     if opt.model == 'TopicRank':
         model = grapher.TopicRank()
     elif opt.model == 'TextRank':
@@ -43,14 +46,38 @@ if __name__ == '__main__':
         model = grapher.SingleRank()
     elif opt.model == 'MultipartiteRank':
         model = grapher.MultipartiteRank()
+    elif opt.model == 'TFIDF':
+        model = grapher.TFIDF()
+        tfidf = True
+    elif opt.model == 'TopicalPageRank':
+        model = grapher.TopicalPageRank()
+        lda = True
+    elif opt.model == 'SingleTopicalPageRank':
+        model = grapher.SingleTopicalPageRank()
+        lda = True
     else:
         raise ValueError('unknown model: {}'.format(opt.model))
-
     LOGGER.info('Benchmark on SemEval2010 keyphrase extraction dataset')
-    LOGGER.info(' - algorithm: {}'.format(opt.model))
+    LOGGER.info('algorithm: {}'.format(opt.model))
 
     # load dataset
     data = grapher.get_benchmark_dataset('SemEval2010')
+
+    # compute prior
+    if lda:
+        LOGGER.info('computing LDA prior...')
+        try:
+            model.load('./cache/lda_semeval')
+        except Exception:
+            corpus = [i['source'] for i in data]
+            model.train(corpus, export_directory='./cache/lda_semeval')
+    if tfidf:
+        LOGGER.info('computing TFIDF prior...')
+        try:
+            model.load('./cache/tfidf_semeval')
+        except Exception:
+            corpus = [i['source'] for i in data]
+            model.train(corpus, export_directory='./cache/tfidf_semeval')
 
     # run algorithm and test it over data
     precisions = {}
