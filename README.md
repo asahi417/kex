@@ -1,4 +1,4 @@
-# Grapher: Graph-based Keyword Extraction Algorithms
+# Grapher: Graph-based Keyword Extractions
 
 <p align="center">
   <img src="./asset/topic_rank_fig.png" width="800">
@@ -96,8 +96,9 @@ LDA files can be loaded on the fly from a checkpoint
 |    TopicalPageRank    |  LDA  | 0.058 (0.2/0.034) | 0.153 (0.3/0.103) | 0.227 (0.333/0.172) |             71.31 |
 | SingleTopicalPageRank |  LDA  | 0.058 (0.2/0.034) | 0.153 (0.3/0.103) | 0.227 (0.333/0.172) |             54.35 |
 
-Run a benchamrk on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf) dataset processed by 
+Benchmark on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf) dataset processed by 
 [Boudin et al., 16](https://www.aclweb.org/anthology/W16-3917.pdf), where we use Lvl 4 processed dataset.
+F1 score, mean precision, and recall (P/R) are reported above.
 You can produce those metrics by the following script. Both TFIDF and LDA are trained on the test corpus. 
 
 ```shell script
