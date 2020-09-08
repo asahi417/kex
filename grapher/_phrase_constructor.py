@@ -4,6 +4,8 @@ from spacy.util import compile_prefix_regex, compile_suffix_regex
 from nltk import SnowballStemmer
 import re
 
+from ._tokenizer_ja import TokenizerJa
+
 __all__ = 'PhraseConstructor'
 
 
@@ -132,6 +134,11 @@ class PhraseConstructor:
         if self.__language == 'en':
             self.__spacy_processor = self.setup_spacy_processor()
             self.__stemming = SnowballStemmer('english')
+            self.__tokenizer_ja = None
+        elif self.__language == 'ja':
+            self.__spacy_processor = None
+            self.__stemming = None
+            self.__tokenizer_ja = TokenizerJa()
         else:
             raise ValueError('undefined language: {}'.format(language))
         self.__add_verb = add_verb
@@ -165,7 +172,12 @@ class PhraseConstructor:
 
     def tokenization(self, document: str):
         """ tokenization """
-        return [spacy_object.text for spacy_object in self.__spacy_processor(document)]
+        if self.__language == 'en':
+            return [spacy_object.text for spacy_object in self.__spacy_processor(document)]
+        elif self.__language == 'ja':
+            return [raw for pos, lemma, raw in self.__tokenizer_ja.tokenize(document)]
+        else:
+            raise ValueError('undefined language: {}'.format(self.__language))
 
     def get_phrase(self, document: str):
         """ get phrase
@@ -173,15 +185,21 @@ class PhraseConstructor:
         :param document:
         :return: `Phrase.phrase` object, tokens
         """
-        phrase_structure = Phrase(add_verb=self.__add_verb)
+        phrase_structure = Phrase(add_verb=self.__add_verb, join_without_space=self.__language in ['ja'])
         tokens = []
         n = 0
-        for n, spacy_object in enumerate(self.__spacy_processor(document)):
-            tokens.append(spacy_object.text)
-            phrase_structure.add(
-                raw=spacy_object.text, lemma=spacy_object.lemma_, stemmed=self.__stemming.stem(spacy_object.text),
-                pos=spacy_object.pos_, offset=n)
-
+        if self.__language == 'en':
+            for n, spacy_object in enumerate(self.__spacy_processor(document)):
+                tokens.append(spacy_object.text)
+                phrase_structure.add(
+                    raw=spacy_object.text, lemma=spacy_object.lemma_, stemmed=self.__stemming.stem(spacy_object.text),
+                    pos=spacy_object.pos_, offset=n)
+        elif self.__language == 'ja':
+            for n, (_pos, _lemma, _raw) in enumerate(self.__tokenizer_ja.tokenize(document)):
+                tokens.append(_raw)
+                phrase_structure.add(raw=_raw, lemma=_lemma, stemmed=_lemma, pos=_pos, offset=n)
+        else:
+            raise ValueError('undefined language: {}'.format(self.__language))
         # to finalize the phrase in the end of sentence
-        phrase_structure.add(raw='.', lemma='.', stemmed='.', pos='PUNCT', offset=n+1)
+        phrase_structure.add(raw='.', lemma='.', stemmed='.', pos='PUNCT', offset=n + 1)
         return phrase_structure.phrase, tokens

@@ -85,6 +85,16 @@ LDA files can be loaded on the fly from a checkpoint
 >>> model.load('./tmp')
 ```
 
+### Supported Language
+Currently, all the algorithms can be used in either English `en` (default) or Japanese `ja`. All you need is to specify
+the language when construct any model instances. 
+
+```python
+>>> import grapher
+>>> model = grapher.TopicRank(language='ja')
+```
+
+
 ### Benchamrk on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf)
 
 |         Model         |    F1 (P/R) @5    |    F1 (P/R) @10   |     F1 (P/R) @15    | approx time (sec) |
