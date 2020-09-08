@@ -46,6 +46,8 @@ if __name__ == '__main__':
         model = grapher.SingleRank()
     elif opt.model == 'MultipartiteRank':
         model = grapher.MultipartiteRank()
+    elif opt.model == 'PositionRank':
+        model = grapher.PositionRank()
     elif opt.model == 'TFIDF':
         model = grapher.TFIDF()
         tfidf = True
