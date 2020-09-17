@@ -190,9 +190,9 @@ class PhraseConstructor:
         n = 0
         if self.__language == 'en':
             for n, spacy_object in enumerate(self.__spacy_processor(document)):
-                # tokens.append(spacy_object.text)
+                tokens.append(spacy_object.text)
                 stem = self.__stemming.stem(spacy_object.text)
-                tokens.append(stem)
+                # tokens.append(stem)
                 phrase_structure.add(
                     raw=spacy_object.text, lemma=spacy_object.lemma_, stemmed=stem, pos=spacy_object.pos_, offset=n)
         elif self.__language == 'ja':
