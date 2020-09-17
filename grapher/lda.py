@@ -24,7 +24,7 @@ class LDA:
     def __init__(self, language: str = 'en'):
         self.__model = None
         self.__dict = None
-        self.__phraser = PhraseConstructor(language=language)
+        self.phrase_constructor = PhraseConstructor(language=language)
 
     def load(self, directory: str = None):
         """ load saved lda model and dictionary instance used to train the model """
@@ -55,61 +55,19 @@ class LDA:
         data: list of document (list of string)
         num_topics: number of topic
         """
-        data = [self.__phraser.tokenization(d) for d in data]
+        stemmed_tokens = [self.phrase_constructor.tokenization(d) for d in data]
         # build LDA model
         LOGGER.info("building corpus...")
-        self.__dict = corpora.Dictionary(data)
+        self.__dict = corpora.Dictionary(stemmed_tokens)
         self.__dict.id2token = dict([(v, k) for k, v in self.__dict.token2id.items()])
-        corpus = [self.__dict.doc2bow(text) for text in data]
+        corpus = [self.__dict.doc2bow(text) for text in stemmed_tokens]
         LOGGER.info("training model...")
         self.__model = gensim.models.ldamodel.LdaModel(
             corpus=corpus, num_topics=num_topics, id2word=self.__dict)
         LOGGER.info("saving model and corpus at {}".format(export_directory))
         self.save(export_directory)
 
-    # def distribution_word_topic(self, topic_id: int, num: int = 5, return_word_id: bool = False):
-    #     """ word probability distribution of given topic: p(w|z_i) with i = topic_id
-    #
-    #      Parameter
-    #     ----------------
-    #     topic_id: topic id
-    #     num: number of word to get
-    #     return_word_id: return word_id instead of word if True
-    #
-    #      Return
-    #     --------------
-    #     [(word_0, prob_0), ..., (word_num, prob_num)] in order of probability
-    #     """
-    #     assert self.is_trained, 'training before run any inference'
-    #     if topic_id > self.topic_size:
-    #         raise ValueError('topic_id should be less than topic number %i' % self.topic_size)
-    #     if return_word_id:
-    #         return self.__model.get_topic_terms(topic_id, num)
-    #     else:
-    #         return self.__model.show_topic(topic_id, num)
-
-    # def distribution_word_document(self, tokens: int, return_word_id: bool = False):
-    #     """ word probability distribution of given document: p(w|d) = p(w|z)p(z|d) with d=tokens
-    #
-    #      Parameter
-    #     ----------------
-    #     tokens: document to sample word
-    #     return_word_id: return word_id instead of word if True
-    #
-    #      Return
-    #     --------------
-    #     [(word_0, prob_0), ..., (word_n, prob_n)] in order of probability
-    #     Note that `n` is dynamically changing based on the coverage of probability and the probability itself will
-    #     change slightly due to the randomness of sampling
-    #     """
-    #     assert self.is_trained, 'training before run any inference'
-    #     bow = self.__dict.doc2bow(tokens)
-    #     if return_word_id:
-    #         return self.__model[bow]
-    #     else:
-    #         return [(self.__dict.id2token[_id], prob) for _id, prob in self.__model[bow]]
-
-    def distribution_topic_document(self, tokens: list):
+    def distribution_topic_document(self, document: str):
         """ topic probability distribution of given documents p(z|d = tokens)
 
          Parameter
@@ -121,7 +79,8 @@ class LDA:
         [(topic_id, prob), (topic_id, prob), ...] in order of prob
         """
         assert self.is_trained, 'training before run any inference'
-        bow = self.__dict.doc2bow(tokens)
+        stemmed_tokens = self.phrase_constructor.tokenization(document)
+        bow = self.__dict.doc2bow(stemmed_tokens)
         topic_dist = self.__model.get_document_topics(bow, minimum_probability=0.0)
         return topic_dist
 

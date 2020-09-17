@@ -29,7 +29,7 @@ All the algorithms can be simply used as below.
 
 ```python
 >>> import grapher
->>> model = grapher.TopicRank()  # any algorithm listed above
+>>> model = grapher.PositionRank()  # any algorithm listed above
 >>> sample = '''
 We propose a novel unsupervised keyphrase extraction approach that filters candidate keywords using outlier detection.
 It starts by training word embeddings on the target document to capture semantic regularities among the words. It then
@@ -62,6 +62,7 @@ of-the-art and recent unsupervised keyphrase extraction methods.
 
 ### Algorithm with topic model prior
 You can also use algorithms with topic model prior:
+- [ExpandRank, Wan et al., 08](https://www.aaai.org/Papers/AAAI/2008/AAAI08-136.pdf)
 - [TopicalPageRank, Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
 - [SingleTopicalPageRank, Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
 
@@ -99,11 +100,11 @@ the language when construct any model instances.
 
 |         Model         |    F1 (P/R) @5    |    F1 (P/R) @10   |     F1 (P/R) @15    | approx time (sec) |
 |:---------------------:|:-----------------:|:-----------------:|:-------------------:|:-----------------:|
-|         TFIDF         | 0.058 (0.2/0.034) | 0.102 (0.2/0.068) |  0.136 (0.2/0.103)  |             19.21 |
 |        TextRank       | 0.058 (0.2/0.034) | 0.102 (0.2/0.068) | 0.181 (0.266/0.137) |              8.51 |
 |       SingleRank      | 0.058 (0.2/0.034) | 0.153 (0.3/0.103) | 0.181 (0.266/0.137) |             18.99 |
-|       TopicRank       | 0.117 (0.4/0.068) | 0.154 (0.3/0.103) |  0.181 (0.26/0.137) |             41.43 |
-|    MultipartiteRank   | 0.117 (0.4/0.068) | 0.154 (0.3/0.103) |  0.181 (0.26/0.137) |            410.52 |
+|         TFIDF         | 0.058 (0.2/0.034) | 0.153 (0.3/0.103) | 0.227 (0.333/0.172) |             19.21 |
+|       TopicRank       | 0.117 (0.4/0.068) | 0.153 (0.3/0.103) |  0.181 (0.26/0.137) |             41.43 |
+|    MultipartiteRank   | 0.117 (0.4/0.068) | 0.153 (0.3/0.103) |  0.181 (0.26/0.137) |            410.52 |
 |      PositionRank     | 0.058 (0.2/0.034) | 0.205 (0.4/0.137) | 0.181 (0.266/0.137) |             19.73 |
 |    TopicalPageRank    | 0.058 (0.2/0.034) | 0.153 (0.3/0.103) | 0.227 (0.333/0.172) |             71.31 |
 | SingleTopicalPageRank | 0.058 (0.2/0.034) | 0.153 (0.3/0.103) | 0.227 (0.333/0.172) |             54.35 |

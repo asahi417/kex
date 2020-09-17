@@ -44,6 +44,9 @@ if __name__ == '__main__':
         model = grapher.TextRank()
     elif opt.model == 'SingleRank':
         model = grapher.SingleRank()
+    elif opt.model == 'ExpandRank':
+        model = grapher.ExpandRank()
+        tfidf = True
     elif opt.model == 'MultipartiteRank':
         model = grapher.MultipartiteRank()
     elif opt.model == 'PositionRank':

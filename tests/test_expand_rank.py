@@ -1,9 +1,9 @@
-""" UnitTest for TextRank """
+""" UnitTest for ExpandRank """
 import unittest
 import logging
 from logging.config import dictConfig
 
-from grapher import TopicalPageRank, SingleTopicalPageRank
+from grapher import ExpandRank
 
 dictConfig({
     "version": 1,
@@ -102,7 +102,7 @@ class TestTPR(unittest.TestCase):
     """Test graph_text_rank"""
 
     def test_tpr_train(self):
-        model = TopicalPageRank()
+        model = ExpandRank()
         model.train(TEST_DOCS)
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \
@@ -124,51 +124,7 @@ class TestTPR(unittest.TestCase):
             LOGGER.info(i)
 
         # load
-        model = TopicalPageRank()
-        model.load()
-        test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
-               'standardization of grids based on web services has resulted in the need for scalable web service ' \
-               'discovery mechanisms to be deployed in grids Even though UDDI has been the de facto industry standard ' \
-               'for web-services discovery, imposed requirements of tight-replication among registries and lack of ' \
-               'autonomous control has severely hindered its widespread deployment and usage. With the advent of grid ' \
-               'computing the scalability issue of UDDI will become a roadblock that will prevent its deployment in ' \
-               'grids. In this paper we present our distributed web-service discovery architecture, called DUDE ' \
-               '(Distributed UDDI Deployment Engine). DUDE leverages DHT (Distributed Hash Tables) as a rendezvous ' \
-               'mechanism between multiple UDDI registries. DUDE enables consumers to query multiple registries, ' \
-               'still at the same time allowing organizations to have autonomous control over their registries. ' \
-               'Based on preliminary prototype on PlanetLab, we believe that DUDE architecture can support effective ' \
-               'distribution of UDDI registries thereby making UDDI more robust and also addressing its scaling ' \
-               'issues. Furthermore, The DUDE architecture for scalable distribution can be applied beyond UDDI to ' \
-               'any Grid Service Discovery mechanism.'
-        LOGGER.info(test)
-        out = model.get_keywords(test)
-        for i in out:
-            LOGGER.info(i)
-
-    def test_single_tpr_train(self):
-        model = SingleTopicalPageRank()
-        model.train(TEST_DOCS)
-        test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
-               'standardization of grids based on web services has resulted in the need for scalable web service ' \
-               'discovery mechanisms to be deployed in grids Even though UDDI has been the de facto industry standard ' \
-               'for web-services discovery, imposed requirements of tight-replication among registries and lack of ' \
-               'autonomous control has severely hindered its widespread deployment and usage. With the advent of grid ' \
-               'computing the scalability issue of UDDI will become a roadblock that will prevent its deployment in ' \
-               'grids. In this paper we present our distributed web-service discovery architecture, called DUDE ' \
-               '(Distributed UDDI Deployment Engine). DUDE leverages DHT (Distributed Hash Tables) as a rendezvous ' \
-               'mechanism between multiple UDDI registries. DUDE enables consumers to query multiple registries, ' \
-               'still at the same time allowing organizations to have autonomous control over their registries. ' \
-               'Based on preliminary prototype on PlanetLab, we believe that DUDE architecture can support effective ' \
-               'distribution of UDDI registries thereby making UDDI more robust and also addressing its scaling ' \
-               'issues. Furthermore, The DUDE architecture for scalable distribution can be applied beyond UDDI to ' \
-               'any Grid Service Discovery mechanism.'
-        LOGGER.info(test)
-        out = model.get_keywords(test)
-        for i in out:
-            LOGGER.info(i)
-
-        # load
-        model = SingleTopicalPageRank()
+        model = ExpandRank()
         model.load()
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \

@@ -3,7 +3,7 @@ import unittest
 import logging
 from logging.config import dictConfig
 
-from grapher import TFIDF
+from grapher import TFIDF, PhraseConstructor
 
 dictConfig({
     "version": 1,
@@ -123,7 +123,7 @@ class TestTFIDF(unittest.TestCase):
         for i in out:
             LOGGER.info(i)
 
-    def test_tfidf_load(self):
+        # load
         model = TFIDF()
         model.load()
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
@@ -145,7 +145,10 @@ class TestTFIDF(unittest.TestCase):
         for i in out:
             LOGGER.info(i)
 
-
+        phraser = PhraseConstructor()
+        phrase, token = phraser.get_phrase(test)
+        dist = model.distribution_word(test)
+        LOGGER.info(dist)
 
 
 if __name__ == "__main__":

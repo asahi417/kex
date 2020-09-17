@@ -1,6 +1,6 @@
 """ Implementation of the TopicalPageRank and Single TopicalPageRank"""
 import numpy as np
-from ._lda import LDA
+from .lda import LDA
 from .graph_text_rank import TextRank
 
 
@@ -40,11 +40,10 @@ class TopicalPageRank(TextRank):
 
         # make graph and get data structure for candidate phrase
         graph, phrase_instance, original_sentence_token_size = self.build_graph(document)
-        tokens = self.phrase_constructor.tokenization(document)
 
         # pagerank to get score for individual word (sum of score will be one)
         word_matrix = self.lda.probability_word()  # topic size x vocab
-        topic_dist = self.lda.distribution_topic_document(tokens)
+        topic_dist = self.lda.distribution_topic_document(document)
         topic_vector = np.array([i for t, i in topic_dist])  # topic size
 
         # original TPR procedure
@@ -54,6 +53,7 @@ class TopicalPageRank(TextRank):
             bias = dict()
             vocab = self.lda.dictionary.token2id
             unk = 0
+            print(vocab)
             for word in graph.nodes():
                 if word in vocab.keys():
                     word_id = vocab[word]
@@ -120,11 +120,10 @@ class SingleTopicalPageRank(TopicalPageRank):
 
         # make graph and get data structure for candidate phrase
         graph, phrase_instance, original_sentence_token_size = self.build_graph(document)
-        tokens = self.phrase_constructor.tokenization(document)
 
         # pagerank to get score for individual word (sum of score will be one)
         word_matrix = self.lda.probability_word()  # topic size x vocab
-        topic_dist = self.lda.distribution_topic_document(tokens)
+        topic_dist = self.lda.distribution_topic_document(document)
         topic_vector = np.array([i for t, i in topic_dist])  # topic size
 
         # single TPR

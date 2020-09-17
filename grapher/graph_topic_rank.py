@@ -96,7 +96,7 @@ class TopicRank:
         """ Build basic graph with Topic """
 
         # convert phrase instance
-        phrase_instance, tokens = self.phrase_constructor.get_phrase(document)
+        phrase_instance, stemmed_tokens = self.phrase_constructor.get_phrase(document)
         if len(phrase_instance) < 2:
             # at least 2 phrase are needed to extract keywords
             return None
@@ -122,7 +122,7 @@ class TopicRank:
             weight = sum([offset_distance(_x, _y) for _x, _y in product(x_offsets, y_offsets)])
             graph.add_edge(id_x, id_y, weight=weight)
 
-        return graph, phrase_instance, grouped_phrases, len(tokens)
+        return graph, phrase_instance, grouped_phrases, len(stemmed_tokens)
 
     def run_pagerank(self, graph):
         node_score = nx.pagerank(G=graph, alpha=self.__random_prob, tol=self.__tol, weight='weight')

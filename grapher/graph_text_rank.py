@@ -121,7 +121,7 @@ class TextRank:
         """
 
         # convert phrase instance
-        phrase_instance, tokens = self.phrase_constructor.get_phrase(document)
+        phrase_instance, stemmed_tokens = self.phrase_constructor.get_phrase(document)
         if len(phrase_instance) < 2:
             # at least 2 phrase are needed to extract keyphrase
             return None
@@ -137,14 +137,14 @@ class TextRank:
         graph.add_nodes_from(unique_tokens_in_candidate)
 
         # add edges
-        for position, __start_node in enumerate(tokens[:-self.__window_size]):
+        for position, __start_node in enumerate(stemmed_tokens[:-self.__window_size]):
 
             # ignore invalid token
             if __start_node not in unique_tokens_in_candidate:
                 continue
 
             for __position in range(position, position + self.__window_size):
-                __end_node = tokens[__position]
+                __end_node = stemmed_tokens[__position]
 
                 # ignore invalid token
                 if __end_node not in unique_tokens_in_candidate:
@@ -157,7 +157,7 @@ class TextRank:
                         # SingleRank employ weight as the co-occurrence times
                         graph[__start_node][__end_node]['weight'] += 1.0
 
-        return graph, phrase_instance, len(tokens)
+        return graph, phrase_instance, len(stemmed_tokens)
 
     def run_pagerank(self, graph, personalization=None):
         if personalization:

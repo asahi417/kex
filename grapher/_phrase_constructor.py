@@ -171,11 +171,11 @@ class PhraseConstructor:
         return spacy_processor
 
     def tokenization(self, document: str):
-        """ tokenization """
+        """ tokenization & stemming """
         if self.__language == 'en':
-            return [spacy_object.text for spacy_object in self.__spacy_processor(document)]
+            return [self.__stemming.stem(spacy_object.text) for spacy_object in self.__spacy_processor(document)]
         elif self.__language == 'ja':
-            return [raw for pos, lemma, raw in self.__tokenizer_ja.tokenize(document)]
+            return [lemma for pos, lemma, raw in self.__tokenizer_ja.tokenize(document)]
         else:
             raise ValueError('undefined language: {}'.format(self.__language))
 
@@ -183,20 +183,22 @@ class PhraseConstructor:
         """ get phrase
 
         :param document:
-        :return: `Phrase.phrase` object, tokens
+        :return: `Phrase.phrase` object, stemmed_token
         """
         phrase_structure = Phrase(add_verb=self.__add_verb, join_without_space=self.__language in ['ja'])
         tokens = []
         n = 0
         if self.__language == 'en':
             for n, spacy_object in enumerate(self.__spacy_processor(document)):
-                tokens.append(spacy_object.text)
+                # tokens.append(spacy_object.text)
+                stem = self.__stemming.stem(spacy_object.text)
+                tokens.append(stem)
                 phrase_structure.add(
-                    raw=spacy_object.text, lemma=spacy_object.lemma_, stemmed=self.__stemming.stem(spacy_object.text),
-                    pos=spacy_object.pos_, offset=n)
+                    raw=spacy_object.text, lemma=spacy_object.lemma_, stemmed=stem, pos=spacy_object.pos_, offset=n)
         elif self.__language == 'ja':
             for n, (_pos, _lemma, _raw) in enumerate(self.__tokenizer_ja.tokenize(document)):
-                tokens.append(_raw)
+                # tokens.append(_raw)
+                tokens.append(_lemma)
                 phrase_structure.add(raw=_raw, lemma=_lemma, stemmed=_lemma, pos=_pos, offset=n)
         else:
             raise ValueError('undefined language: {}'.format(self.__language))

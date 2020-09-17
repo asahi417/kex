@@ -25,7 +25,7 @@ class TFIDF:
     def __init__(self, language: str = 'en'):
         self.__model = None
         self.__dict = None
-        self.__phraser = PhraseConstructor(language=language)
+        self.phrase_constructor = PhraseConstructor(language=language)
 
     def load(self, directory: str = None):
         """ load saved lda model and dictionary instance used to train the model """
@@ -55,18 +55,19 @@ class TFIDF:
         ----------------
         data: list of document (list of string)
         """
-        data = [self.__phraser.tokenization(d) for d in data]
+        # get stemmed token
+        stemmed_tokens = [self.phrase_constructor.tokenization(d) for d in data]
         # build TFIDF
         LOGGER.info("building corpus...")
-        self.__dict = corpora.Dictionary(data)
+        self.__dict = corpora.Dictionary(stemmed_tokens)
         self.__dict.id2token = dict([(v, k) for k, v in self.__dict.token2id.items()])
-        corpus = [self.__dict.doc2bow(text) for text in data]
+        corpus = [self.__dict.doc2bow(text) for text in stemmed_tokens]
         LOGGER.info("training model...")
         self.__model = gensim.models.TfidfModel(corpus=corpus, normalize=normalize)
         LOGGER.info("saving model and corpus at {}".format(export_directory))
         self.save(export_directory)
 
-    def distribution_word(self, tokens: list):
+    def distribution_word(self, document: str):
         """ word distribution of given document with pre-calculate TFIDF matrix
 
          Parameter
@@ -75,13 +76,16 @@ class TFIDF:
 
          Return
         -----------
-        [(word_0, prob_0), ..., (word_n, prob_n)] in order of probability
+        dict((word_0, prob_0), ..., (word_n, prob_n)) in order of probability
         Note that `n` is dynamically changing based on the coverage of probability and the probability itself will
         change slightly due to the randomness of sampling
         """
         assert self.is_trained, 'training before run any inference'
-        bow = self.__dict.doc2bow(tokens)
-        return self.__model[bow]
+        # get stemmed token
+        stemmed_tokens = self.phrase_constructor.tokenization(document)
+        bow = self.__dict.doc2bow(stemmed_tokens)
+        dist = dict((self.__dict.id2token[w_id], p) for w_id, p in self.__model[bow])
+        return dist
 
     @property
     def model(self):
@@ -124,15 +128,17 @@ class TFIDF:
         a list of keywords with score eg) [('aa', 0.5), ('b', 0.3), ..]
         """
         # convert phrase instance
-        phrase_instance, tokens = self.__phraser.get_phrase(document)
+        phrase_instance, stemmed_tokens = self.phrase_constructor.get_phrase(document)
         if len(phrase_instance) < 2:
             # at least 2 phrase are needed to extract keyphrase
             return []
 
+        dist_word = self.distribution_word(document)
+
         def aggregate_prob(__phrase_key):
             __phrase = phrase_instance[__phrase_key]
-            id_prob = self.distribution_word(__phrase['lemma'][0].split())
-            prob = float(np.mean([_prob for _id, _prob in id_prob]))
+            prob = float(np.mean([[dist_word[_r] if _r in dist_word.keys() else 0 for _r in r.split()]
+                                  for r in __phrase['raw']]))
             return prob
 
         phrase_prob = [(k, aggregate_prob(k)) for k in phrase_instance.keys()]
@@ -140,14 +146,13 @@ class TFIDF:
         # sorting
         phrase_score_sorted_list = sorted(phrase_prob, key=lambda id_score: id_score[1], reverse=True)
         count_valid = min(n_keywords, len(phrase_score_sorted_list))
-        original_sentence_token_size = len(tokens)
 
         def modify_output(stem, score):
             tmp = phrase_instance[stem]
             tmp['score'] = score
             tmp['raw'] = tmp['raw'][0]
             tmp['lemma'] = tmp['lemma'][0]
-            tmp['n_source_tokens'] = original_sentence_token_size
+            tmp['n_source_tokens'] = len(stemmed_tokens)
             return tmp
 
         val = [modify_output(stem, score) for stem, score in phrase_score_sorted_list[:count_valid]]
