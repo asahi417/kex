@@ -1,5 +1,6 @@
 """ MeCab wrapper for Japanese tokenizer"""
 import os
+import re
 
 import MeCab
 
@@ -37,6 +38,15 @@ class TokenizerJa:
             except ValueError:
                 return False
 
+        def is_single_kana(x):
+            # if single character and not kanji, reject
+            is_single_char = len(x) == 1
+            kanji_range = "一-龠"
+            is_kanji = re.search(r"[%s]" % kanji_range, x)
+            if is_single_char and not is_kanji:
+                return True
+            return False
+
         def map_pos(pos):
             if pos not in self.POS_MAPPER.keys():
                 return self.POS_MAPPER['RANDOM']
@@ -45,7 +55,7 @@ class TokenizerJa:
 
         def formatting(_list, raw):
             basic_form = _list[6].replace("。", "")
-            if is_digit(raw) or is_digit(basic_form):
+            if is_digit(raw) or is_digit(basic_form) or is_single_kana(raw):
                 pos = self.POS_MAPPER['RANDOM']
             elif basic_form == '':
                 pos = self.POS_MAPPER['RANDOM']
