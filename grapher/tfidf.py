@@ -56,7 +56,7 @@ class TFIDF:
         data: list of document (list of string)
         """
         # get stemmed token
-        stemmed_tokens = [self.phrase_constructor.tokenization(d) for d in data]
+        stemmed_tokens = [self.phrase_constructor.tokenize_and_stem(d) for d in data]
         # build TFIDF
         LOGGER.info("building corpus...")
         self.__dict = corpora.Dictionary(stemmed_tokens)
@@ -82,7 +82,7 @@ class TFIDF:
         """
         assert self.is_trained, 'training before run any inference'
         # get stemmed token
-        stemmed_tokens = self.phrase_constructor.tokenization(document)
+        stemmed_tokens = self.phrase_constructor.tokenize_and_stem(document)
         bow = self.__dict.doc2bow(stemmed_tokens)
         dist = dict((self.__dict.id2token[w_id], p) for w_id, p in self.__model[bow])
         return dist
@@ -128,7 +128,7 @@ class TFIDF:
         a list of keywords with score eg) [('aa', 0.5), ('b', 0.3), ..]
         """
         # convert phrase instance
-        phrase_instance, stemmed_tokens = self.phrase_constructor.get_phrase(document)
+        phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
         if len(phrase_instance) < 2:
             # at least 2 phrase are needed to extract keyphrase
             return []
@@ -150,8 +150,6 @@ class TFIDF:
         def modify_output(stem, score):
             tmp = phrase_instance[stem]
             tmp['score'] = score
-            tmp['raw'] = tmp['raw'][0]
-            tmp['lemma'] = tmp['lemma'][0]
             tmp['n_source_tokens'] = len(stemmed_tokens)
             return tmp
 

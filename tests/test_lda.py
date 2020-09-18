@@ -101,18 +101,17 @@ identical to best effort in the long term.
 class TestLDA(unittest.TestCase):
     """Test graph_text_rank"""
 
-    def test(self):
+    def test_lda(self):
         # save
         model = LDA()
-        model.train(TEST_DOCS)
-        model.probability_word()
-        model.distribution_topic_document('discovery')
+        model.train(TEST_DOCS, export_directory='./cache/test_lda')
+        LOGGER.info(model.distribution_topic_document('discovery'))
 
         # load
         model = LDA()
-        model.load()
-        model.probability_word()
-        model.distribution_topic_document('discovery')
+        model.load('./cache/test_lda')
+        LOGGER.info(model.distribution_topic_document('discovery'))
+        LOGGER.info(model.probability_word())
 
 
 if __name__ == "__main__":

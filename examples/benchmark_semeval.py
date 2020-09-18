@@ -34,6 +34,10 @@ def mean(_list):
 if __name__ == '__main__':
     opt = get_options()
 
+    # load dataset
+    data, _ = grapher.get_benchmark_dataset('SemEval2010')
+    flag_stemmed = False
+
     # load model
     lda = False
     tfidf = False
@@ -64,9 +68,6 @@ if __name__ == '__main__':
         raise ValueError('unknown model: {}'.format(opt.model))
     LOGGER.info('Benchmark on SemEval2010 keyphrase extraction dataset')
     LOGGER.info('algorithm: {}'.format(opt.model))
-
-    # load dataset
-    data = grapher.get_benchmark_dataset('SemEval2010')
 
     # compute prior
     if lda:

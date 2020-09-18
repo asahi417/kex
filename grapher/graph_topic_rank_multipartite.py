@@ -40,38 +40,10 @@ class MultipartiteRank(TopicRank):
     ]]
     """
 
-    def __init__(self,
-                 language: str = 'en',
-                 parameter_adjust_weight: float = 1.1,
-                 random_prob: float = 0.85,
-                 tol: float = 0.0001,
-                 clustering_threshold: float = 0.74,
-                 linkage_method: str = 'average'):
-        """ MultipartiteRank
+    def __init__(self, parameter_adjust_weight: float = 1.1, *args, **kwargs):
+        """ MultipartiteRank """
 
-         Parameter
-        ------------------------
-        language: str
-            `en` or `ja`
-        window_size: int
-            window size to make graph edges
-        random_prob: float
-            PageRank parameter that is coefficient of convex combination of random suffer model
-        tol: float
-            PageRank parameter that define tolerance of convergence
-        clustering_threshold: float
-            threshold for clustering algorithm
-        linkage_method: str
-            graph linkage method
-        add_verb: bool
-            take verbs into account
-        """
-
-        super(MultipartiteRank, self).__init__(language=language,
-                                               random_prob=random_prob,
-                                               tol=tol,
-                                               clustering_threshold=clustering_threshold,
-                                               linkage_method=linkage_method)
+        super(MultipartiteRank, self).__init__(*args, **kwargs)
         self.parameter_adjust_weight = parameter_adjust_weight
         self.weighted_graph = True
 
@@ -79,7 +51,7 @@ class MultipartiteRank(TopicRank):
         """ Build basic graph with Topic """
 
         # convert phrase instance
-        phrase_instance, tokens = self.phrase_constructor.get_phrase(document)
+        phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
         if len(phrase_instance) < 2:
             # at least 2 phrase are needed to extract keywords
             return None
@@ -99,14 +71,14 @@ class MultipartiteRank(TopicRank):
             return np.argmax([int(__phrase in g) for g in grouped_phrases])
 
         # add edges
-        for position, __start_node in enumerate(tokens):
+        for position, __start_node in enumerate(stemmed_tokens):
 
             # ignore invalid token
             if __start_node not in unique_tokens_in_candidate:
                 continue
 
-            for __position in range(position, len(tokens)):
-                __end_node = tokens[__position]
+            for __position in range(position, len(stemmed_tokens)):
+                __end_node = stemmed_tokens[__position]
 
                 # ignore invalid token
                 if __end_node not in unique_tokens_in_candidate:
@@ -147,7 +119,7 @@ class MultipartiteRank(TopicRank):
             for w, start in neighbour_w:
                 graph[start][first_phrase]['weight'] += scale*w
 
-        return graph, phrase_instance, grouped_phrases, len(tokens)
+        return graph, phrase_instance, grouped_phrases, len(stemmed_tokens)
 
     def get_keywords(self, document: str, n_keywords: int = 10):
         """ Get keywords
@@ -172,20 +144,18 @@ class MultipartiteRank(TopicRank):
         node_score = self.run_pagerank(graph)
 
         # combine score to get score of phrase
-        phrase_score_dict = dict()
-        for candidate_phrase_stemmed_form in phrase_instance.keys():
-            tokens_in_phrase = candidate_phrase_stemmed_form.split()
-            phrase_score_dict[candidate_phrase_stemmed_form] = sum([node_score[t] for t in tokens_in_phrase])
+        phrase_score = [
+            (candidate_phrase_stemmed_form, sum(node_score[t] for t in candidate_phrase_stemmed_form.split()))
+            for candidate_phrase_stemmed_form in phrase_instance.keys()
+        ]
 
         # sorting
-        phrase_score_sorted_list = sorted(phrase_score_dict.items(), key=lambda key_value: key_value[1], reverse=True)
+        phrase_score_sorted_list = sorted(phrase_score, key=lambda key_value: key_value[1], reverse=True)
         count_valid = min(n_keywords, len(phrase_score_sorted_list))
 
         def modify_output(stem, score):
             tmp = phrase_instance[stem]
             tmp['score'] = score
-            tmp['raw'] = tmp['raw'][0]
-            tmp['lemma'] = tmp['lemma'][0]
             tmp['n_source_tokens'] = original_sentence_token_size
             return tmp
 

@@ -55,7 +55,7 @@ class LDA:
         data: list of document (list of string)
         num_topics: number of topic
         """
-        stemmed_tokens = [self.phrase_constructor.tokenization(d) for d in data]
+        stemmed_tokens = [self.phrase_constructor.tokenize_and_stem(d) for d in data]
         # build LDA model
         LOGGER.info("building corpus...")
         self.__dict = corpora.Dictionary(stemmed_tokens)
@@ -79,7 +79,7 @@ class LDA:
         [(topic_id, prob), (topic_id, prob), ...] in order of prob
         """
         assert self.is_trained, 'training before run any inference'
-        stemmed_tokens = self.phrase_constructor.tokenization(document)
+        stemmed_tokens = self.phrase_constructor.tokenize_and_stem(document)
         bow = self.__dict.doc2bow(stemmed_tokens)
         topic_dist = self.__model.get_document_topics(bow, minimum_probability=0.0)
         return topic_dist

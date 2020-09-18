@@ -103,7 +103,7 @@ class TestTPR(unittest.TestCase):
 
     def test_tpr_train(self):
         model = TopicalPageRank()
-        model.train(TEST_DOCS)
+        model.train(TEST_DOCS, export_directory='./cache/test_lda')
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \
                'discovery mechanisms to be deployed in grids Even though UDDI has been the de facto industry standard ' \
@@ -125,7 +125,7 @@ class TestTPR(unittest.TestCase):
 
         # load
         model = TopicalPageRank()
-        model.load()
+        model.load('./cache/test_lda')
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \
                'discovery mechanisms to be deployed in grids Even though UDDI has been the de facto industry standard ' \
@@ -147,7 +147,7 @@ class TestTPR(unittest.TestCase):
 
     def test_single_tpr_train(self):
         model = SingleTopicalPageRank()
-        model.train(TEST_DOCS)
+        model.train(TEST_DOCS, export_directory='./cache/test_lda')
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \
                'discovery mechanisms to be deployed in grids Even though UDDI has been the de facto industry standard ' \
@@ -169,7 +169,7 @@ class TestTPR(unittest.TestCase):
 
         # load
         model = SingleTopicalPageRank()
-        model.load()
+        model.load('./cache/test_lda')
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \
                'discovery mechanisms to be deployed in grids Even though UDDI has been the de facto industry standard ' \

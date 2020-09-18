@@ -53,7 +53,6 @@ class TopicalPageRank(TextRank):
             bias = dict()
             vocab = self.lda.dictionary.token2id
             unk = 0
-            print(vocab)
             for word in graph.nodes():
                 if word in vocab.keys():
                     word_id = vocab[word]
@@ -72,25 +71,23 @@ class TopicalPageRank(TextRank):
             __node_score.append(self.run_pagerank(graph, personalization=bias))
 
         # combine score to get score of phrase
-        phrase_score_dict = dict()
-        for candidate_phrase_stemmed_form in phrase_instance.keys():
-            tokens_in_phrase = candidate_phrase_stemmed_form.split()
-            # combine over topics
-            score = sum([sum([__node_score[i][t] for t in tokens_in_phrase]) * topic_vector[i]
-                         for i in range(self.lda.topic_size)])
-            phrase_score_dict[candidate_phrase_stemmed_form] = score
+        phrase_score_dict = [
+            (candidate_phrase_stemmed_form, sum(
+                sum(__node_score[i][t] for t in candidate_phrase_stemmed_form.split()) * topic_vector[i]
+                for i in range(self.lda.topic_size)))
+            for candidate_phrase_stemmed_form in phrase_instance.keys()
+        ]
 
         # sorting
-        phrase_score_sorted_list = sorted(phrase_score_dict.items(), key=lambda key_value: key_value[1], reverse=True)
+        phrase_score_sorted_list = sorted(phrase_score_dict, key=lambda key_value: key_value[1], reverse=True)
         count_valid = min(n_keywords, len(phrase_score_sorted_list))
 
-        def modify_output(stem, score):
+        def modify_output(stem, _score):
             tmp = phrase_instance[stem]
-            tmp['score'] = score
-            tmp['raw'] = tmp['raw'][0]
-            tmp['lemma'] = tmp['lemma'][0]
+            tmp['score'] = _score
             tmp['n_source_tokens'] = original_sentence_token_size
             return tmp
+
         val = [modify_output(stem, score) for stem, score in phrase_score_sorted_list[:count_valid]]
         return val
 
@@ -149,21 +146,20 @@ class SingleTopicalPageRank(TopicalPageRank):
         node_score = self.run_pagerank(graph, personalization=bias)
 
         # combine score to get score of phrase
-        phrase_score_dict = dict()
-        for candidate_phrase_stemmed_form in phrase_instance.keys():
-            tokens_in_phrase = candidate_phrase_stemmed_form.split()
-            phrase_score_dict[candidate_phrase_stemmed_form] = sum([node_score[t] for t in tokens_in_phrase])
+        phrase_score_dict = [
+            (candidate_phrase_stemmed_form, sum(node_score[t] for t in candidate_phrase_stemmed_form.split()))
+            for candidate_phrase_stemmed_form in phrase_instance.keys()
+        ]
 
         # sorting
-        phrase_score_sorted_list = sorted(phrase_score_dict.items(), key=lambda key_value: key_value[1], reverse=True)
+        phrase_score_sorted_list = sorted(phrase_score_dict, key=lambda key_value: key_value[1], reverse=True)
         count_valid = min(n_keywords, len(phrase_score_sorted_list))
 
         def modify_output(stem, score):
             tmp = phrase_instance[stem]
             tmp['score'] = score
-            tmp['raw'] = tmp['raw'][0]
-            tmp['lemma'] = tmp['lemma'][0]
             tmp['n_source_tokens'] = original_sentence_token_size
             return tmp
+
         val = [modify_output(stem, score) for stem, score in phrase_score_sorted_list[:count_valid]]
         return val

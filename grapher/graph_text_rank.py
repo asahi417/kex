@@ -29,12 +29,7 @@ class TextRank:
     >>> model.get_keywords(sample)
     """
 
-    def __init__(self,
-                 language: str = 'en',
-                 window_size: int = 10,
-                 random_prob: float = 0.85,
-                 tol: float = 0.0001,
-                 add_verb: bool = False):
+    def __init__(self, language: str = 'en', window_size: int = 10, random_prob: float = 0.85, tol: float = 0.0001):
         """ TextRank
 
          Parameter
@@ -47,14 +42,12 @@ class TextRank:
             PageRank parameter that is coefficient of convex combination of random suffer model
         tol: float
             PageRank parameter that define tolerance of convergence
-        add_verb: bool
-            take the verb into account
         """
         self.__window_size = window_size
         self.__random_prob = random_prob
         self.__tol = tol
 
-        self.phrase_constructor = PhraseConstructor(language=language, add_verb=add_verb)
+        self.phrase_constructor = PhraseConstructor(language=language)
         self.weighted_graph = False
         self.direct_graph = False
 
@@ -79,20 +72,18 @@ class TextRank:
         node_score = self.run_pagerank(graph)
 
         # combine score to get score of phrase
-        phrase_score_dict = dict()
-        for candidate_phrase_stemmed_form in phrase_instance.keys():
-            tokens_in_phrase = candidate_phrase_stemmed_form.split()
-            phrase_score_dict[candidate_phrase_stemmed_form] = sum([node_score[t] for t in tokens_in_phrase])
+        phrase_score = [
+            (candidate_phrase_stemmed_form, sum(node_score[t] for t in candidate_phrase_stemmed_form.split()))
+            for candidate_phrase_stemmed_form in phrase_instance.keys()
+        ]
 
         # sorting
-        phrase_score_sorted_list = sorted(phrase_score_dict.items(), key=lambda key_value: key_value[1], reverse=True)
+        phrase_score_sorted_list = sorted(phrase_score, key=lambda key_value: key_value[1], reverse=True)
         count_valid = min(n_keywords, len(phrase_score_sorted_list))
 
         def modify_output(stem, score):
             tmp = phrase_instance[stem]
             tmp['score'] = score
-            tmp['raw'] = tmp['raw'][0]
-            tmp['lemma'] = tmp['lemma'][0]
             tmp['n_source_tokens'] = original_sentence_token_size
             return tmp
 
@@ -121,7 +112,7 @@ class TextRank:
         """
 
         # convert phrase instance
-        phrase_instance, stemmed_tokens = self.phrase_constructor.get_phrase(document)
+        phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
         if len(phrase_instance) < 2:
             # at least 2 phrase are needed to extract keyphrase
             return None
@@ -214,20 +205,18 @@ class PositionRank(TextRank):
         node_score = self.run_pagerank(graph, bias)
 
         # combine score to get score of phrase
-        phrase_score_dict = dict()
-        for candidate_phrase_stemmed_form in phrase_instance.keys():
-            tokens_in_phrase = candidate_phrase_stemmed_form.split()
-            phrase_score_dict[candidate_phrase_stemmed_form] = sum([node_score[t] for t in tokens_in_phrase])
+        phrase_score = [
+            (candidate_phrase_stemmed_form, sum(node_score[t] for t in candidate_phrase_stemmed_form.split()))
+            for candidate_phrase_stemmed_form in phrase_instance.keys()
+        ]
 
         # sorting
-        phrase_score_sorted_list = sorted(phrase_score_dict.items(), key=lambda key_value: key_value[1], reverse=True)
+        phrase_score_sorted_list = sorted(phrase_score, key=lambda key_value: key_value[1], reverse=True)
         count_valid = min(n_keywords, len(phrase_score_sorted_list))
 
         def modify_output(stem, score):
             tmp = phrase_instance[stem]
             tmp['score'] = score
-            tmp['raw'] = tmp['raw'][0]
-            tmp['lemma'] = tmp['lemma'][0]
             tmp['n_source_tokens'] = original_sentence_token_size
             return tmp
 

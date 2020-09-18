@@ -32,8 +32,7 @@ class TopicRank:
                  random_prob: float = 0.85,
                  tol: float = 0.0001,
                  clustering_threshold: float = 0.74,
-                 linkage_method: str = 'average',
-                 add_verb: bool = False):
+                 linkage_method: str = 'average'):
         """ TopicRank
 
          Parameter
@@ -52,6 +51,8 @@ class TopicRank:
             graph linkage method
         add_verb: bool
             take verbs into account
+        no_stemming: bool
+            no stemming is applied (True if the document is already stemmed)
         """
         self.__random_prob = random_prob
         self.__tol = tol
@@ -59,7 +60,7 @@ class TopicRank:
         self.__linkage_method = linkage_method
         self.__clustering_threshold = clustering_threshold
 
-        self.phrase_constructor = PhraseConstructor(language=language, add_verb=add_verb)
+        self.phrase_constructor = PhraseConstructor(language=language)
 
     def topic_clustering(self, stemmed_phrases: list):
         """ grouping given phrases to topic based on HAC by there tokens
@@ -96,7 +97,7 @@ class TopicRank:
         """ Build basic graph with Topic """
 
         # convert phrase instance
-        phrase_instance, stemmed_tokens = self.phrase_constructor.get_phrase(document)
+        phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
         if len(phrase_instance) < 2:
             # at least 2 phrase are needed to extract keywords
             return None
@@ -151,21 +152,21 @@ class TopicRank:
         node_score = self.run_pagerank(graph)
 
         # combine score to get score of phrase
-        phrase_score_dict = dict()
-        for group_id, phrases in enumerate(grouped_phrases):
+
+        def aggregation(group_id, phrases):
             first_phrase_id = np.argmin([phrase_instance[p]['offset'][0][0] for p in phrases])
             phrase = phrases[first_phrase_id]
-            phrase_score_dict[phrase] = node_score[group_id]
+            return phrase, node_score[group_id]
+
+        phrase_score = [aggregation(group_id, phrases) for group_id, phrases in enumerate(grouped_phrases)]
 
         # sorting
-        phrase_score_sorted_list = sorted(phrase_score_dict.items(), key=lambda key_value: key_value[1], reverse=True)
+        phrase_score_sorted_list = sorted(phrase_score, key=lambda key_value: key_value[1], reverse=True)
         count_valid = min(n_keywords, len(phrase_score_sorted_list))
 
         def modify_output(stem, score):
             tmp = phrase_instance[stem]
             tmp['score'] = score
-            tmp['raw'] = tmp['raw'][0]
-            tmp['lemma'] = tmp['lemma'][0]
             tmp['n_source_tokens'] = original_sentence_token_size
             return tmp
 

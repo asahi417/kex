@@ -19,6 +19,20 @@ def decode_xml(_file):
 
 
 def get_benchmark_dataset(data: str = 'SemEval2010', cache_dir: str = None):
+    """
+
+     Parameter
+    -------------
+    data: str
+        dataset name
+    cache_dir: str
+        directory to cache the data
+
+     Return
+    -------------
+    dictionary consists of the data
+    flag, True if the ground truth is already stemmed
+    """
     cache_dir = CACHE_DIR if cache_dir is None else cache_dir
     os.makedirs(cache_dir, exist_ok=True)
     if data == 'SemEval2010':
@@ -32,8 +46,10 @@ def get_benchmark_dataset(data: str = 'SemEval2010', cache_dir: str = None):
             'keywords': list(chain(*v)),
             'source': decode_xml('{0}/semeval-2010-pre-master/test/lvl-4/{1}.xml'.format(cache_dir, k)),
             'id': k} for k, v in gold_keys.items()]
+        flag_stemmed = True
     else:
         raise ValueError('undefined data name: {}'.format(data))
+    return answer_dict, flag_stemmed
 
-    return answer_dict
+
 

@@ -17,7 +17,8 @@ class TestGetDataset(unittest.TestCase):
     """Test get_benchmark_dataset """
 
     def test_get_benchmark_dataset(self):
-        tmp = get_benchmark_dataset()
+        tmp, flag_stemmed = get_benchmark_dataset()
+        LOGGER.info(flag_stemmed)
         for n, v in enumerate(tmp):
             LOGGER.info('\n - {0}: \n * source: {1} \n * keywords: {2}'.format(v['id'], v['source'], v['keywords']))
             if n > 5:

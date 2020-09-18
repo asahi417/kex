@@ -4,11 +4,10 @@ from .graph_text_rank import TextRank
 
 
 class ExpandRank(TextRank):
-    """ TopicalPageRank """
+    """ ExpandRank """
 
     def __init__(self, language: str = 'en', *args, **kwargs):
-        """ TopicalPageRank """
-
+        """ ExpandRank """
         super(ExpandRank, self).__init__(language=language, *args, **kwargs)
         self.tfidf = TFIDF(language=language)
         self.directed_graph = False
@@ -20,7 +19,7 @@ class ExpandRank(TextRank):
     def load(self, directory: str = None):
         self.tfidf.load(directory)
 
-    def train(self, data: list, export_directory: str = None, num_topics: int = 15):
+    def train(self, data: list, export_directory: str = None):
         self.tfidf.train(data, export_directory=export_directory)
 
     def get_keywords(self, document: str, n_keywords: int = 10):
@@ -55,21 +54,20 @@ class ExpandRank(TextRank):
         node_score = self.run_pagerank(graph, personalization=bias)
 
         # combine score to get score of phrase
-        phrase_score_dict = dict()
-        for candidate_phrase_stemmed_form in phrase_instance.keys():
-            tokens_in_phrase = candidate_phrase_stemmed_form.split()
-            phrase_score_dict[candidate_phrase_stemmed_form] = sum([node_score[t] for t in tokens_in_phrase])
+        phrase_score = [
+            (candidate_phrase_stemmed_form, sum(node_score[t] for t in candidate_phrase_stemmed_form.split()))
+            for candidate_phrase_stemmed_form in phrase_instance.keys()
+        ]
 
         # sorting
-        phrase_score_sorted_list = sorted(phrase_score_dict.items(), key=lambda key_value: key_value[1], reverse=True)
+        phrase_score_sorted_list = sorted(phrase_score, key=lambda key_value: key_value[1], reverse=True)
         count_valid = min(n_keywords, len(phrase_score_sorted_list))
 
         def modify_output(stem, score):
             tmp = phrase_instance[stem]
             tmp['score'] = score
-            tmp['raw'] = tmp['raw'][0]
-            tmp['lemma'] = tmp['lemma'][0]
             tmp['n_source_tokens'] = original_sentence_token_size
             return tmp
+
         val = [modify_output(stem, score) for stem, score in phrase_score_sorted_list[:count_valid]]
         return val
