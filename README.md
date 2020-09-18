@@ -98,7 +98,7 @@ the language when construct any model instances.
 
 ### Benchamrk on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf)
 
-|         Model         | Priror             |    F1 (P/R) @5    |    F1 (P/R) @10   |     F1 (P/R) @15    | approx time (sec) |
+|         Model         | Prior |    F1 (P/R) @5    |    F1 (P/R) @10   |     F1 (P/R) @15    | approx time (sec) |
 |:---------------------:|:-----------------:|:-----------------:|:-----------------:|:-------------------:|:-----------------:|
 | TopicalPageRank | Topic Model | 0.059 (0.2/0.034) | 0.103 (0.2/0.069) | 0.136 (0.2/0.103) | 124.473|
 | SingleTopicalPageRank | Topic Model | 0.059 (0.2/0.034) | 0.103 (0.2/0.069) | 0.136 (0.2/0.103) | 63.909|
@@ -109,6 +109,7 @@ the language when construct any model instances.
 | TextRank | - | 0.059 (0.2/0.034) | 0.103 (0.2/0.069) | 0.136 (0.2/0.103) | 23.375|
 | ExpandRank | TFIDF | 0.059 (0.2/0.034) | 0.103 (0.2/0.069) | 0.136 (0.2/0.103) | 64.131|
 | MultipartiteRank | - | 0.118 (0.4/0.069) | 0.154 (0.3/0.103) | 0.182 (0.267/0.138) | 2101.312|
+
 
 
 Benchmark on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf) dataset processed by 
