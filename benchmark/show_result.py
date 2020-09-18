@@ -1,8 +1,8 @@
 import json
 from glob import glob
 
-table = "|         Model         | Priror |    F1 (P/R) @5    |    F1 (P/R) @10   |     F1 (P/R) @15    | approx time (sec) |\n"
-table += "|:---------------------:|:-----------------:||:-----------------:|:-----------------:|:-------------------:|:-----------------:|\n"
+table = "|         Model         | Prior |    F1 (P/R) @5    |    F1 (P/R) @10   |     F1 (P/R) @15    | approx time (sec) |\n"
+table += "|:---------------------:|:-----------------:|:-----------------:|:-----------------:|:-------------------:|:-----------------:|\n"
 d = 3
 for i in glob('./benchmark/*.json'):
     tmp = json.load(open(i))
