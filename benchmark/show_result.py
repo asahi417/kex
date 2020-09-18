@@ -1,8 +1,8 @@
 import json
 from glob import glob
 
-table = "|         Model         |    F1 (P/R) @5    |    F1 (P/R) @10   |     F1 (P/R) @15    | approx time (sec) |\n"
-table += "|:---------------------:|:-----------------:|:-----------------:|:-------------------:|:-----------------:|\n"
+table = "|         Model         | Priror |    F1 (P/R) @5    |    F1 (P/R) @10   |     F1 (P/R) @15    | approx time (sec) |\n"
+table += "|:---------------------:|:-----------------:||:-----------------:|:-----------------:|:-------------------:|:-----------------:|\n"
 d = 3
 for i in glob('./benchmark/*.json'):
     tmp = json.load(open(i))
@@ -12,6 +12,12 @@ for i in glob('./benchmark/*.json'):
         replace('multi', 'Multi').replace('position', 'Position')
 
     row = "| {0} |".format(algo)
+    if algo in ['TFIDF', 'ExpandRank']:
+        row += " TFIDF |"
+    elif algo in ['TopicalPageRank', 'SingleTopicalPageRank']:
+        row += " Topic Model |"
+    else:
+        row += " - |"
     row += " {0} ({1}/{2}) |".format(
         round(tmp['top_5']['f_1'], d),
         round(tmp['top_5']['mean_precision'], d),
