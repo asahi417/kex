@@ -9,7 +9,12 @@
 *Grapher*, a quick python library to work on graph-based unsurpervised keyword extraction algorithms.
 
 ## Get Started
-Clone and install
+Install via pip
+```
+pip install git+https://github.com/asahi417/grapher
+```
+
+or clone and install
 
 ```shell script
 git clone https://github.com/asahi417/grapher
