@@ -1,12 +1,16 @@
+import re
+from typing import List
+
+import nltk
 import spacy
 from spacy.tokenizer import Tokenizer
 from spacy.util import compile_prefix_regex, compile_suffix_regex
 from nltk import SnowballStemmer
 from nltk.corpus import stopwords
-import re
-from typing import List
 
 from ._tokenizer_ja import TokenizerJa
+
+nltk.download('stopwords')
 
 __all__ = 'PhraseConstructor'
 escaped_punctuation = {'-lrb-': '(', '-rrb-': ')', '-lsb-': '[', '-rsb-': ']', '-lcb-': '{', '-rcb-': '}'}

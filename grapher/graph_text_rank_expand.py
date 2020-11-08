@@ -12,6 +12,7 @@ class ExpandRank(TextRank):
         self.tfidf = TFIDF(language=language)
         self.directed_graph = False
         self.weighted_graph = True
+        self.prior_required = True
 
     def save(self, directory: str = None):
         self.tfidf.save(directory)

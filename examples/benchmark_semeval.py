@@ -39,9 +39,6 @@ if __name__ == '__main__':
     flag_stemmed = False
 
     # load model
-    lda = False
-    tfidf = False
-
     if opt.model == 'TopicRank':
         model = grapher.TopicRank()
     elif opt.model == 'TextRank':
@@ -50,40 +47,32 @@ if __name__ == '__main__':
         model = grapher.SingleRank()
     elif opt.model == 'ExpandRank':
         model = grapher.ExpandRank()
-        tfidf = True
     elif opt.model == 'MultipartiteRank':
         model = grapher.MultipartiteRank()
     elif opt.model == 'PositionRank':
         model = grapher.PositionRank()
     elif opt.model == 'TFIDF':
         model = grapher.TFIDF()
-        tfidf = True
     elif opt.model == 'TopicalPageRank':
         model = grapher.TopicalPageRank()
-        lda = True
     elif opt.model == 'SingleTopicalPageRank':
         model = grapher.SingleTopicalPageRank()
-        lda = True
+    elif opt.model == 'LexicalSpec':
+        model = grapher.LexicalSpec()
     else:
         raise ValueError('unknown model: {}'.format(opt.model))
+
     LOGGER.info('Benchmark on SemEval2010 keyphrase extraction dataset')
     LOGGER.info('algorithm: {}'.format(opt.model))
 
     # compute prior
-    if lda:
-        LOGGER.info('computing LDA prior...')
+    if model.prior_required:
+        LOGGER.info('computing prior...')
         try:
-            model.load('./cache/lda_semeval')
+            model.load('./cache/semeval_prior')
         except Exception:
             corpus = [i['source'] for i in data]
-            model.train(corpus, export_directory='./cache/lda_semeval')
-    if tfidf:
-        LOGGER.info('computing TFIDF prior...')
-        try:
-            model.load('./cache/tfidf_semeval')
-        except Exception:
-            corpus = [i['source'] for i in data]
-            model.train(corpus, export_directory='./cache/tfidf_semeval')
+            model.train(corpus, export_directory='./cache/semeval_prior')
 
     # run algorithm and test it over data
     precisions = {}

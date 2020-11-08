@@ -54,6 +54,7 @@ class TopicRank:
         no_stemming: bool
             no stemming is applied (True if the document is already stemmed)
         """
+        self.prior_required = False
         self.__random_prob = random_prob
         self.__tol = tol
 

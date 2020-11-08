@@ -14,6 +14,7 @@ class TopicalPageRank(TextRank):
         self.lda = LDA(language=language)
         self.directed_graph = True
         self.weighted_graph = True
+        self.prior_required = False
 
     def load(self, directory: str = None):
         self.lda.load(directory)

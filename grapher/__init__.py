@@ -7,3 +7,4 @@ from .tfidf import TFIDF
 from .get_dataset import get_benchmark_dataset
 from .lda import LDA
 from ._phrase_constructor import PhraseConstructor
+from .lexical_specificity import LexicalSpec

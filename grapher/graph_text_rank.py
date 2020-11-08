@@ -50,6 +50,7 @@ class TextRank:
         self.phrase_constructor = PhraseConstructor(language=language)
         self.weighted_graph = False
         self.direct_graph = False
+        self.prior_required = False
 
     def get_keywords(self, document: str, n_keywords: int = 10):
         """ Get keywords

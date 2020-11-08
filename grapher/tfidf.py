@@ -25,6 +25,7 @@ class TFIDF:
     def __init__(self, language: str = 'en'):
         self.__model = None
         self.__dict = None
+        self.prior_required = True
         self.phrase_constructor = PhraseConstructor(language=language)
 
     def load(self, directory: str = None):
@@ -137,8 +138,8 @@ class TFIDF:
 
         def aggregate_prob(__phrase_key):
             __phrase = phrase_instance[__phrase_key]
-            prob = float(np.mean([[dist_word[_r] if _r in dist_word.keys() else 0 for _r in r.split()]
-                                  for r in __phrase['raw']]))
+            prob = float(np.mean([
+                dist_word[_r] if _r in dist_word.keys() else 0 for _r in __phrase['stemmed'].split()]))
             return prob
 
         phrase_prob = [(k, aggregate_prob(k)) for k in phrase_instance.keys()]
