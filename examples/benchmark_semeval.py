@@ -59,6 +59,8 @@ if __name__ == '__main__':
         model = grapher.SingleTopicalPageRank()
     elif opt.model == 'LexicalSpec':
         model = grapher.LexicalSpec()
+    elif opt.model == 'LexRank':
+        model = grapher.LexRank()
     else:
         raise ValueError('unknown model: {}'.format(opt.model))
 

@@ -8,3 +8,4 @@ from .get_dataset import get_benchmark_dataset
 from .lda import LDA
 from ._phrase_constructor import PhraseConstructor
 from .lexical_specificity import LexicalSpec
+from .graph_text_rank_lexical import LexRank

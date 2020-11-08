@@ -135,6 +135,20 @@ class LexicalSpec:
     def is_trained(self):
         return self.freq is not None
 
+    def lexical_specificity(self, document: str):
+        phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
+        sub_freq = dict(Counter(stemmed_tokens))
+
+        # compute lexical specificity
+        sub_corpus_size = sum(sub_freq.values())
+        ls_dict = {k: lexical_specificity(
+            T=self.reference_corpus_size,
+            t=sub_corpus_size,
+            f=self.freq[k],
+            k=sub_freq[k]
+        ) for k in sub_freq.keys()}
+        return ls_dict
+
     def get_keywords(self, document: str, n_keywords: int = 10):
         """ Get keywords
 
@@ -154,6 +168,7 @@ class LexicalSpec:
         if len(phrase_instance) < 2:
             # at least 2 phrase are needed to extract keyphrase
             return []
+
         sub_freq = dict(Counter(stemmed_tokens))
 
         # compute lexical specificity
