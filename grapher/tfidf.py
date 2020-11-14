@@ -1,7 +1,6 @@
 """ Model to utilize TFIDF: Wrapper of gensim API for TFIDF """
 import os
 import logging
-from logging.config import dictConfig
 
 import gensim
 import numpy as np
@@ -9,12 +8,8 @@ from gensim import corpora
 
 from ._phrase_constructor import PhraseConstructor
 
-dictConfig({
-    "version": 1,
-    "formatters": {'f': {'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'}},
-    "handlers": {'h': {'class': 'logging.StreamHandler', 'formatter': 'f', 'level': logging.DEBUG}},
-    "root": {'handlers': ['h'], 'level': logging.DEBUG}})
 LOGGER = logging.getLogger()
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 CACHE_DIR = './cache/tfidf'
 __all__ = 'TFIDF'
 

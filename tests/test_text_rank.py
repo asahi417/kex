@@ -1,16 +1,11 @@
 """ UnitTest for TextRank """
 import unittest
 import logging
-from logging.config import dictConfig
 
 from grapher import TextRank, SingleRank, PositionRank
 
-dictConfig({
-    "version": 1,
-    "formatters": {'f': {'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'}},
-    "handlers": {'h': {'class': 'logging.StreamHandler', 'formatter': 'f', 'level': logging.DEBUG}},
-    "root": {'handlers': ['h'], 'level': logging.DEBUG}})
 LOGGER = logging.getLogger()
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 
 test_ja = '東京事変は、2003年から活動している日本のバンドである。2012年2月29日の日本武道館公演をもって活動を終了したが、' \
            'その後2020年に「再生」と称して解散時のメンバーで再始動することが発表された。所属レコード会社はユニバーサルミュージック。' \

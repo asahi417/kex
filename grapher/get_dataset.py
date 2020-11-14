@@ -1,25 +1,18 @@
-import json
 import os
-from itertools import chain
+from glob import glob
 
-import untangle
+VALID_DATASET_LIST = [
+    "110-PT-BN-KP", "WikiNews",
+    "cacic", "citeulike180", "fao30", "fao780", "Inspec", "kdd",
+    "Krapivin2009", "Nguyen2007", "pak2018", "PubMed", "Schutz2008", "SemEval2010", "SemEval2017", "theses100", "wicc",
+    "wiki20", "www", "500N-KPCrowd-v1.1"
+]
 
-CACHE_DIR = './cache'
-__all__ = 'get_benchmark_dataset'
-
-
-def decode_xml(_file):
-    doc = untangle.parse(open(_file))
-    all_sentences = doc.root.document.sentences.sentence
-    reconstruct_sentences = []
-    for sent in all_sentences:
-        reconstruct_sentences += [' '.join([t.word.cdata for t in sent.tokens.token])]
-    reconstruct_sentences = ' '.join(reconstruct_sentences)
-    return reconstruct_sentences
+__all__ = ('get_benchmark_dataset', "VALID_DATASET_LIST")
 
 
-def get_benchmark_dataset(data: str = 'SemEval2010', cache_dir: str = None):
-    """
+def get_benchmark_dataset(data: str = 'Inspec', cache_dir: str = "./cache"):
+    """ to get a dataset for keyword extraction (all not stemmed)
 
      Parameter
     -------------
@@ -31,25 +24,28 @@ def get_benchmark_dataset(data: str = 'SemEval2010', cache_dir: str = None):
      Return
     -------------
     dictionary consists of the data
-    flag, True if the ground truth is already stemmed
+    language
     """
-    cache_dir = CACHE_DIR if cache_dir is None else cache_dir
+    assert data in VALID_DATASET_LIST, "undefined dataset: {}".format(data)
+    url = "https://github.com/LIAAD/KeywordExtractor-Datasets/raw/master/datasets"
     os.makedirs(cache_dir, exist_ok=True)
-    if data == 'SemEval2010':
-        if not os.path.exists('{}/semeval-2010-pre-master'.format(cache_dir)):
-            os.system('wget -O {}/master.zip https://github.com/boudinfl/semeval-2010-pre/archive/master.zip'.
-                      format(cache_dir))
-            os.system('unzip {0}/master.zip -d {0}'.format(cache_dir))
-        gold_keys = json.load(open(
-            '{}/semeval-2010-pre-master/references/test.combined.stem.json'.format(cache_dir), 'r'))
-        answer_dict = [{
-            'keywords': list(chain(*v)),
-            'source': decode_xml('{0}/semeval-2010-pre-master/test/lvl-4/{1}.xml'.format(cache_dir, k)),
-            'id': k} for k, v in gold_keys.items()]
-        flag_stemmed = True
-    else:
-        raise ValueError('undefined data name: {}'.format(data))
-    return answer_dict, flag_stemmed
-
-
-
+    if not os.path.exists("{}/{}".format(cache_dir, data)):
+        os.system('wget -O {0}/{2}.zip {1}/{2}.zip'.format(cache_dir, url, data))
+        if data == "110-PT-BN-KP":
+            os.system("unzip {0}/{1}.zip -d {0}/{1}".format(cache_dir, data))
+        elif data == "WikiNews":
+            os.system("unzip {0}/{1}.zip -d {0}".format(cache_dir, data))
+            os.system("mv {0}/WKC {0}/{1}".format(cache_dir, data))
+        else:
+            os.system("unzip {0}/{1}.zip -d {0}/".format(cache_dir, data))
+    if not os.path.exists("{}/{}".format(cache_dir, data)):
+        raise ValueError('data `{}` is not in the list {}'.format(data, url))
+    answer_dict = [{
+        "keywords": open(
+            "{}/{}/keys/{}.key".format(
+                cache_dir, data, '.txt'.join(os.path.basename(t).split('.txt')[:-1])),
+            'r').read().split('\n'),
+        "source": open(t, 'r').read(),
+        "id": os.path.basename(t)} for t in glob("{}/{}/docsutf8/*.txt".format(cache_dir, data))]
+    language = open("{}/{}/language.txt".format(cache_dir, data)).read()
+    return answer_dict, language

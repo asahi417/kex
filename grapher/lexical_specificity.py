@@ -3,19 +3,14 @@ import os
 import logging
 import math
 import json
-from logging.config import dictConfig
 from math import log, factorial, log10
 from collections import Counter
 from itertools import chain
 
 from ._phrase_constructor import PhraseConstructor
 
-dictConfig({
-    "version": 1,
-    "formatters": {'f': {'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'}},
-    "handlers": {'h': {'class': 'logging.StreamHandler', 'formatter': 'f', 'level': logging.DEBUG}},
-    "root": {'handlers': ['h'], 'level': logging.DEBUG}})
 LOGGER = logging.getLogger()
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 CACHE_DIR = './cache/lexical_specificity'
 __all__ = ('LexicalSpec', 'lexical_specificity')
 

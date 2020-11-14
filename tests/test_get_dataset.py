@@ -1,28 +1,26 @@
 """ UnitTest for dataset """
 import unittest
 import logging
-from logging.config import dictConfig
 
-from grapher import get_benchmark_dataset
+from grapher import get_benchmark_dataset, VALID_DATASET_LIST
 
-dictConfig({
-    "version": 1,
-    "formatters": {'f': {'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'}},
-    "handlers": {'h': {'class': 'logging.StreamHandler', 'formatter': 'f', 'level': logging.DEBUG}},
-    "root": {'handlers': ['h'], 'level': logging.DEBUG}})
 LOGGER = logging.getLogger()
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 
 
 class TestGetDataset(unittest.TestCase):
     """Test get_benchmark_dataset """
 
     def test_get_benchmark_dataset(self):
-        tmp, flag_stemmed = get_benchmark_dataset()
-        LOGGER.info(flag_stemmed)
-        for n, v in enumerate(tmp):
-            LOGGER.info('\n - {0}: \n * source: {1} \n * keywords: {2}'.format(v['id'], v['source'], v['keywords']))
-            if n > 5:
-                break
+        for i in VALID_DATASET_LIST:
+            LOGGER.info('** {} **'.format(i))
+            tmp, flag_stemmed, language = get_benchmark_dataset(i)
+            LOGGER.info(flag_stemmed)
+            LOGGER.info(language)
+            for n, v in enumerate(tmp):
+                LOGGER.info('\n - {0}: \n * source: {1} \n * keywords: {2}'.format(v['id'], v['source'], v['keywords']))
+                if n > 5:
+                    break
 
 
 if __name__ == "__main__":

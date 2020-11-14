@@ -1,17 +1,12 @@
 """ UnitTest for lexical specificity """
 import unittest
 import logging
-from logging.config import dictConfig
 
 from grapher import LexicalSpec
 from grapher.lexical_specificity import lexical_specificity
 
-dictConfig({
-    "version": 1,
-    "formatters": {'f': {'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'}},
-    "handlers": {'h': {'class': 'logging.StreamHandler', 'formatter': 'f', 'level': logging.DEBUG}},
-    "root": {'handlers': ['h'], 'level': logging.DEBUG}})
 LOGGER = logging.getLogger()
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 TEST_DOCS = [
 """
 Efficient discovery of grid services is essential for the success of
@@ -97,6 +92,7 @@ additional data and delay overhead can be avoided while
 still maintaining a network service which is virtually 
 identical to best effort in the long term.
 """.replace('\n', ' ')]
+
 
 class TestLexicalSpecificity(unittest.TestCase):
     """Test lexical_specificity """
