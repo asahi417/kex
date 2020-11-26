@@ -1,3 +1,4 @@
+from .baseline import FirstN
 from .graph_text_rank import TextRank, SingleRank, PositionRank, ExpandRank, LexRank, SingleTPR
 from .graph_tpr import TopicalPageRank
 from .graph_topic_rank import TopicRank
