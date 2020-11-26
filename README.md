@@ -9,7 +9,7 @@
 *Grapher* is a python library for unsurpervised keyword extractions: 
 - Easy interface for keyword extraction via python
 - Quick benchmarking over [16 English public datasets](#benchamrk) for grapher preset methods
-- Modules to support implementing custom keyword extractor that can be also tested on the benchmark datasets
+- Modules to support implementing [custom keyword extractor](#implement-custom-method-with-grapher)
 
 ## Get Started
 Install via pip
@@ -26,7 +26,7 @@ pip install .
 ```
 
 ## Extract Keywords with grapher
-*Grapher* retrieves keywords from a document with various graph-based algorithms:
+*Grapher* retrieves keywords given a document with various algorithms:
 - `TFIDF`: a simple statistic baseline
 - `TextRank`: [Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
 - `SingleRank`: [Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
@@ -37,7 +37,7 @@ pip install .
 - `TopicalPageRank`: [Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
 - `SingleTPR`: [Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
 
-All the algorithms can be simply used as below.
+Basic usage:
 
 ```python
 import grapher
@@ -70,7 +70,7 @@ model.get_keywords(sample, n_keywords=2)
 ```
 
 ### Algorithm with prior
-Algorithms with priors need to be trained beforehand (`TFIDF`, `ExpandRank`, `TopicalPageRank`, `SingleTPR`)
+Algorithms with priors (`TFIDF`, `ExpandRank`, `TopicalPageRank`) need to be trained beforehand:
 ```python
 import grapher
 model = grapher.SingleTPR()
@@ -78,8 +78,7 @@ test_sentences = ['documentA', 'documentB', 'documentC']
 model.train(test_sentences, export_directory='./tmp')
 ``` 
 
-Priors are cached and can be loaded on the fly.
-
+Priors are cached and can be loaded on the fly:
 ```python
 import grapher
 model = grapher.SingleTPR()
@@ -87,11 +86,12 @@ model.load('./tmp')
 ```
 
 ### Supported Language
-Currently, all the algorithms are available in English, but soon will relax the constrain to allow other language support.
-The dependency is mainly due to the PoS tagger and the word stemmer.
+Currently, algorithms are available only in English, but soon we will relax the constrain to allow other language to be supported.
+The dependency is mainly due to the Part-of-Speech tagger and the word stemmer.
 
 ## Implement Custom Method with grapher
-Here is a brief example to create custom extractor with grapher.
+Here is a brief example to create a custom extractor with grapher.
+
 ```python
 import grapher
 
