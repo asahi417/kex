@@ -1,3 +1,2 @@
 cache
 tests/*.json
-./benchmark/*.json
