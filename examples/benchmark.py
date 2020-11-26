@@ -1,6 +1,4 @@
-""" Benchmark
-python examples/benchmark.py -m TopicRank,TextRank,PositionRank,SingleRank
-"""
+""" Benchmark preset methods in grapher """
 import argparse
 import os
 import logging
@@ -35,7 +33,7 @@ def view_result(export_dir: str):
 
 
 def get_options():
-    parser = argparse.ArgumentParser(description='Benchmark algorithms on SemEval2010')
+    parser = argparse.ArgumentParser(description='Benchmark preset methods in grapher')
     parser.add_argument('-m', '--model', help='model:{}'.format(grapher.VALID_ALGORITHMS), default=None, type=str)
     parser.add_argument('-d', '--data', help='data:{}'.format(grapher.VALID_DATASET_LIST), default=None, type=str)
     parser.add_argument('-e', '--export', help='log export dir', default='./benchmark', type=str)

@@ -32,7 +32,8 @@ class TopicalPageRank(TextRank):
 
          Return
         ------------------
-        a list of keywords with score eg) [('aa', 0.5), ('b', 0.3), ..]
+        a list of dictionary consisting of 'stemmed', 'pos', 'raw', 'offset', 'count'.
+        eg) {'stemmed': 'grid comput', 'pos': 'ADJ NOUN', 'raw': ['grid computing'], 'offset': [[11, 12]], 'count': 1}
         """
         # make graph and get data structure for candidate phrase
         output = self.build_graph(document)

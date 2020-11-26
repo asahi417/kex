@@ -1,4 +1,4 @@
-# Grapher: Graph-based Keyword Extractions
+# Grapher
 
 <p align="center">
   <img src="./asset/topic_rank_fig.png" width="800">
@@ -6,14 +6,14 @@
 </p>
 
 
-*Grapher*, a quick python library to work on graph-based unsurpervised keyword extraction algorithms.
+*Grapher* is a python library to utilize unsurpervised keyword extractions: 
 - Easy interface for keyword extraction via python
-- Algorithms benchmark over [16 English public dataset](#benchamrk)
-
+- Quick benchmarking over [16 English public datasets](#benchamrk) for grapher preset methods
+- Modules to support implementing custom keyword extractor that can be also tested on the benchmark datasets
 
 ## Get Started
 Install via pip
-```
+```shell script
 pip install git+https://github.com/asahi417/grapher
 ```
 
@@ -25,7 +25,7 @@ cd grapher
 pip install .
 ```
 
-## Basic Usage
+## Extract Keywords with grapher
 *Grapher* retrieves keywords from a document with various graph-based algorithms:
 - `TFIDF`: a simple statistic baseline
 - `TextRank`: [Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
@@ -40,9 +40,9 @@ pip install .
 All the algorithms can be simply used as below.
 
 ```python
->>> import grapher
->>> model = grapher.PositionRank()  # any algorithm listed above
->>> sample = '''
+import grapher
+model = grapher.SingleRank()  # any algorithm listed above
+sample = '''
 We propose a novel unsupervised keyphrase extraction approach that filters candidate keywords using outlier detection.
 It starts by training word embeddings on the target document to capture semantic regularities among the words. It then
 uses the minimum covariance determinant estimator to model the distribution of non-keyphrase word vectors, under the
@@ -51,69 +51,81 @@ expressed by the dimensions of the learned vector representation. Candidate keyp
 detected as outliers of this dominant distribution. Empirical results show that our approach outperforms state
 of-the-art and recent unsupervised keyphrase extraction methods.
 '''
->>> model.get_keywords(sample, n_keywords=2)
-[
- {'count': 1,
-  'lemma': 'word embedding',
-  'n_source_tokens': 120,
-  'offset': [[22, 23]],
-  'pos': 'NOUN NOUN',
-  'raw': 'word embeddings',
-  'score': 0.13759301735957652,
-  'stemmed': 'word embed'},
- {'count': 1,
-  'lemma': 'novel unsupervised keyphrase extraction approach',
-  'n_source_tokens': 120,
-  'offset': [[4, 8]],
-  'pos': 'ADJ ADJ NOUN NOUN NOUN',
-  'raw': 'novel unsupervised keyphrase extraction approach',
-  'score': 0.13064559025892963,
-  'stemmed': 'novel unsupervis keyphras extract approach'}
-]
+model.get_keywords(sample, n_keywords=2)
+
+[{'stemmed': 'non-keyphras word vector',
+  'pos': 'ADJ NOUN NOUN',
+  'raw': ['non-keyphrase word vectors'],
+  'offset': [[47, 49]],
+  'count': 1,
+  'score': 0.06874471825637762,
+  'n_source_tokens': 112},
+ {'stemmed': 'semant regular word',
+  'pos': 'ADJ NOUN NOUN',
+  'raw': ['semantic regularities words'],
+  'offset': [[28, 32]],
+  'count': 1,
+  'score': 0.06001468574146248,
+  'n_source_tokens': 112}]
 ```
 
 ### Algorithm with prior
 Algorithms with priors need to be trained beforehand (`TFIDF`, `ExpandRank`, `TopicalPageRank`, `SingleTPR`)
 ```python
->>> import grapher
->>> model = grapher.SingleTPR()
->>> test_sentences = ['documentA', 'documentB', 'documentC']
->>> model.train(test_sentences, export_directory='./tmp')
+import grapher
+model = grapher.SingleTPR()
+test_sentences = ['documentA', 'documentB', 'documentC']
+model.train(test_sentences, export_directory='./tmp')
 ``` 
 
 Priors are cached and can be loaded on the fly.
 
 ```python
->>> import grapher
->>> model = grapher.SingleTPR()
->>> model.load('./tmp')
+import grapher
+model = grapher.SingleTPR()
+model.load('./tmp')
 ```
 
 ### Supported Language
 Currently, all the algorithms are available in English, but soon will relax the constrain to allow other language support.
 The dependency is mainly due to the PoS tagger and the word stemmer.
 
-## Benchamrk
-We utilize 16 publicly available English keyword extraction datasets to validate algorithms.  
-```shell script
-python ./exmpales/benchmark.py
+## Implement Custom Method with grapher
+Here is a brief example to create custom extractor with grapher.
+```python
+import grapher
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -m MODEL, --model MODEL
-                        model:['TopicRank', 'TextRank', 'SingleRank',
-                        'LexSpec', 'PositionRank', 'TFIDF', 'LexRank',
-                        'ExpandRank', 'SingleTPR']
-  -d DATA, --data DATA  data:['citeulike180', 'fao30', 'fao780', 'Inspec',
-                        'kdd', 'Krapivin2009', 'Nguyen2007', 'PubMed',
-                        'Schutz2008', 'SemEval2010', 'SemEval2017',
-                        'theses100', 'wicc', 'wiki20', 'www',
-                        '500N-KPCrowd-v1.1']
-  -e EXPORT, --export EXPORT
-                        log export dir
-  --view                view results
+class CustomExtractor:
+    """ Custom keyword extractor example: First N keywords extractor """
+
+    def __init__(self, maximum_word_number: int = 3):
+        """ First N keywords extractor """
+        self.phrase_constructor = grapher.PhraseConstructor(maximum_word_number=maximum_word_number)
+
+    def get_keywords(self, document: str, n_keywords: int = 10):
+        """ Get keywords
+
+         Parameter
+        ------------------
+        document: str
+        n_keywords: int
+
+         Return
+        ------------------
+        a list of dictionary consisting of 'stemmed', 'pos', 'raw', 'offset', 'count'.
+        eg) {'stemmed': 'grid comput', 'pos': 'ADJ NOUN', 'raw': ['grid computing'], 'offset': [[11, 12]], 'count': 1}
+        """
+        phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
+        sorted_phrases = sorted(phrase_instance.values(), key=lambda x: x['offset'][0][0])
+        return sorted_phrases[:min(len(sorted_phrases), n_keywords)]
+
 ```
 
+## Benchamrk
+We enable users to fetch 16 public keyword extraction datasets via 
+[`grapher.get_benchmark_dataset`](./grapher/_get_dataset.py) module.
+By which, we provide an [example script](./examples/benchmark.py) to run benchmark over preset algorithms.
+To benchmark [custom algorithm](#implement-custom-method-with-grapher), see [the other script](./examples/benchmark_custom_model.py).
 
 ### Results
 All the metrics are in the format of micro F1 score (recall/precision).

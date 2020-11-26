@@ -11,21 +11,7 @@ __all__ = 'TopicRank'
 
 
 class TopicRank:
-    """TopicRank
-
-     Usage
-    -----------------
-    >>> model = TopicRank()
-    >>> sample =
-    'We propose a novel unsupervised keyphrase extraction approach that filters candidate keywords using outlier '
-    'detection. It starts by training word embeddings on the target document to capture semantic regularities among '
-    'the words. It then uses the minimum covariance determinant estimator to model the distribution of non-keyphrase '
-    'word vectors, under the assumption that these vectors come from the same distribution, indicative of their '
-    'irrelevance to the semantics expressed by the dimensions of the learned vector representation. Candidate '
-    'keywords only consist of words that are detected as outliers of this dominant distribution. Empirical results '
-    'show that our approach outperforms stateof-the-art and recent unsupervised keyphrase extraction methods.'
-    >>> model.get_keywords(sample)
-    """
+    """ TopicRank """
 
     def __init__(self,
                  language: str = 'en',
@@ -141,7 +127,8 @@ class TopicRank:
 
          Return
         ------------------
-        a list of keyphrase with score eg) [('aa', 0.5), ('b', 0.3), ..]
+        a list of dictionary consisting of 'stemmed', 'pos', 'raw', 'offset', 'count'.
+        eg) {'stemmed': 'grid comput', 'pos': 'ADJ NOUN', 'raw': ['grid computing'], 'offset': [[11, 12]], 'count': 1}
         """
         # make graph and get data structure for candidate phrase
         output = self.build_graph(document)
