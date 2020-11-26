@@ -6,7 +6,7 @@
 </p>
 
 
-*Grapher* is a python library to utilize unsurpervised keyword extractions: 
+*Grapher* is a python library for unsurpervised keyword extractions: 
 - Easy interface for keyword extraction via python
 - Quick benchmarking over [16 English public datasets](#benchamrk) for grapher preset methods
 - Modules to support implementing custom keyword extractor that can be also tested on the benchmark datasets
