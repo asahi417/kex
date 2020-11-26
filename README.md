@@ -70,7 +70,7 @@ model.get_keywords(sample, n_keywords=2)
 ```
 
 ### Algorithm with prior
-Algorithms with priors (`TFIDF`, `ExpandRank`, `TopicalPageRank`) need to be trained beforehand:
+Algorithms with priors (`TFIDF`, `ExpandRank`, `TopicalPageRank`, `SingleTPR`) need to be trained beforehand:
 ```python
 import grapher
 model = grapher.SingleTPR()
