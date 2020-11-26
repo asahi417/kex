@@ -4,14 +4,9 @@ import logging
 
 from grapher import PhraseConstructor
 
-LOGGER = logging.getLogger()
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 
 
-test_ja = '東京事変は、2003年から活動している日本のバンドである。2012年2月29日の日本武道館公演をもって活動を終了したが、' \
-           'その後2020年に「再生」と称して解散時のメンバーで再始動することが発表された。所属レコード会社はユニバーサルミュージック。' \
-           'シンガーソングライターの椎名林檎を中心に、2003年に結成された5人組のロックバンド。2012年2月29日の日本武道館公演をもって' \
-           '活動を終了。その後、2020年に「再生」と称して解散時のメンバーで再始動することが発表された。'
 test_en = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
            'standardization of grids based on web services has resulted in the need for scalable web service ' \
            'discovery mechanisms to be deployed in grids Even though UDDI has been the de facto industry standard ' \
@@ -32,27 +27,17 @@ class TestPhraseConstructor(unittest.TestCase):
     """Test phrase_constructor """
 
     def test_tokenize_and_stem_and_phrase(self):
-        phraser = PhraseConstructor('en')
+        phraser = PhraseConstructor()
         phrase, token = phraser.tokenize_and_stem_and_phrase(test_en)
-        LOGGER.info(token)
+        logging.info(token)
         for k, v in phrase.items():
             assert 'NOUN' in v['pos'] or 'PROPN' in v['pos'], 'noun not found {}'.format(v['pos'])
-        LOGGER.info(phrase.keys())
-
-        phraser = PhraseConstructor('ja')
-        phrase, token = phraser.tokenize_and_stem_and_phrase(test_ja)
-        LOGGER.info(token)
-        for k, v in phrase.items():
-            assert 'NOUN' in v['pos'] or 'PROPN' in v['pos'], 'noun not found {}'.format(v['pos'])
+        logging.info(phrase.keys())
 
     def test_tokenize_and_stem(self):
-        phraser = PhraseConstructor('en')
-        token = phraser.tokenize_and_stem(test_en)
-        LOGGER.info(token)
-
-        phraser = PhraseConstructor('ja')
-        token = phraser.tokenize_and_stem(test_ja)
-        LOGGER.info(token)
+        phraser = PhraseConstructor()
+        logging.info(phraser.tokenize_and_stem(test_en))
+        logging.info(phraser.tokenize_and_stem(test_en, apply_stopwords=False))
 
 
 if __name__ == "__main__":

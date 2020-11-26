@@ -32,6 +32,7 @@ class TopicRank:
                  random_prob: float = 0.85,
                  tol: float = 0.0001,
                  clustering_threshold: float = 0.74,
+                 maximum_word_number: int = 3,
                  linkage_method: str = 'average'):
         """ TopicRank
 
@@ -61,7 +62,7 @@ class TopicRank:
         self.__linkage_method = linkage_method
         self.__clustering_threshold = clustering_threshold
 
-        self.phrase_constructor = PhraseConstructor(language=language)
+        self.phrase_constructor = PhraseConstructor(language=language, maximum_word_number=maximum_word_number)
 
     def topic_clustering(self, stemmed_phrases: list):
         """ grouping given phrases to topic based on HAC by there tokens
@@ -114,16 +115,16 @@ class TopicRank:
         graph.add_nodes_from(group_id)
 
         def offset_distance(a: list, b: list):
-            return sum([1/abs(i[0] - i[1]) for i in product(range(*a), range(*b))])
+            return 1/(a[0] - b[1] + 1) if a[0] > b[0] else 1/(b[0] - a[1] + 1)
 
         # add edges with weight
         for id_x, id_y in combinations(group_id, 2):
             # list of offset
             x_offsets = list(chain(*[phrase_instance[_x_phrase]['offset'] for _x_phrase in grouped_phrases[id_x]]))
             y_offsets = list(chain(*[phrase_instance[_y_phrase]['offset'] for _y_phrase in grouped_phrases[id_y]]))
+
             weight = sum([offset_distance(_x, _y) for _x, _y in product(x_offsets, y_offsets)])
             graph.add_edge(id_x, id_y, weight=weight)
-
         return graph, phrase_instance, grouped_phrases, len(stemmed_tokens)
 
     def run_pagerank(self, graph):
@@ -148,6 +149,8 @@ class TopicRank:
             return []
 
         graph, phrase_instance, grouped_phrases, original_sentence_token_size = output
+        # print(grouped_phrases)
+        # input()
 
         # pagerank to get score for individual word (sum of score will be one)
         node_score = self.run_pagerank(graph)

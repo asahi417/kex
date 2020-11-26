@@ -1,10 +1,9 @@
-""" UnitTest for TextRank """
+""" UnitTest for LDA """
 import unittest
 import logging
 
 from grapher import LDA
 
-LOGGER = logging.getLogger()
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 TEST_DOCS = [
 """
@@ -100,13 +99,13 @@ class TestLDA(unittest.TestCase):
         # save
         model = LDA()
         model.train(TEST_DOCS, export_directory='./cache/test_lda')
-        LOGGER.info(model.distribution_topic_document('discovery'))
+        logging.info(model.distribution_topic_document('discovery'))
 
         # load
         model = LDA()
         model.load('./cache/test_lda')
-        LOGGER.info(model.distribution_topic_document('discovery'))
-        LOGGER.info(model.probability_word())
+        logging.info(model.distribution_topic_document('discovery'))
+        logging.info(model.probability_word())
 
 
 if __name__ == "__main__":

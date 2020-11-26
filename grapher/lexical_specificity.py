@@ -9,10 +9,9 @@ from itertools import chain
 
 from ._phrase_constructor import PhraseConstructor
 
-LOGGER = logging.getLogger()
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-CACHE_DIR = './cache/lexical_specificity'
-__all__ = ('LexicalSpec', 'lexical_specificity')
+CACHE_DIR = './cache/priors/lexical_specificity'
+__all__ = ('LexSpec', 'lexical_specificity')
 
 
 def average(_list):
@@ -90,15 +89,15 @@ def lexical_specificity(T, t, f, k, lim: int = 400):
         return 0
 
 
-class LexicalSpec:
+class LexSpec:
     """ Lexical Specification based keyword extraction algorithm """
 
-    def __init__(self, language: str = 'en'):
+    def __init__(self, language: str = 'en', maximum_word_number: int = 3):
         self.__reference_corpus = None
         self.freq = None
         self.reference_corpus_size = 0
         self.prior_required = True
-        self.phrase_constructor = PhraseConstructor(language=language)
+        self.phrase_constructor = PhraseConstructor(language=language, maximum_word_number=maximum_word_number)
 
     def load(self, directory: str = None):
         """ load saved lda model and dictionary instance used to train the model """
@@ -108,7 +107,7 @@ class LexicalSpec:
         with open(path_to_dict, 'r') as f:
             self.freq = json.load(f)
         self.reference_corpus_size = sum(self.freq.values())
-        LOGGER.info('loaded frequency dictionary from {}'.format(path_to_dict))
+        logging.info('loaded frequency dictionary from {}'.format(path_to_dict))
 
     def train(self, data: list, export_directory: str = None):
         """ cache a dictionary {key: a word, value: occcurence of the word}
@@ -119,19 +118,19 @@ class LexicalSpec:
         """
         export_directory = CACHE_DIR if export_directory is None else export_directory
         # get stemmed token
-        stemmed_tokens = list(chain(*[self.phrase_constructor.tokenize_and_stem(d) for d in data]))
+        stemmed_tokens = list(chain(*map(lambda x: self.phrase_constructor.tokenize_and_stem(x), data)))
         self.freq = dict(Counter(stemmed_tokens))
         self.reference_corpus_size = sum(self.freq.values())
         with open("{}/lexical_specificity_frequency.json".format(export_directory), "w") as f:
             json.dump(self.freq, f)
-        LOGGER.info('compute frequency dictionary saved at {}'.format(export_directory))
+        logging.info('compute frequency dictionary saved at {}'.format(export_directory))
 
     @property
     def is_trained(self):
         return self.freq is not None
 
     def lexical_specificity(self, document: str):
-        phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
+        stemmed_tokens = self.phrase_constructor.tokenize_and_stem(document)
         sub_freq = dict(Counter(stemmed_tokens))
 
         # compute lexical specificity
@@ -141,7 +140,7 @@ class LexicalSpec:
             t=sub_corpus_size,
             f=self.freq[k],
             k=sub_freq[k]
-        ) for k in sub_freq.keys()}
+        ) for k in sub_freq.keys() if k in self.freq.keys()}
         return ls_dict
 
     def get_keywords(self, document: str, n_keywords: int = 10):
@@ -173,7 +172,7 @@ class LexicalSpec:
             t=sub_corpus_size,
             f=self.freq[k],
             k=sub_freq[k]
-        ) for k in sub_freq.keys()}
+        ) for k in sub_freq.keys() if k in self.freq.keys()}
 
         # aggregate score over individual word in a phrase
         def aggregate_prob(__phrase_key):

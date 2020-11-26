@@ -14,8 +14,7 @@ class TestGetDataset(unittest.TestCase):
     def test_get_benchmark_dataset(self):
         for i in VALID_DATASET_LIST:
             LOGGER.info('** {} **'.format(i))
-            tmp, flag_stemmed, language = get_benchmark_dataset(i)
-            LOGGER.info(flag_stemmed)
+            tmp, language = get_benchmark_dataset(i)
             LOGGER.info(language)
             for n, v in enumerate(tmp):
                 LOGGER.info('\n - {0}: \n * source: {1} \n * keywords: {2}'.format(v['id'], v['source'], v['keywords']))

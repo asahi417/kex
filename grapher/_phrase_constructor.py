@@ -1,19 +1,16 @@
-import re
+""" tokenizer/stemmer/PoS tagger/phrase constructor """
 from typing import List
+from itertools import chain
 
-import nltk
-import spacy
-from spacy.tokenizer import Tokenizer
-from spacy.util import compile_prefix_regex, compile_suffix_regex
-from nltk import SnowballStemmer
-from nltk.corpus import stopwords
+from segtok.segmenter import split_multi
+from segtok.tokenizer import web_tokenizer, split_contractions
+from nltk.stem.porter import PorterStemmer
+from nltk import pos_tag
 
-from ._tokenizer_ja import TokenizerJa
+from ._stopwords import get_stopwords_list
 
-nltk.download('stopwords')
 
 __all__ = 'PhraseConstructor'
-escaped_punctuation = {'-lrb-': '(', '-rrb-': ')', '-lsb-': '[', '-rsb-': ']', '-lcb-': '{', '-rcb-': '}'}
 
 
 class Phrase:
@@ -24,26 +21,22 @@ class Phrase:
         * pos: pos
         * stemmed: stemmed form
         * raw: list of raw phrase
-        * lemma: list of lemma
         * offset: offset
     Also exclude token in given stop word list.
     """
 
-    def __init__(self, join_without_space: bool = False, stopword: List = None):
+    def __init__(self, join_without_space: bool = False, maximum_word_number: int = None):
         """ Data structure for phrases, which follows regx [Adjective]*[Noun|proper noun]+
 
          Parameter
         -------------------
-        join_without_space: bool
-            join token without halfspace to construct a phrase (eg, Japanese)
-        add_verb: bool
-            add verb as a part of phrase
+        join_without_space: join token without halfspace to construct a phrase (eg, Japanese)
         """
 
         self.__content = dict()
         self.__initialize_list()
-        self.__join_without_space = join_without_space
-        self.__stopword = [] if stopword is None else stopword
+        self.__joiner = '' if join_without_space else ' '
+        self.__maximum_word_number = maximum_word_number
 
     @property
     def phrase(self):
@@ -66,53 +59,48 @@ class Phrase:
         offset: offset position
         """
 
-        def add_tmp_list():
-            # add to tmp list
+        def add_tmp_list():  # add to tmp list
             self.__tmp_phrase_raw.append(raw)
             self.__tmp_phrase_stemmed.append(stemmed)
             self.__tmp_phrase_pos.append(pos)
             self.__tmp_phrase_offset.append(offset)
 
-        if raw.lower() in self.__stopword or stemmed.lower() in self.__stopword:
-            pass
-        elif pos in ['ADJ']:
-            if 'NOUN' in self.__tmp_phrase_pos or 'PROPN' in self.__tmp_phrase_pos:
-                # finalize list of tokens as phrase if it's not in the stop phrase
+        if pos in ['ADJ']:
+            if 'NOUN' in self.__tmp_phrase_pos:  # finalize list of tokens as phrase if it's not in the stop phrase
                 self.__add_to_structure()
             add_tmp_list()
             return
-        elif pos in ['NOUN', 'PROPN']:
+        elif pos == 'NOUN':
             add_tmp_list()
             return
 
-        if 'NOUN' in self.__tmp_phrase_pos or 'PROPN' in self.__tmp_phrase_pos:
-            # finalize list of tokens as phrase
+        if 'NOUN' in self.__tmp_phrase_pos:  # finalize list of tokens as phrase
             self.__add_to_structure()
-        else:
-            # only adjective can't be regarded as phrase
+        else:  # only adjective can't be regarded as phrase
             self.__initialize_list()
         return
 
     def __add_to_structure(self):
         """ add to main dictionary and initialize tmp lists """
-        _join = '' if self.__join_without_space else ' '
+        if self.__maximum_word_number is not None and len(self.__tmp_phrase_stemmed) > self.__maximum_word_number:
+            self.__initialize_list()
+            return
+
         if len(self.__tmp_phrase_offset) == 1:
             offset = [self.__tmp_phrase_offset[0], self.__tmp_phrase_offset[0] + 1]
         else:
             offset = [self.__tmp_phrase_offset[0], self.__tmp_phrase_offset[-1]]
+
         # key of main dictionary
-        phrase_stemmed = _join.join(self.__tmp_phrase_stemmed)
+        phrase_stemmed = self.__joiner.join(self.__tmp_phrase_stemmed)
         if phrase_stemmed in self.__content.keys():
-            self.__content[phrase_stemmed]['raw'] += [_join.join(self.__tmp_phrase_raw)]
+            self.__content[phrase_stemmed]['raw'] += [self.__joiner.join(self.__tmp_phrase_raw)]
             self.__content[phrase_stemmed]['offset'] += [offset]
             self.__content[phrase_stemmed]['count'] += 1
         else:
             self.__content[phrase_stemmed] = dict(
-                stemmed=_join.join(self.__tmp_phrase_stemmed),
-                pos=' '.join(self.__tmp_phrase_pos),
-                raw=[_join.join(self.__tmp_phrase_raw)],
-                offset=[offset],
-                count=1)
+                stemmed=self.__joiner.join(self.__tmp_phrase_stemmed), pos=' '.join(self.__tmp_phrase_pos),
+                raw=[self.__joiner.join(self.__tmp_phrase_raw)], offset=[offset], count=1)
 
         # initialize tmp lists
         self.__initialize_list()
@@ -122,73 +110,47 @@ class Phrase:
 class PhraseConstructor:
     """ Phrase constructor to extract a list of phrase from given sentence based on `Phrase` class """
 
-    def __init__(self, language: str = 'en'):
+    def __init__(self, language: str = 'en', stopwords_list: List = None, maximum_word_number: int = None):
         """ Phrase constructor to extract a list of phrase from given sentence based on `Phrase` class
 
          Parameter
         ----------------------
         language: str
-            tokenization depends on Language
-        no_stemming: bool
-            no stemming is applied (True if the document is already stemmed)
+        stopwords_list: List
         """
-        # setup spacy nlp model
-        self.__language = language
+        self.__language = language.lower()[:2]
+        self.__stopwords = get_stopwords_list(self.__language, stopwords_list=stopwords_list)
+        self.__maximum_word_number = maximum_word_number
         if self.__language == 'en':
-            self.__spacy_processor = self.setup_spacy_processor()
-            self.__stemming = SnowballStemmer('english')
-            self.__tokenizer_ja = None
-            self.__stop_words = stopwords.words('english')
-        elif self.__language == 'ja':
-            self.__spacy_processor = None
-            self.__stemming = None
-            self.__stop_words = None
-            self.__tokenizer_ja = TokenizerJa()
+            self.__stemmer = PorterStemmer()
+            self.__pos_tagger = pos_tag
         else:
-            raise ValueError('undefined language (only en/ja are supported): {}'.format(language))
-
-    def preprocess(self, string: str):
-        if self.__language == 'en':
-            if string.lower() in escaped_punctuation.keys():
-                string = escaped_punctuation[string.lower()]
-        return string
+            raise ValueError('available only for English because of PoS tagger')
 
     @staticmethod
-    def setup_spacy_processor():
-        """ setup spacy tokenizer """
-        try:
-            spacy_processor = spacy.load('en_core_web_sm')
-        except OSError:
-            from spacy.cli import download
-            download('en_core_web_sm')
-            spacy_processor = spacy.load('en_core_web_sm')
+    def simplify_pos(_pos):
+        if _pos in ["NN", "NNS", "NNP", "NNPS"]:
+            return "NOUN"
+        elif _pos in ["JJ", "JJR", "JJS"]:
+            return "ADJ"
+        return "RANDOM"
 
-        def custom_tokenizer():
-            # avoid splitting by `-`: ex) `off-site apple store` -> ['off-site', 'apple', 'store']
-            # avoid splitting by `.`: ex) `U.S. and U.K.` -> ['U.S.', 'and', 'U.K.']
-            # infix_re = re.compile(r'''[.\,\?\:\;\...\‘\’\`\“\”\"\'~]''')
-            infix_re = re.compile(r'''[\,\?\:\;\‘\’\`\“\”\"\'~]''')
-            prefix_re = compile_prefix_regex(spacy_processor.Defaults.prefixes)
-            suffix_re = compile_suffix_regex(spacy_processor.Defaults.suffixes)
+    def tokenize_and_stem(self, document: str, apply_stopwords: bool = True):
+        _, stemmed, _ = self.preprocess(document)
+        if apply_stopwords:
+            return list(filter(lambda x: x.lower() not in self.__stopwords, stemmed))
+        return stemmed
 
-            return Tokenizer(spacy_processor.vocab,
-                             prefix_search=prefix_re.search,
-                             suffix_search=suffix_re.search,
-                             infix_finditer=infix_re.finditer,
-                             token_match=None)
-
-        spacy_processor.tokenizer = custom_tokenizer()
-        return spacy_processor
-
-    def tokenize_and_stem(self, document: str):
-        """ tokenization & stemming """
-        if self.__language == 'en':
-            return [self.__stemming.stem(self.preprocess(spacy_object.text))
-                    for spacy_object in self.__spacy_processor(document)]
-        elif self.__language == 'ja':
-            return [lemma for pos, lemma, raw in self.__tokenizer_ja.tokenize(document)]
-        else:
-            raise ValueError('undefined language: {}'.format(self.__language))
+    def preprocess(self, document: str, flatten_sentence: bool = True):
+        """ tokenization/stemming/PoS tagging """
+        sentence_token = [[
+            w for w in split_contractions(web_tokenizer(s)) if not (w.startswith("'") and len(w) > 1) and len(w) > 0
+        ] for s in list(split_multi(document)) if len(s.strip()) > 0]
+        stemmed = [list(map(lambda x: self.__stemmer.stem(x), words)) for words in sentence_token]
+        pos = [list(map(lambda x: self.simplify_pos(x[1]), pos_tag(words))) for words in sentence_token]
+        if flatten_sentence:
+            return list(chain(*sentence_token)), list(chain(*stemmed)), list(chain(*pos))
+        return sentence_token, stemmed, pos
 
     def tokenize_and_stem_and_phrase(self, document: str):
         """ tokenization & stemming & phrasing
@@ -201,21 +163,16 @@ class PhraseConstructor:
         ---------------------
         `Phrase.phrase` object, stemmed_token
         """
-        phrase_structure = Phrase(join_without_space=self.__language in ['ja'], stopword=self.__stop_words)
-        stemmed_tokens = []
+        sentence_token, stemmed, pos = self.preprocess(document)
+
+        # phraser instance
+        phrase_structure = Phrase(self.__language == 'ja', maximum_word_number=self.__maximum_word_number)
         n = 0
-        if self.__language == 'en':
-            for n, spacy_object in enumerate(self.__spacy_processor(document)):
-                raw = self.preprocess(spacy_object.text)
-                stem = self.__stemming.stem(raw)
-                stemmed_tokens.append(stem)
-                phrase_structure.add(raw=raw, stemmed=stem, pos=spacy_object.pos_, offset=n)
-        elif self.__language == 'ja':
-            for n, (_pos, _lemma, _raw) in enumerate(self.__tokenizer_ja.tokenize(document)):
-                stemmed_tokens.append(_lemma)
-                phrase_structure.add(raw=_raw, stemmed=_lemma, pos=_pos, offset=n)
-        else:
-            raise ValueError('undefined language: {}'.format(self.__language))
+        for n, (t, s, p) in enumerate(zip(sentence_token, stemmed, pos)):
+            if t.lower() not in self.__stopwords and s.lower() not in self.__stopwords:
+                phrase_structure.add(raw=t, stemmed=s, pos=p, offset=n)
+
         # to finalize the phrase in the end of sentence
         phrase_structure.add(raw='.', stemmed='.', pos='PUNCT', offset=n + 1)
-        return phrase_structure.phrase, stemmed_tokens
+
+        return phrase_structure.phrase, stemmed,

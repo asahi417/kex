@@ -7,9 +7,8 @@ from gensim import corpora
 
 from ._phrase_constructor import PhraseConstructor
 
-LOGGER = logging.getLogger()
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-CACHE_DIR = './cache/lda'
+CACHE_DIR = './cache/priors/lda'
 __all__ = 'LDA'
 
 
@@ -30,7 +29,7 @@ class LDA:
         assert os.path.exists(path_to_model), 'no model found: {}'.format(path_to_model)
         assert os.path.exists(path_to_dict), 'no dict found: {}'.format(path_to_dict)
 
-        LOGGER.info('loading model...')
+        logging.info('loading model...')
         self.__model = gensim.models.ldamodel.LdaModel.load(path_to_model)
         self.__dict = gensim.corpora.Dictionary.load_from_text(path_to_dict)
         self.__dict.id2token = dict([(v, k) for k, v in self.__dict.token2id.items()])
@@ -50,16 +49,16 @@ class LDA:
         data: list of document (list of string)
         num_topics: number of topic
         """
-        stemmed_tokens = [self.phrase_constructor.tokenize_and_stem(d) for d in data]
+        stemmed_tokens = list(map(lambda x: self.phrase_constructor.tokenize_and_stem(x), data))
         # build LDA model
-        LOGGER.info("building corpus...")
+        logging.info("building corpus...")
         self.__dict = corpora.Dictionary(stemmed_tokens)
         self.__dict.id2token = dict([(v, k) for k, v in self.__dict.token2id.items()])
         corpus = [self.__dict.doc2bow(text) for text in stemmed_tokens]
-        LOGGER.info("training model...")
+        logging.info("training model...")
         self.__model = gensim.models.ldamodel.LdaModel(
             corpus=corpus, num_topics=num_topics, id2word=self.__dict)
-        LOGGER.info("saving model and corpus at {}".format(export_directory))
+        logging.info("saving model and corpus at {}".format(export_directory))
         self.save(export_directory)
 
     def distribution_topic_document(self, document: str):

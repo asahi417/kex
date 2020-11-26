@@ -4,7 +4,6 @@ import logging
 
 from grapher import TFIDF, ExpandRank
 
-LOGGER = logging.getLogger()
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 TEST_DOCS = [
 """
@@ -98,7 +97,7 @@ class TestTFIDF(unittest.TestCase):
 
     def test_tfidf(self):
         model = TFIDF()
-        model.train(TEST_DOCS, export_directory='./cache/test_tfidf')
+        model.train(TEST_DOCS, export_directory='./cache/unittest/priors')
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \
                'discovery mechanisms to be deployed in grids Even though UDDI has been the de facto industry standard ' \
@@ -113,10 +112,10 @@ class TestTFIDF(unittest.TestCase):
                'distribution of UDDI registries thereby making UDDI more robust and also addressing its scaling ' \
                'issues. Furthermore, The DUDE architecture for scalable distribution can be applied beyond UDDI to ' \
                'any Grid Service Discovery mechanism.'
-        LOGGER.info(test)
+        logging.info(test)
         out = model.get_keywords(test, 3)
         for i in out:
-            LOGGER.info(i)
+            logging.info(i)
 
         # load
         model = TFIDF()
@@ -135,17 +134,17 @@ class TestTFIDF(unittest.TestCase):
                'distribution of UDDI registries thereby making UDDI more robust and also addressing its scaling ' \
                'issues. Furthermore, The DUDE architecture for scalable distribution can be applied beyond UDDI to ' \
                'any Grid Service Discovery mechanism.'
-        LOGGER.info(test)
+        logging.info(test)
         out = model.get_keywords(test, 3)
         for i in out:
-            LOGGER.info(i)
+            logging.info(i)
 
         dist = model.distribution_word(test)
-        LOGGER.info(dist)
+        logging.info(dist)
 
     def test_expand_rank(self):
         model = ExpandRank()
-        model.train(TEST_DOCS, export_directory='./cache/test_tfidf')
+        model.train(TEST_DOCS, export_directory='./cache/unittest/priors')
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \
                'discovery mechanisms to be deployed in grids Even though UDDI has been the de facto industry standard ' \
@@ -160,14 +159,14 @@ class TestTFIDF(unittest.TestCase):
                'distribution of UDDI registries thereby making UDDI more robust and also addressing its scaling ' \
                'issues. Furthermore, The DUDE architecture for scalable distribution can be applied beyond UDDI to ' \
                'any Grid Service Discovery mechanism.'
-        LOGGER.info(test)
+        logging.info(test)
         out = model.get_keywords(test, 3)
         for i in out:
-            LOGGER.info(i)
+            logging.info(i)
 
         # load
         model = ExpandRank()
-        model.load('./cache/test_tfidf')
+        model.load('./cache/unittest/priors')
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \
                'discovery mechanisms to be deployed in grids Even though UDDI has been the de facto industry standard ' \
@@ -182,10 +181,10 @@ class TestTFIDF(unittest.TestCase):
                'distribution of UDDI registries thereby making UDDI more robust and also addressing its scaling ' \
                'issues. Furthermore, The DUDE architecture for scalable distribution can be applied beyond UDDI to ' \
                'any Grid Service Discovery mechanism.'
-        LOGGER.info(test)
+        logging.info(test)
         out = model.get_keywords(test, 3)
         for i in out:
-            LOGGER.info(i)
+            logging.info(i)
 
 
 if __name__ == "__main__":

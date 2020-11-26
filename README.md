@@ -8,6 +8,7 @@
 
 *Grapher*, a quick python library to work on graph-based unsurpervised keyword extraction algorithms.
 
+
 ## Get Started
 Install via pip
 ```
@@ -24,11 +25,15 @@ pip install .
 
 ## Basic Usage
 *Grapher* retrieves keywords from a document with various graph-based algorithms:
-- [TextRank, Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
-- [SingleRank, Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
-- [TopicRank, Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
-- [PositionRank, Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
-- [MultipartiteRank, Boudin 18](https://arxiv.org/pdf/1803.08721.pdf)
+- `TFIDF`: a simple statistic baseline
+- `TextRank`: [Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
+- `SingleRank`: [Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
+- `TopicRank`: [Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
+- `PositionRank`: [Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
+- `MultipartiteRank`: [Boudin 18](https://arxiv.org/pdf/1803.08721.pdf)
+- `ExpandRank`: [Wan et al., 08](https://www.aaai.org/Papers/AAAI/2008/AAAI08-136.pdf)
+- `TopicalPageRank`: [Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
+- `SingleTPR`: [Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
 
 All the algorithms can be simply used as below.
 
@@ -65,57 +70,44 @@ of-the-art and recent unsupervised keyphrase extraction methods.
 ]
 ```
 
-### Algorithm with topic model prior
-You can also use algorithms with topic model prior:
-- [ExpandRank, Wan et al., 08](https://www.aaai.org/Papers/AAAI/2008/AAAI08-136.pdf)
-- [TopicalPageRank, Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
-- [SingleTopicalPageRank, Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
-
-Those require to perform LDA on a corpus beforehand to attain topic model prior, and then
-can be used in a same way once you've set the model. 
+### Algorithm with prior
+Algorithms with priors need to be trained beforehand (`TFIDF`, `ExpandRank`, `TopicalPageRank`, `SingleTPR`)
 ```python
 >>> import grapher
->>> model = grapher.TopicalPageRank()
->>> test_sentences = ['documentA', 'documentB', 'documentC']
->>> model.train(test_sentences)
->>> model.get_keywords('document to get keyword')
-``` 
-
-LDA files can be loaded on the fly from a checkpoint
-
-```python
->>> import grapher
->>> model = grapher.TopicalPageRank()
+>>> model = grapher.SingleTPR()
 >>> test_sentences = ['documentA', 'documentB', 'documentC']
 >>> model.train(test_sentences, export_directory='./tmp')
+``` 
+
+Priors are cached and can be loaded on the fly.
+
+```python
+>>> import grapher
+>>> model = grapher.SingleTPR()
 >>> model.load('./tmp')
 ```
 
 ### Supported Language
-Currently, all the algorithms can be used in either English `en` (default) or Japanese `ja`. All you need is to specify
-the language when construct any model instances. 
+Currently, all the algorithms are available in English, but soon will relax the constrain to allow other language support.
+The dependency is mainly due to the PoS tagger and the word stemmer.
 
-```python
->>> import grapher
->>> model = grapher.TopicRank(language='ja')
-```
+## Benchamrk
 
+We 
 
-### Benchamrk on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf)
-
-|         Model         | Prior |    F1 (P/R) @5    |    F1 (P/R) @10   |     F1 (P/R) @15    | approx time (sec) |
-|:---------------------:|:-----------------:|:-----------------:|:-----------------:|:-------------------:|:-----------------:|
-| TopicalPageRank | LDA | 0.059 (0.2/0.034) | 0.103 (0.2/0.069) | 0.136 (0.2/0.103) | 124.473|
-| SingleTopicalPageRank | LDA | 0.059 (0.2/0.034) | 0.103 (0.2/0.069) | 0.136 (0.2/0.103) | 63.909|
-| TopicRank | - | 0.118 (0.4/0.069) | 0.154 (0.3/0.103) | 0.182 (0.267/0.138) | 44.972|
-| PositionRank | - | 0.059 (0.2/0.034) | 0.154 (0.3/0.103) | 0.182 (0.267/0.138) | 28.133|
-| TFIDF | TFIDF | 0.058 (0.2/0.034) | 0.205 (0.4/0.138) | 0.318 (0.467/0.241) | 34.752|
-| LexicalSpec | Lexical Specification | 0.118 (0.4/0.069) | 0.154 (0.3/0.103) | 0.136 (0.2/0.103) | 17.88 |
-| SingleRank | - | 0.059 (0.2/0.034) | 0.103 (0.2/0.069) | 0.136 (0.2/0.103) | 24.02|
-| TextRank | - | 0.059 (0.2/0.034) | 0.103 (0.2/0.069) | 0.136 (0.2/0.103) | 23.375|
-| ExpandRank | TFIDF | 0.059 (0.2/0.034) | 0.103 (0.2/0.069) | 0.136 (0.2/0.103) | 64.131|
-| MultipartiteRank | - | 0.118 (0.4/0.069) | 0.154 (0.3/0.103) | 0.182 (0.267/0.138) | 2101.312|
-| LexRank | Lexical Specification | 0.059 (0.2/0.034) | 0.103 (0.2/0.069) | 0.136 (0.2/0.103) | 64.131|
+|dataset     |singlerank         |expandrank         |positionrank       |singletpr          |textrank           |lexrank            |lexspec            |topicrank          |tfidf              |
+|------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
+|pubmed      |0.049 (0.066/0.039)|0.038 (0.052/0.031)|0.046 (0.062/0.037)|0.044 (0.059/0.035)|0.051 (0.069/0.041)|0.039 (0.053/0.031)|0.033 (0.044/0.026)|0.032 (0.043/0.026)|0.028 (0.038/0.022)|
+|inspec      |0.195 (0.235/0.166)|0.184 (0.222/0.158)|0.179 (0.216/0.153)|0.167 (0.201/0.142)|0.194 (0.233/0.165)|0.182 (0.219/0.155)|0.169 (0.204/0.144)|0.151 (0.182/0.129)|0.171 (0.206/0.146)|
+|nguyen2007  |0.094 (0.103/0.086)|0.101 (0.111/0.093)|0.121 (0.133/0.111)|0.085 (0.093/0.078)|0.07 (0.078/0.065) |0.104 (0.114/0.095)|0.093 (0.102/0.085)|0.083 (0.091/0.076)|0.082 (0.09/0.075) |
+|wiki20      |0.048 (0.11/0.031) |0.057 (0.13/0.037) |0.046 (0.105/0.03) |0.051 (0.115/0.032)|0.026 (0.06/0.017) |0.053 (0.12/0.034) |0.044 (0.1/0.028)  |0.051 (0.115/0.032)|0.051 (0.115/0.032)|
+|krapivin2009|0.076 (0.058/0.109)|0.076 (0.059/0.11) |0.114 (0.088/0.164)|0.073 (0.056/0.105)|0.053 (0.041/0.077)|0.077 (0.059/0.11) |0.065 (0.05/0.094) |0.065 (0.05/0.093) |0.056 (0.043/0.081)|
+|kdd         |0.046 (0.032/0.079)|0.048 (0.034/0.082)|0.048 (0.034/0.083)|0.043 (0.03/0.074) |0.044 (0.031/0.076)|0.048 (0.034/0.082)|0.045 (0.032/0.077)|0.033 (0.023/0.057)|0.047 (0.033/0.081)|
+|semeval2010 |0.08 (0.102/0.066) |0.077 (0.099/0.063)|0.112 (0.143/0.092)|0.072 (0.092/0.059)|0.06 (0.077/0.049) |0.08 (0.103/0.066) |0.067 (0.086/0.055)|0.083 (0.106/0.068)|0.064 (0.082/0.053)|
+|fao780      |0.088 (0.079/0.099)|0.083 (0.074/0.093)|0.082 (0.073/0.092)|0.089 (0.08/0.1)   |0.081 (0.072/0.091)|0.083 (0.074/0.093)|0.071 (0.064/0.08) |0.054 (0.049/0.061)|0.061 (0.055/0.069)|
+|fao30       |0.098 (0.207/0.064)|0.082 (0.173/0.054)|0.09 (0.19/0.059)  |0.101 (0.213/0.066)|0.087 (0.183/0.057)|0.084 (0.177/0.055)|0.065 (0.137/0.042)|0.047 (0.1/0.031)  |0.057 (0.12/0.037) |
+|semeval2017 |0.23 (0.317/0.18)  |0.227 (0.314/0.178)|0.214 (0.295/0.168)|0.186 (0.257/0.146)|0.228 (0.314/0.179)|0.224 (0.309/0.176)|0.222 (0.306/0.174)|0.173 (0.238/0.135)|0.225 (0.31/0.176) |
+|citeulike180|0.106 (0.145/0.083)|0.097 (0.133/0.077)|0.106 (0.145/0.083)|0.114 (0.156/0.09) |0.102 (0.139/0.08) |0.096 (0.131/0.075)|0.078 (0.107/0.061)|0.058 (0.079/0.045)|0.066 (0.091/0.052)|
 
 
 Benchmark on [SemEval-2010](https://www.aclweb.org/anthology/S10-1004.pdf) dataset processed by 

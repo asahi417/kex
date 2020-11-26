@@ -1,11 +1,11 @@
-from .graph_text_rank import TextRank, SingleRank, PositionRank
-from .graph_text_rank_expand import ExpandRank
-from .graph_text_rank_tpr import TopicalPageRank, SingleTopicalPageRank
+from .graph_text_rank import TextRank, SingleRank, PositionRank, ExpandRank, LexRank, SingleTPR
+from .graph_tpr import TopicalPageRank
 from .graph_topic_rank import TopicRank
-from .graph_topic_rank_multipartite import MultipartiteRank
+from .graph_multipartite_rank import MultipartiteRank
 from .tfidf import TFIDF
-from .get_dataset import get_benchmark_dataset, VALID_DATASET_LIST
+from .lexical_specificity import LexSpec
 from .lda import LDA
+from ._get_dataset import get_benchmark_dataset, VALID_DATASET_LIST
 from ._phrase_constructor import PhraseConstructor
-from .lexical_specificity import LexicalSpec
-from .graph_text_rank_lexical import LexRank
+from ._auto_algorithm import AutoAlgorithm, VALID_ALGORITHMS
+from ._stopwords import get_stopwords_list

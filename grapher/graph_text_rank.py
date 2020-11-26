@@ -1,15 +1,21 @@
 """ Implementation of basic TextRank variants
  * TextRank: Undirected Unweighted Graph
  * SingleRank: Undirected Weighted Graph (weight is co-occurrence)
- * PositionRank: Undirected Weighted Graph (weight is the offset)
- """
+ * PositionRank: Undirected Weighted Graph (weight is co-occurrence, bias is offset)
+ * ExpandRank: Undirected Weighted Graph (weight is co-occurrence, bias is TFIDF word probability)
+ * LexRank: Undirected Weighted Graph (weight is co-occurrence, bias is lexical specificity)
+ * SingleTPR: Directed Weighted Graph (weight is co-occurrence, bias is LDA topic x word distribution)
+"""
+import numpy as np
 import networkx as nx
 from itertools import chain
 
-import numpy as np
 from ._phrase_constructor import PhraseConstructor
+from .tfidf import TFIDF
+from .lda import LDA
+from .lexical_specificity import LexSpec
 
-__all__ = ('TextRank', 'SingleRank', 'PositionRank')
+__all__ = ('TextRank', 'SingleRank', 'PositionRank', 'ExpandRank', 'SingleTPR', 'LexRank')
 
 
 class TextRank:
@@ -29,7 +35,12 @@ class TextRank:
     >>> model.get_keywords(sample)
     """
 
-    def __init__(self, language: str = 'en', window_size: int = 10, random_prob: float = 0.85, tol: float = 0.0001):
+    def __init__(self,
+                 language: str = 'en',
+                 window_size: int = 2,
+                 random_prob: float = 0.85,
+                 maximum_word_number: int = 3,
+                 tol: float = 0.0001):
         """ TextRank
 
          Parameter
@@ -47,10 +58,15 @@ class TextRank:
         self.__random_prob = random_prob
         self.__tol = tol
 
-        self.phrase_constructor = PhraseConstructor(language=language)
+        self.phrase_constructor = PhraseConstructor(language=language, maximum_word_number=maximum_word_number)
         self.weighted_graph = False
         self.direct_graph = False
         self.prior_required = False
+        self.normalize = True
+        self.page_rank_bias_type = None
+        self.tfidf = None
+        self.lexical = None
+        self.lda = None
 
     def get_keywords(self, document: str, n_keywords: int = 10):
         """ Get keywords
@@ -69,15 +85,18 @@ class TextRank:
         if output is None:
             return []
 
-        graph, phrase_instance, original_sentence_token_size = output
-        node_score = self.run_pagerank(graph)
+        graph, phrase_instance, original_sentence_token_size, bias = output
+        node_score = self.run_pagerank(graph, personalization=bias)
 
         # combine score to get score of phrase
         phrase_score = [
-            (candidate_phrase_stemmed_form, sum(node_score[t] for t in candidate_phrase_stemmed_form.split()))
-            for candidate_phrase_stemmed_form in phrase_instance.keys()
+            (
+                candidate_phrase_stemmed_form,
+                sum(node_score[t] for t in candidate_phrase_stemmed_form.split())
+                / len(candidate_phrase_stemmed_form.split())  # - v['offset'][0][0] * 1e-8
+                if self.normalize else sum(node_score[t] for t in candidate_phrase_stemmed_form.split())
+            ) for candidate_phrase_stemmed_form, v in phrase_instance.items()
         ]
-
         # sorting
         phrase_score_sorted_list = sorted(phrase_score, key=lambda key_value: key_value[1], reverse=True)
         count_valid = min(n_keywords, len(phrase_score_sorted_list))
@@ -129,98 +148,156 @@ class TextRank:
         graph.add_nodes_from(unique_tokens_in_candidate)
 
         # add edges
-        for position, __start_node in enumerate(stemmed_tokens[:-self.__window_size]):
+        for position, __start_node in enumerate(stemmed_tokens):
 
             # ignore invalid token
             if __start_node not in unique_tokens_in_candidate:
                 continue
 
-            for __position in range(position, position + self.__window_size):
+            for __position in range(position, min(position + self.__window_size, len(stemmed_tokens))):
                 __end_node = stemmed_tokens[__position]
 
                 # ignore invalid token
                 if __end_node not in unique_tokens_in_candidate:
                     continue
 
-                if not graph.has_edge(__start_node, __end_node):
-                    graph.add_edge(__start_node, __end_node, weight=1.0)
-                else:
-                    if self.weighted_graph:
-                        # SingleRank employ weight as the co-occurrence times
-                        graph[__start_node][__end_node]['weight'] += 1.0
+                if __start_node == __end_node:
+                    continue
 
-        return graph, phrase_instance, len(stemmed_tokens)
+                if not graph.has_edge(__start_node, __end_node):
+                    if self.weighted_graph:
+                        graph.add_edge(__start_node, __end_node, weight=0.0)
+                    else:
+                        graph.add_edge(__start_node, __end_node)
+
+                if self.weighted_graph:
+                    # SingleRank employ weight as the co-occurrence times
+                    graph[__start_node][__end_node]['weight'] += 1.0
+        if self.page_rank_bias_type == 'position_rank':
+            bias = {}
+            for n, s in enumerate(stemmed_tokens):
+                if s not in unique_tokens_in_candidate:
+                    continue
+                if s not in bias.keys():
+                    bias[s] = 1 / (1 + n)
+                else:
+                    bias[s] += 1 / (1 + n)
+            norm = sum(bias.values())
+            bias = {k: v/norm for k, v in bias.items()}
+        elif self.page_rank_bias_type == 'lda':
+            # pagerank to get score for individual word (sum of score will be one)
+            word_matrix = self.lda.probability_word()  # topic size x vocab
+            topic_dist = self.lda.distribution_topic_document(document)
+            topic_vector = np.array([i for t, i in topic_dist])  # topic size
+
+            # single TPR
+            vocab = self.lda.dictionary.token2id
+
+            def norm_inner(a, b):
+                return np.sum(a * b) / (np.sqrt(np.sum(a * a) + np.sum(b * b)) + 1e-7)
+
+            bias = dict()
+            for word in unique_tokens_in_candidate:
+                if word in vocab.keys():
+                    word_id = vocab[word]
+                    word_vector = word_matrix[:, word_id]
+                    bias[word] = norm_inner(word_vector, topic_vector)
+                else:
+                    bias[word] = 0.0
+
+            # normalize the topical word importance of words
+            norm = sum(bias.values())
+            bias = {k: v / norm for k, v in bias.items()}
+        elif self.page_rank_bias_type in ['tfidf', 'lex_spec']:
+            if self.page_rank_bias_type == 'tfidf':
+                dist_word = self.tfidf.distribution_word(document)
+            else:
+                dist_word = self.lexical.lexical_specificity(document)
+            bias = {word: dist_word[word] if word in dist_word.keys() else 0.0 for word in unique_tokens_in_candidate}
+            norm = sum(bias.values())
+            bias = {k: v / norm for k, v in bias.items()}
+        else:
+            bias = None
+        return graph, phrase_instance, len(stemmed_tokens), bias
 
     def run_pagerank(self, graph, personalization=None):
         if personalization:
             return nx.pagerank(
                 G=graph, alpha=self.__random_prob, tol=self.__tol, weight='weight', personalization=personalization)
         else:
-            return nx.pagerank(G=graph, alpha=self.__random_prob, tol=self.__tol, weight='weight')
+            return nx.pagerank_scipy(G=graph, alpha=self.__random_prob, tol=self.__tol, weight='weight')
 
 
 class SingleRank(TextRank):
     """ SingleRank """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, window_size: int = 2, *args, **kwargs):
         """ SingleRank """
-
-        super(SingleRank, self).__init__(*args, **kwargs)
+        super(SingleRank, self).__init__(window_size=window_size, *args, **kwargs)
         self.weighted_graph = True
 
 
 class PositionRank(TextRank):
     """ PositionRank """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, window_size: int = 2, *args, **kwargs):
         """ PositionRank """
-        super(PositionRank, self).__init__(*args, **kwargs)
+        super(PositionRank, self).__init__(window_size=window_size, *args, **kwargs)
         self.weighted_graph = True
+        self.page_rank_bias_type = 'position_rank'
 
-    def get_keywords(self, document: str, n_keywords: int = 10):
-        """ Get keywords
 
-         Parameter
-        ------------------
-        document: str
-        n_keywords: int
+class ExpandRank(TextRank):
+    """ ExpandRank """
 
-         Return
-        ------------------
-        a list of keywords with score eg) [('aa', 0.5), ('b', 0.3), ..]
-        """
-        # make graph and get data structure for candidate phrase
-        output = self.build_graph(document)
-        if output is None:
-            return []
+    def __init__(self, language: str = 'en', *args, **kwargs):
+        """ ExpandRank """
+        super(ExpandRank, self).__init__(language=language, *args, **kwargs)
+        self.tfidf = TFIDF(language=language)
+        self.weighted_graph = True
+        self.prior_required = True
+        self.page_rank_bias_type = 'tfidf'
 
-        graph, phrase_instance, original_sentence_token_size = output
+    def load(self, directory: str = None):
+        self.tfidf.load(directory)
 
-        # calculate bias
-        normalizer = np.sum([np.sum([1/(1+s) for s, _ in v['offset']]) for v in phrase_instance.values()])
-        bias = dict([
-            (k, np.sum([1 / (1 + s) for s, _ in v['offset']]) / normalizer) for k, v in phrase_instance.items()
-        ])
+    def train(self, data: list, export_directory: str = None):
+        self.tfidf.train(data, export_directory=export_directory)
 
-        # pagerank to get score for individual word (sum of score will be one)
-        node_score = self.run_pagerank(graph, bias)
 
-        # combine score to get score of phrase
-        phrase_score = [
-            (candidate_phrase_stemmed_form, sum(node_score[t] for t in candidate_phrase_stemmed_form.split()))
-            for candidate_phrase_stemmed_form in phrase_instance.keys()
-        ]
+class LexRank(TextRank):
+    """ LexRank """
 
-        # sorting
-        phrase_score_sorted_list = sorted(phrase_score, key=lambda key_value: key_value[1], reverse=True)
-        count_valid = min(n_keywords, len(phrase_score_sorted_list))
+    def __init__(self, language: str = 'en', *args, **kwargs):
+        """ LexRank """
+        super(LexRank, self).__init__(language=language, *args, **kwargs)
+        self.lexical = LexSpec(language=language)
+        self.weighted_graph = True
+        self.prior_required = True
+        self.page_rank_bias_type = 'lex_spec'
 
-        def modify_output(stem, score):
-            tmp = phrase_instance[stem]
-            tmp['score'] = score
-            tmp['n_source_tokens'] = original_sentence_token_size
-            return tmp
+    def load(self, directory: str = None):
+        self.lexical.load(directory)
 
-        val = [modify_output(stem, score) for stem, score in phrase_score_sorted_list[:count_valid]]
-        return val
+    def train(self, data: list, export_directory: str = None):
+        self.lexical.train(data, export_directory=export_directory)
 
+
+class SingleTPR(TextRank):
+    """ Single TopicalPageRank """
+
+    def __init__(self, language: str = 'en', *args, **kwargs):
+        """ Single TopicalPageRank """
+
+        super(SingleTPR, self).__init__(language=language, *args, **kwargs)
+        self.lda = LDA(language=language)
+        self.directed_graph = True
+        self.weighted_graph = True
+        self.prior_required = True
+        self.page_rank_bias_type = 'lda'
+
+    def load(self, directory: str = None):
+        self.lda.load(directory)
+
+    def train(self, data: list, export_directory: str = None, num_topics: int = 15):
+        self.lda.train(data, export_directory=export_directory, num_topics=num_topics)
