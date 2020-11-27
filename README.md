@@ -31,12 +31,12 @@ pip install .
 - `TFIDF`: a simple statistic baseline
 - `TextRank`: [Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
 - `SingleRank`: [Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
-- `TopicRank`: [Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
-- `PositionRank`: [Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
-- `MultipartiteRank`: [Boudin 18](https://arxiv.org/pdf/1803.08721.pdf)
 - `ExpandRank`: [Wan et al., 08](https://www.aaai.org/Papers/AAAI/2008/AAAI08-136.pdf)
 - `TopicalPageRank`: [Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
+- `TopicRank`: [Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
 - `SingleTPR`: [Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
+- `PositionRank`: [Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
+- `MultipartiteRank`: [Boudin 18](https://arxiv.org/pdf/1803.08721.pdf)
 
 Basic usage:
 
