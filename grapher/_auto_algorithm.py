@@ -3,7 +3,7 @@ import grapher
 VALID_ALGORITHMS = [
     'TopicRank', 'TextRank', 'SingleRank', 'LexSpec', 'PositionRank', 'TFIDF',
     'LexRank', 'ExpandRank', 'SingleTPR', 'FirstN'
-    # 'TopicalPageRank', 'SingleTopicalPageRank', 'MultipartiteRank',
+    # 'TopicalPageRank', 'MultipartiteRank',
 ]
 
 
