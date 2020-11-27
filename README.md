@@ -133,6 +133,6 @@ Please take a look the result below:
 - [***top 5***](./benchmark/full-result.5.csv)
 - [***top 10***](./benchmark/full-result.10.csv) 
 - [***top 15***](./benchmark/full-result.15.csv)
-- [***complexity***](./benchmark/full-result.time.csv). 
+- [***complexity***](./benchmark/full-result.time.csv) 
 
 To benchmark [custom algorithm](#implement-custom-method-with-grapher), see [the other script](./examples/benchmark_custom_model.py).
