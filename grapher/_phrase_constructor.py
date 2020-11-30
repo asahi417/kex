@@ -3,6 +3,7 @@ import re
 from typing import List
 from itertools import chain
 
+import nltk
 from segtok.segmenter import split_multi
 from segtok.tokenizer import web_tokenizer, split_contractions
 from nltk.stem.porter import PorterStemmer
@@ -12,6 +13,7 @@ from ._stopwords import get_stopwords_list
 
 
 __all__ = 'PhraseConstructor'
+nltk.download('averaged_perceptron_tagger')
 
 
 class Phrase:
