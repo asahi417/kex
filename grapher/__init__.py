@@ -6,7 +6,7 @@ from .graph_multipartite_rank import MultipartiteRank
 from .tfidf import TFIDF
 from .lexical_specificity import LexSpec
 from .lda import LDA
-from ._get_dataset import get_benchmark_dataset, VALID_DATASET_LIST
+from ._get_dataset import get_benchmark_dataset, VALID_DATASET_LIST, get_statistics
 from ._phrase_constructor import PhraseConstructor
 from ._auto_algorithm import AutoAlgorithm, VALID_ALGORITHMS
 from ._stopwords import get_stopwords_list

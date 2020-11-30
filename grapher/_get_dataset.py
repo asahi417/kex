@@ -1,19 +1,18 @@
 import os
 import re
-from itertools import chain
 from glob import glob
 
-# from ._phrase_constructor import PhraseConstructor
+from ._phrase_constructor import PhraseConstructor
 from nltk.stem.porter import PorterStemmer  # only for English
 
 STEMMER = PorterStemmer()
 VALID_DATASET_LIST = [
-    # "110-PT-BN-KP", "cacic", "pak2018", "WikiNews"
+    # "110-PT-BN-KP", "cacic", "pak2018", "WikiNews", "wicc"
     "citeulike180", "fao30", "fao780", "Inspec", "kdd", "Krapivin2009", "Nguyen2007", "PubMed", "Schutz2008",
-    "SemEval2010", "SemEval2017", "theses100", "wicc", "wiki20", "www", "500N-KPCrowd-v1.1"
+    "SemEval2010", "SemEval2017", "theses100", "wiki20", "www", "500N-KPCrowd-v1.1"
 ]
 
-__all__ = ('get_benchmark_dataset', "VALID_DATASET_LIST")
+__all__ = ('get_benchmark_dataset', "VALID_DATASET_LIST", "get_statistics")
 
 
 def preprocess_source(string):
@@ -69,12 +68,41 @@ def get_benchmark_dataset(
             os.system("unzip {0}/{1}.zip -d {0}/".format(cache_dir, data))
     if not os.path.exists("{}/{}".format(cache_dir, data)):
         raise ValueError('data `{}` is not in the list {}'.format(data, url))
-    language = open("{}/{}/language.txt".format(cache_dir, data)).read().replace('\n', '')
+
+    def safe_open(_file):
+        with open(_file, 'r') as f:
+            return f.read()
+
+    language = safe_open("{}/{}/language.txt".format(cache_dir, data)).replace('\n', '')
     answer_dict = [{
         "keywords":
-            split_for_keywords(open(
-                "{}/{}/keys/{}.key".format(cache_dir, data, '.txt'.join(os.path.basename(t).split('.txt')[:-1])), 'r'
-            ).read()),
-        "source": preprocess_source(open(t, 'r').read()),
+            split_for_keywords(safe_open(
+                "{}/{}/keys/{}.key".format(cache_dir, data, '.txt'.join(os.path.basename(t).split('.txt')[:-1])))),
+        "source": preprocess_source(safe_open(t)),
         "id": os.path.basename(t)} for t in glob("{}/{}/docsutf8/*.txt".format(cache_dir, data))]
     return answer_dict, language
+
+
+def get_statistics(keywords, source):
+    """Data level feature (per entry):
+    - # gold label
+    - # word (raw/no stopword)
+    - # candidate
+    - # unique word (raw/no stopword)
+    - # mean/std of word distribution (raw/no stopword)
+
+    """
+    phraser = PhraseConstructor()
+    phrase, _ = phraser.tokenize_and_stem_and_phrase(source)
+    out = {"n_phrase": len(phrase), "n_label": len(keywords)}
+
+    for i in [True, False]:
+        sufix = '' if i else '_with_stopword'
+        tokens = phraser.tokenize_and_stem(source, apply_stopwords=i)
+        out['n_word{}'.format(sufix)] = len(tokens)
+        dist = list(map(lambda x: sum(map(lambda y: y == x, tokens)), set(tokens)))
+        out['n_unique_word{}'.format(sufix)] = len(dist)
+        out['mean{}'.format(sufix)] = sum(dist) / len(dist)
+        out['std{}'.format(sufix)] = (sum(map(lambda x: (x - sum(dist) / len(dist)) ** 2, dist)) / len(dist)) ** 0.5
+
+    return out

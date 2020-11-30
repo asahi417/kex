@@ -1,4 +1,5 @@
 """ tokenizer/stemmer/PoS tagger/phrase constructor """
+import re
 from typing import List
 from itertools import chain
 
@@ -25,7 +26,8 @@ class Phrase:
     Also exclude token in given stop word list.
     """
 
-    def __init__(self, join_without_space: bool = False, maximum_word_number: int = None):
+    def __init__(self, join_without_space: bool = False, maximum_word_number: int = None,
+                 maximum_char_number: int = None):
         """ Data structure for phrases, which follows regx [Adjective]*[Noun|proper noun]+
 
          Parameter
@@ -37,6 +39,7 @@ class Phrase:
         self.__initialize_list()
         self.__joiner = '' if join_without_space else ' '
         self.__maximum_word_number = maximum_word_number
+        self.__maximum_char_number = maximum_char_number
 
     @property
     def phrase(self):
@@ -65,14 +68,16 @@ class Phrase:
             self.__tmp_phrase_pos.append(pos)
             self.__tmp_phrase_offset.append(offset)
 
-        if pos in ['ADJ']:
-            if 'NOUN' in self.__tmp_phrase_pos:  # finalize list of tokens as phrase if it's not in the stop phrase
-                self.__add_to_structure()
-            add_tmp_list()
-            return
-        elif pos == 'NOUN':
-            add_tmp_list()
-            return
+        # phrase with more symbol than alphanumeric should be ignored
+        if len(re.sub(r'\w', '', stemmed)) <= len(re.sub(r'\W', '', stemmed)):
+            if pos in ['ADJ']:
+                if 'NOUN' in self.__tmp_phrase_pos:  # finalize list of tokens as phrase if it's not in the stop phrase
+                    self.__add_to_structure()
+                add_tmp_list()
+                return
+            elif pos == 'NOUN':
+                add_tmp_list()
+                return
 
         if 'NOUN' in self.__tmp_phrase_pos:  # finalize list of tokens as phrase
             self.__add_to_structure()
@@ -82,7 +87,10 @@ class Phrase:
 
     def __add_to_structure(self):
         """ add to main dictionary and initialize tmp lists """
-        if self.__maximum_word_number is not None and len(self.__tmp_phrase_stemmed) > self.__maximum_word_number:
+        phrase_stemmed = self.__joiner.join(self.__tmp_phrase_stemmed)
+        # too many words or too long character should be ignored
+        if (self.__maximum_word_number and len(self.__tmp_phrase_stemmed) > self.__maximum_word_number) or \
+                (self.__maximum_char_number and len(phrase_stemmed) > self.__maximum_char_number):
             self.__initialize_list()
             return
 
@@ -92,7 +100,6 @@ class Phrase:
             offset = [self.__tmp_phrase_offset[0], self.__tmp_phrase_offset[-1]]
 
         # key of main dictionary
-        phrase_stemmed = self.__joiner.join(self.__tmp_phrase_stemmed)
         if phrase_stemmed in self.__content.keys():
             self.__content[phrase_stemmed]['raw'] += [self.__joiner.join(self.__tmp_phrase_raw)]
             self.__content[phrase_stemmed]['offset'] += [offset]
@@ -110,7 +117,8 @@ class Phrase:
 class PhraseConstructor:
     """ Phrase constructor to extract a list of phrase from given sentence based on `Phrase` class """
 
-    def __init__(self, language: str = 'en', stopwords_list: List = None, maximum_word_number: int = None):
+    def __init__(self, language: str = 'en', stopwords_list: List = None, maximum_word_number: int = 3,
+                 maximum_char_number: int = 50):
         """ Phrase constructor to extract a list of phrase from given sentence based on `Phrase` class
 
          Parameter
@@ -121,6 +129,7 @@ class PhraseConstructor:
         self.__language = language.lower()[:2]
         self.__stopwords = get_stopwords_list(self.__language, stopwords_list=stopwords_list)
         self.__maximum_word_number = maximum_word_number
+        self.__maximum_char_number = maximum_char_number
         if self.__language == 'en':
             self.__stemmer = PorterStemmer()
             self.__pos_tagger = pos_tag
@@ -166,7 +175,10 @@ class PhraseConstructor:
         sentence_token, stemmed, pos = self.preprocess(document)
 
         # phraser instance
-        phrase_structure = Phrase(self.__language == 'ja', maximum_word_number=self.__maximum_word_number)
+
+        phrase_structure = Phrase(self.__language == 'ja',
+                                  maximum_word_number=self.__maximum_word_number,
+                                  maximum_char_number=self.__maximum_char_number)
         n = 0
         for n, (t, s, p) in enumerate(zip(sentence_token, stemmed, pos)):
             if t.lower() not in self.__stopwords and s.lower() not in self.__stopwords:
@@ -176,3 +188,10 @@ class PhraseConstructor:
         phrase_structure.add(raw='.', stemmed='.', pos='PUNCT', offset=n + 1)
 
         return phrase_structure.phrase, stemmed,
+
+    def force_reset_stopwords(self):
+        self.__stopwords = []
+
+    @property
+    def stopwords(self):
+        return self.__stopwords

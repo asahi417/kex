@@ -13,22 +13,22 @@ import grapher
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')  # should be right after import logging
 
 
-def view_result(export_dir: str):
+def view_result(_export_dir: str):
     d = 2
-    all_data = list(set('.'.join(os.path.basename(i).split('.')[:-2]) for i in glob('{}/*.json'.format(export_dir))))
-    all_algorithm = list(set(os.path.basename(i).split('.')[-2] for i in glob('{}/*.json'.format(export_dir))))
+    all_data = list(set('.'.join(os.path.basename(i).split('.')[:-2]) for i in glob('{}/*.json'.format(_export_dir))))
+    all_algorithm = list(set(os.path.basename(i).split('.')[-2] for i in glob('{}/*.json'.format(_export_dir))))
     df = {i: pd.DataFrame(index=all_data, columns=all_algorithm) for i in ['5', '10', '15', 'time']}
-    for i in glob('{}/*.json'.format(export_dir)):
+    for i in glob('{}/*.json'.format(_export_dir)):
         algorithm = i.split('.')[-2]
-        data_name = '.'.join(os.path.basename(i).split('.')[:-2])
+        _data_name = '.'.join(os.path.basename(i).split('.')[:-2])
         tmp = json.load(open(i))
-        for n in ['5', '10', '15']:
-            df[n][algorithm][data_name] = "{0} ({1}/{2})".format(
-                round(tmp['top_{}'.format(n)]['f_1'] * 100, d),
-                round(tmp['top_{}'.format(n)]['mean_precision'] * 100, d),
-                round(tmp['top_{}'.format(n)]['mean_recall'] * 100, d))
+        for _n in ['5', '10', '15']:
+            df[_n][algorithm][_data_name] = "{0} ({1}/{2})".format(
+                round(tmp['top_{}'.format(_n)]['f_1'] * 100, d),
+                round(tmp['top_{}'.format(_n)]['mean_precision'] * 100, d),
+                round(tmp['top_{}'.format(_n)]['mean_recall'] * 100, d))
 
-        df['time'][algorithm][data_name] = str(round(tmp['process_time_second'], d))
+        df['time'][algorithm][_data_name] = str(round(tmp['process_time_second'], d))
     return df
 
 
@@ -59,6 +59,8 @@ if __name__ == '__main__':
 
         # load model
         for algorithm_name in algorithm_list:
+            df_prediction = pd.DataFrame(
+                index=['keywords_gold', 'keywords_predict', 'score', 'precision_5', 'precision_10', 'precision_15'])
             model = grapher.AutoAlgorithm(algorithm_name, language=language)
             logging.info('Benchmark')
             logging.info(' - algorithm: {}\n - data: {}'.format(algorithm_name, data_name))
@@ -77,19 +79,22 @@ if __name__ == '__main__':
             fp = {"5": 0, "10": 0, "15": 0}
 
             start = time()
-            for v in tqdm(data):
+            for n, v in enumerate(tqdm(data)):
                 source = v['source']
                 gold_keys = v['keywords']   # already stemmed
                 # inference
                 keys = model.get_keywords(source, n_keywords=15)
                 keys_stemmed = [k['stemmed'] for k in keys]
 
+                pred_placeholder = [
+                    '||'.join(gold_keys), '||'.join(keys_stemmed), '||'.join([str(round(k['score'], 3)) for k in keys])]
                 for i in [5, 10, 15]:
                     positive_answers = list(set(keys_stemmed[:i]).intersection(set(gold_keys)))
                     tp[str(i)] += len(positive_answers)
                     fn[str(i)] += len(gold_keys) - len(positive_answers)
                     fp[str(i)] += i - len(positive_answers)
-
+                    pred_placeholder.append(len(positive_answers)/i)
+                df_prediction[n] = pred_placeholder
             elapsed = time() - start
 
             # result summary: micro F1 score
@@ -101,10 +106,13 @@ if __name__ == '__main__':
                 result_json['top_{}'.format(i)] = {"mean_recall": recall, "mean_precision": precision, "f_1": f1}
 
             # export as a json
-            os.makedirs(opt.export, exist_ok=True)
-            export = os.path.join(opt.export, '{}.{}.json'.format(data_name.lower(), algorithm_name.lower()))
-            with open(export, 'w') as f:
+            export_dir = os.path.join(opt.export, data_name)
+            os.makedirs(export_dir, exist_ok=True)
+            with open(os.path.join(export_dir, 'accuracy.{}.json'.format(algorithm_name)), 'w') as f:
                 json.dump(result_json, f)
-            logging.info(' - result exported to {}'.format(export))
             logging.info(json.dumps(result_json, indent=4, sort_keys=True))
 
+            # export prediction as a csv
+            df_prediction.T.to_csv(os.path.join(export_dir, 'prediction.{}.csv'.format(algorithm_name)))
+
+            logging.info(' - result exported to {}'.format(export_dir))

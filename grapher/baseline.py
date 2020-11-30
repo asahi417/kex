@@ -26,4 +26,8 @@ class FirstN:
         """
         phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
         sorted_phrases = sorted(phrase_instance.values(), key=lambda x: x['offset'][0][0])
-        return sorted_phrases[:min(len(sorted_phrases), n_keywords)]
+        sorted_phrases = sorted_phrases[:min(len(sorted_phrases), n_keywords)]
+        for n, i in enumerate(sorted_phrases):
+            sorted_phrases[n]['score'] = n
+
+        return sorted_phrases

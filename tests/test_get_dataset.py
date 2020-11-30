@@ -2,7 +2,7 @@
 import unittest
 import logging
 
-from grapher import get_benchmark_dataset, VALID_DATASET_LIST
+from grapher import get_benchmark_dataset, VALID_DATASET_LIST, get_statistics
 
 LOGGER = logging.getLogger()
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
@@ -20,6 +20,15 @@ class TestGetDataset(unittest.TestCase):
                 LOGGER.info('\n - {0}: \n * source: {1} \n * keywords: {2}'.format(v['id'], v['source'], v['keywords']))
                 if n > 5:
                     break
+
+    def test_statistics(self):
+        tmp, language = get_benchmark_dataset('Inspec')
+        for n, i in enumerate(tmp):
+            out = get_statistics(i['keywords'], i['source'])
+            logging.info(i['source'])
+            logging.info(out)
+            if n > 5:
+                break
 
 
 if __name__ == "__main__":
