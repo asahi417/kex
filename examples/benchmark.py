@@ -3,6 +3,7 @@ import argparse
 import os
 import logging
 import json
+from itertools import chain
 from time import time
 from glob import glob
 from tqdm import tqdm
@@ -15,20 +16,27 @@ logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logg
 
 def view_result(_export_dir: str):
     d = 2
-    all_data = list(set('.'.join(os.path.basename(i).split('.')[:-2]) for i in glob('{}/*.json'.format(_export_dir))))
-    all_algorithm = list(set(os.path.basename(i).split('.')[-2] for i in glob('{}/*.json'.format(_export_dir))))
-    df = {i: pd.DataFrame(index=all_data, columns=all_algorithm) for i in ['5', '10', '15', 'time']}
-    for i in glob('{}/*.json'.format(_export_dir)):
-        algorithm = i.split('.')[-2]
-        _data_name = '.'.join(os.path.basename(i).split('.')[:-2])
-        tmp = json.load(open(i))
-        for _n in ['5', '10', '15']:
-            df[_n][algorithm][_data_name] = "{0} ({1}/{2})".format(
-                round(tmp['top_{}'.format(_n)]['f_1'] * 100, d),
-                round(tmp['top_{}'.format(_n)]['mean_precision'] * 100, d),
-                round(tmp['top_{}'.format(_n)]['mean_recall'] * 100, d))
 
-        df['time'][algorithm][_data_name] = str(round(tmp['process_time_second'], d))
+    all_data = list(map(lambda x: os.path.basename(x) if os.path.isdir(x) else None,
+                        glob(os.path.join(_export_dir, '*'))))
+    all_data = list(filter(None, all_data))
+    all_algorithm = list(map(lambda x: x.split('accuracy.')[-1].replace('.json', ''),
+                             glob(os.path.join(_export_dir, '*/accuracy.*.json'))))
+    all_algorithm = list(set(all_algorithm))
+
+    df = {i: pd.DataFrame(index=all_data, columns=all_algorithm) for i in ['5', '10', '15', 'time']}
+    for i in glob(os.path.join(_export_dir, '*')):
+        _data_name = os.path.basename(i)
+        for t in glob(os.path.join(i, 'accuracy.*.json')):
+            _algorithm_name = t.split('accuracy.')[-1].replace('.json', '')
+            tmp = json.load(open(t))
+            for _n in ['5', '10', '15']:
+                df[_n][_algorithm_name][_data_name] = "{0} ({1}/{2})".format(
+                    round(tmp['top_{}'.format(_n)]['f_1'] * 100, d),
+                    round(tmp['top_{}'.format(_n)]['mean_precision'] * 100, d),
+                    round(tmp['top_{}'.format(_n)]['mean_recall'] * 100, d))
+
+            df['time'][_algorithm_name][_data_name] = str(round(tmp['process_time_second'], d))
     return df
 
 
