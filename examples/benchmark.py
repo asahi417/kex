@@ -42,7 +42,6 @@ def get_options():
 
 
 if __name__ == '__main__':
-    eps = 1e-6
     opt = get_options()
     if opt.view:
         _df = view_result(opt.export)

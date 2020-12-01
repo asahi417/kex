@@ -121,9 +121,15 @@ class LexSpec:
         stemmed_tokens = list(chain(*map(lambda x: self.phrase_constructor.tokenize_and_stem(x), data)))
         self.freq = dict(Counter(stemmed_tokens))
         self.reference_corpus_size = sum(self.freq.values())
-        with open("{}/lexical_specificity_frequency.json".format(export_directory), "w") as f:
-            json.dump(self.freq, f)
+        self.save(export_directory)
         logging.info('compute frequency dictionary saved at {}'.format(export_directory))
+
+    def save(self, directory: str):
+        assert self.is_trained, 'training before run any inference'
+        directory = CACHE_DIR if directory is None else directory
+        os.makedirs(os.path.join(directory), exist_ok=True)
+        with open("{}/lexical_specificity_frequency.json".format(directory), "w") as f:
+            json.dump(self.freq, f)
 
     @property
     def is_trained(self):
