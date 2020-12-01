@@ -3,7 +3,6 @@ import argparse
 import os
 import logging
 import json
-from itertools import chain
 from time import time
 from glob import glob
 from tqdm import tqdm
@@ -16,13 +15,14 @@ logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logg
 
 def view_result(_export_dir: str):
     d = 2
-
     all_data = list(map(lambda x: os.path.basename(x) if os.path.isdir(x) else None,
                         glob(os.path.join(_export_dir, '*'))))
-    all_data = list(filter(None, all_data))
-    all_algorithm = list(map(lambda x: x.split('accuracy.')[-1].replace('.json', ''),
-                             glob(os.path.join(_export_dir, '*/accuracy.*.json'))))
-    all_algorithm = list(set(all_algorithm))
+    all_data = sorted(list(filter(None, all_data)))
+    # all_algorithm = list(map(lambda x: x.split('accuracy.')[-1].replace('.json', ''),
+    #                          glob(os.path.join(_export_dir, '*/accuracy.*.json'))))
+    # all_algorithm = list(set(all_algorithm))
+    all_algorithm = ['FirstN', 'LexSpec', 'TFIDF', 'TextRank', 'SingleRank', 'PositionRank', 'LexRank', 'ExpandRank',
+                     'SingleTPR', 'TopicRank']
 
     df = {i: pd.DataFrame(index=all_data, columns=all_algorithm) for i in ['5', '10', '15', 'time']}
     for i in glob(os.path.join(_export_dir, '*')):
