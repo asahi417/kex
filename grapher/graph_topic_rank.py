@@ -18,7 +18,6 @@ class TopicRank:
                  random_prob: float = 0.85,
                  tol: float = 0.0001,
                  clustering_threshold: float = 0.74,
-                 maximum_word_number: int = 3,
                  linkage_method: str = 'average'):
         """ TopicRank
 
@@ -48,7 +47,7 @@ class TopicRank:
         self.__linkage_method = linkage_method
         self.__clustering_threshold = clustering_threshold
 
-        self.phrase_constructor = PhraseConstructor(language=language, maximum_word_number=maximum_word_number)
+        self.phrase_constructor = PhraseConstructor(language=language)
 
     def topic_clustering(self, stemmed_phrases: list):
         """ grouping given phrases to topic based on HAC by there tokens

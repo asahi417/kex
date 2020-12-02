@@ -37,9 +37,7 @@ def split_for_keywords(string):
     )
 
 
-def get_benchmark_dataset(
-        data: str = 'Inspec',
-        cache_dir: str = "./cache"):
+def get_benchmark_dataset(data: str = 'Inspec', cache_dir: str = "./cache"):
     """ to get a dataset for keyword extraction (all not stemmed)
 
      Parameter
@@ -90,19 +88,39 @@ def get_statistics(keywords, source):
     - # candidate
     - # unique word (raw/no stopword)
     - # mean/std of word distribution (raw/no stopword)
-
     """
     phraser = PhraseConstructor()
-    phrase, _ = phraser.tokenize_and_stem_and_phrase(source)
-    out = {"n_phrase": len(phrase), "n_label": len(keywords)}
+    phrase, stemmed_token = phraser.tokenize_and_stem_and_phrase(source)
+    keywords_valid = list(set(phrase.keys()).intersection(set(keywords)))
+    keywords_invalid = list(set(keywords) - set(keywords_valid))
+    stemmed_text = ' '.join(stemmed_token)
+    keywords_invalid_appeared = list(filter(lambda x: x in stemmed_text, keywords_invalid))
+    keywords_invalid_intractable = list(set(keywords_invalid) - set(keywords_invalid_appeared))
 
-    for i in [True, False]:
+    out = {
+        "n_phrase": len(phrase),
+        "n_label": len(keywords),
+        "n_label_in_candidates": len(keywords_valid),
+        "n_label_out_candidates": len(keywords_invalid_appeared),
+        "n_label_intractable": len(keywords_invalid_intractable),
+        "label_in_candidates": keywords_valid,
+        "label_out_candidates": keywords_invalid_appeared,
+        "label_intractable": keywords_invalid_intractable
+    }
+
+    def _tmp(i):
         sufix = '' if i else '_with_stopword'
         tokens = phraser.tokenize_and_stem(source, apply_stopwords=i)
-        out['n_word{}'.format(sufix)] = len(tokens)
         dist = list(map(lambda x: sum(map(lambda y: y == x, tokens)), set(tokens)))
-        out['n_unique_word{}'.format(sufix)] = len(dist)
-        out['mean{}'.format(sufix)] = sum(dist) / len(dist)
-        out['std{}'.format(sufix)] = (sum(map(lambda x: (x - sum(dist) / len(dist)) ** 2, dist)) / len(dist)) ** 0.5
+        mean = sum(dist) / len(dist)
+        return {
+            'n_word{}'.format(sufix): len(tokens),
+            'n_unique_word{}'.format(sufix): len(dist),
+            'mean{}'.format(sufix): mean,
+            'std{}'.format(sufix): (sum(map(lambda x: (x - mean) ** 2, dist)) / len(dist)) ** 0.5
+        }
 
+    dicts = [_tmp(_i) for _i in [True, False]]
+    out.update(dicts[0])
+    out.update(dicts[1])
     return out

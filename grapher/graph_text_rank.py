@@ -25,7 +25,6 @@ class TextRank:
                  language: str = 'en',
                  window_size: int = 2,
                  random_prob: float = 0.85,
-                 maximum_word_number: int = 3,
                  tol: float = 0.0001):
         """ TextRank
 
@@ -44,7 +43,7 @@ class TextRank:
         self.__random_prob = random_prob
         self.__tol = tol
 
-        self.phrase_constructor = PhraseConstructor(language=language, maximum_word_number=maximum_word_number)
+        self.phrase_constructor = PhraseConstructor(language=language)
         self.weighted_graph = False
         self.direct_graph = False
         self.prior_required = False

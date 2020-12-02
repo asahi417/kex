@@ -2,9 +2,6 @@
 import argparse
 import os
 import logging
-import json
-from time import time
-from glob import glob
 from tqdm import tqdm
 
 import pandas as pd
@@ -23,17 +20,26 @@ def get_options():
 if __name__ == '__main__':
     opt = get_options()
     data_list = grapher.VALID_DATASET_LIST if opt.data is None else opt.data.split(',')
-    stats = ['n_phrase', 'n_label', 'n_word', 'n_unique_word', 'mean', 'std',
-             'n_word_with_stopword', 'n_unique_word_with_stopword', 'mean_with_stopword', 'std_with_stopword']
+    stats = [
+        'filename', 'n_phrase',
+        'n_label', 'n_label_in_candidates', 'n_label_out_candidates', 'n_label_intractable',
+        'n_word', 'n_unique_word', 'mean', 'std',
+        'n_word_with_stopword', 'n_unique_word_with_stopword', 'mean_with_stopword', 'std_with_stopword',
+        'label_in_candidates', 'label_out_candidates', 'label_intractable'
+    ]
     for data_n, data in enumerate(data_list):
-        if os.path.exists('{}/{}/statistics.csv'.format(opt.export, data)):
-            continue
+        # if os.path.exists('{}/{}/statistics.csv'.format(opt.export, data)):
+        #     continue
         logging.info('data: {}'.format(data))
         os.makedirs(os.path.join(opt.export, data), exist_ok=True)
         df_stats = pd.DataFrame(index=stats)
         tmp, language = grapher.get_benchmark_dataset(data)
         for n, i in enumerate(tqdm(tmp)):
-            keywords, source = i['keywords'], i['source']
+            keywords, source, filename = i['keywords'], i['source'], i['id']
             out = grapher.get_statistics(keywords, source)
+            out['label_in_candidates'] = '||'.join(out['label_in_candidates'])
+            out['label_out_candidates'] = '||'.join(out['label_out_candidates'])
+            out['label_intractable'] = '||'.join(out['label_intractable'])
+            out['filename'] = filename
             df_stats[n] = [out[i] for i in stats]
         df_stats.T.to_csv('{}/{}/statistics.csv'.format(opt.export, data))

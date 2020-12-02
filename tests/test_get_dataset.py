@@ -11,23 +11,25 @@ logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logg
 class TestGetDataset(unittest.TestCase):
     """Test get_benchmark_dataset """
 
-    def test_get_benchmark_dataset(self):
-        for i in VALID_DATASET_LIST:
-            LOGGER.info('** {} **'.format(i))
-            tmp, language = get_benchmark_dataset(i)
-            LOGGER.info(language)
-            for n, v in enumerate(tmp):
-                LOGGER.info('\n - {0}: \n * source: {1} \n * keywords: {2}'.format(v['id'], v['source'], v['keywords']))
-                if n > 5:
-                    break
+    # def test_get_benchmark_dataset(self):
+    #     for i in VALID_DATASET_LIST:
+    #         LOGGER.info('** {} **'.format(i))
+    #         tmp, language = get_benchmark_dataset(i)
+    #         LOGGER.info(language)
+    #         for n, v in enumerate(tmp):
+    #             LOGGER.info('\n - {0}: \n * source: {1} \n * keywords: {2}'.format(v['id'], v['source'], v['keywords']))
+    #             if n > 5:
+    #                 break
 
     def test_statistics(self):
         tmp, language = get_benchmark_dataset('Inspec')
         for n, i in enumerate(tmp):
-            out = get_statistics(i['keywords'], i['source'])
             logging.info(i['source'])
-            logging.info(out)
-            if n > 5:
+            out = get_statistics(i['keywords'], i['source'])
+            logging.info('- invalid: {}'.format(out['label_invalid']))
+            logging.info('- valid  : {}'.format(out['label_valid']))
+            input()
+            if n > 10:
                 break
 
 

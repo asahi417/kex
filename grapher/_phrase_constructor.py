@@ -28,7 +28,9 @@ class Phrase:
     Also exclude token in given stop word list.
     """
 
-    def __init__(self, join_without_space: bool = False, maximum_word_number: int = None,
+    def __init__(self,
+                 join_without_space: bool = False,
+                 maximum_word_number: int = None,
                  maximum_char_number: int = None):
         """ Data structure for phrases, which follows regx [Adjective]*[Noun|proper noun]+
 
@@ -71,21 +73,16 @@ class Phrase:
             self.__tmp_phrase_offset.append(offset)
 
         # phrase with more symbol than alphanumeric should be ignored
-        if len(re.sub(r'\w', '', stemmed)) <= len(re.sub(r'\W', '', stemmed)):
-            if pos in ['ADJ']:
-                if 'NOUN' in self.__tmp_phrase_pos:  # finalize list of tokens as phrase if it's not in the stop phrase
-                    self.__add_to_structure()
-                add_tmp_list()
-                return
-            elif pos == 'NOUN':
-                add_tmp_list()
-                return
+        if len(re.sub(r'\w', '', stemmed)) > len(re.sub(r'\W', '', stemmed)):
+            pos = 'RANDOM'
 
-        if 'NOUN' in self.__tmp_phrase_pos:  # finalize list of tokens as phrase
-            self.__add_to_structure()
-        else:  # only adjective can't be regarded as phrase
-            self.__initialize_list()
-        return
+        if pos == 'NOUN' or (pos == 'ADJ' and 'NOUN' not in self.__tmp_phrase_pos):
+            add_tmp_list()
+        else:
+            if 'NOUN' in self.__tmp_phrase_pos:  # finalize list of tokens as phrase
+                self.__add_to_structure()
+            else:  # only adjective can't be regarded as phrase
+                self.__initialize_list()
 
     def __add_to_structure(self):
         """ add to main dictionary and initialize tmp lists """
@@ -119,8 +116,11 @@ class Phrase:
 class PhraseConstructor:
     """ Phrase constructor to extract a list of phrase from given sentence based on `Phrase` class """
 
-    def __init__(self, language: str = 'en', stopwords_list: List = None, maximum_word_number: int = 3,
-                 maximum_char_number: int = 50):
+    def __init__(self,
+                 language: str = 'en',
+                 stopwords_list: List = None,
+                 maximum_word_number: int = 6,
+                 maximum_char_number: int = 70):
         """ Phrase constructor to extract a list of phrase from given sentence based on `Phrase` class
 
          Parameter
@@ -140,7 +140,7 @@ class PhraseConstructor:
 
     @staticmethod
     def simplify_pos(_pos):
-        if _pos in ["NN", "NNS", "NNP", "NNPS"]:
+        if _pos in ["NN", "NNS", "NNP", "NNPS", "CD"]:
             return "NOUN"
         elif _pos in ["JJ", "JJR", "JJS"]:
             return "ADJ"
@@ -177,14 +177,14 @@ class PhraseConstructor:
         sentence_token, stemmed, pos = self.preprocess(document)
 
         # phraser instance
-
         phrase_structure = Phrase(self.__language == 'ja',
                                   maximum_word_number=self.__maximum_word_number,
                                   maximum_char_number=self.__maximum_char_number)
         n = 0
         for n, (t, s, p) in enumerate(zip(sentence_token, stemmed, pos)):
-            if t.lower() not in self.__stopwords and s.lower() not in self.__stopwords:
-                phrase_structure.add(raw=t, stemmed=s, pos=p, offset=n)
+            if t.lower() in self.__stopwords or s.lower() in self.__stopwords:
+                p = 'RANDOM'
+            phrase_structure.add(raw=t, stemmed=s, pos=p, offset=n)
 
         # to finalize the phrase in the end of sentence
         phrase_structure.add(raw='.', stemmed='.', pos='PUNCT', offset=n + 1)

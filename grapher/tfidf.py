@@ -16,11 +16,11 @@ __all__ = 'TFIDF'
 class TFIDF:
     """ TFIDF """
 
-    def __init__(self, language: str = 'en', maximum_word_number: int = 3):
+    def __init__(self, language: str = 'en'):
         self.__model = None
         self.__dict = None
         self.prior_required = True
-        self.phrase_constructor = PhraseConstructor(language=language, maximum_word_number=maximum_word_number)
+        self.phrase_constructor = PhraseConstructor(language=language)
 
     def load(self, directory: str = None):
         """ load saved lda model and dictionary instance used to train the model """

@@ -92,12 +92,12 @@ def lexical_specificity(T, t, f, k, lim: int = 400):
 class LexSpec:
     """ Lexical Specification based keyword extraction algorithm """
 
-    def __init__(self, language: str = 'en', maximum_word_number: int = 3):
+    def __init__(self, language: str = 'en'):
         self.__reference_corpus = None
         self.freq = None
         self.reference_corpus_size = 0
         self.prior_required = True
-        self.phrase_constructor = PhraseConstructor(language=language, maximum_word_number=maximum_word_number)
+        self.phrase_constructor = PhraseConstructor(language=language)
 
     def load(self, directory: str = None):
         """ load saved lda model and dictionary instance used to train the model """
