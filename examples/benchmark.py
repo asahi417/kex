@@ -66,8 +66,9 @@ if __name__ == '__main__':
 
         # load model
         for algorithm_name in algorithm_list:
-            df_prediction = pd.DataFrame(
-                index=['keywords_gold', 'keywords_predict', 'score', 'precision_5', 'precision_10', 'precision_15'])
+            df_prediction = pd.DataFrame(index=[
+                'filename', 'label', 'label_predict', 'score',
+                'precision_5', 'precision_10', 'precision_15'])
             model = grapher.AutoAlgorithm(algorithm_name, language=language)
             logging.info('Benchmark')
             logging.info(' - algorithm: {}\n - data: {}'.format(algorithm_name, data_name))
@@ -87,14 +88,15 @@ if __name__ == '__main__':
 
             start = time()
             for n, v in enumerate(tqdm(data)):
+                _id = v['id']
                 source = v['source']
                 gold_keys = v['keywords']   # already stemmed
                 # inference
                 keys = model.get_keywords(source, n_keywords=15)
                 keys_stemmed = [k['stemmed'] for k in keys]
 
-                pred_placeholder = [
-                    '||'.join(gold_keys), '||'.join(keys_stemmed), '||'.join([str(round(k['score'], 3)) for k in keys])]
+                pred_placeholder = [_id, '||'.join(gold_keys), '||'.join(keys_stemmed),
+                                    '||'.join([str(round(k['score'], 3)) for k in keys])]
                 for i in [5, 10, 15]:
                     positive_answers = list(set(keys_stemmed[:i]).intersection(set(gold_keys)))
                     tp[str(i)] += len(positive_answers)
