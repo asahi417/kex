@@ -32,9 +32,14 @@ def split_for_keywords(string):
         _string = ' '.join(list(map(lambda x: STEMMER.stem(x), _string.split(' '))))
         return _string
 
-    return list(filter(
+    keys = list(filter(
         lambda x: len(x) > 0, [cleaner(s) for s in re.split('[\n,]', string)])
     )
+    unique_keys = list(set(keys))
+    if len(keys) != len(unique_keys):
+        print('duplicate happens:', keys)
+        input()
+    return
 
 
 def get_benchmark_dataset(data: str = 'Inspec', cache_dir: str = "./cache"):
