@@ -33,7 +33,7 @@ if __name__ == '__main__':
         logging.info('data: {}'.format(data))
         os.makedirs(os.path.join(opt.export, data), exist_ok=True)
         df_stats = pd.DataFrame(index=stats)
-        tmp, language = grapher.get_benchmark_dataset(data)
+        tmp, language = grapher.get_benchmark_dataset(data, keep_only_valid_label=False)
         for n, i in enumerate(tqdm(tmp)):
             keywords, source, filename = i['keywords'], i['source'], i['id']
             out = grapher.get_statistics(keywords, source)

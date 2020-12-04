@@ -38,7 +38,9 @@ def split_for_keywords(string):
     return list(set(keys))
 
 
-def get_benchmark_dataset(data: str = 'Inspec', cache_dir: str = "./cache"):
+def get_benchmark_dataset(data: str = 'Inspec',
+                          cache_dir: str = "./cache",
+                          keep_only_valid_label: bool = True):
     """ to get a dataset for keyword extraction (all not stemmed)
 
      Parameter
@@ -79,6 +81,23 @@ def get_benchmark_dataset(data: str = 'Inspec', cache_dir: str = "./cache"):
                 "{}/{}/keys/{}.key".format(cache_dir, data, '.txt'.join(os.path.basename(t).split('.txt')[:-1])))),
         "source": preprocess_source(safe_open(t)),
         "id": os.path.basename(t)} for t in glob("{}/{}/docsutf8/*.txt".format(cache_dir, data))]
+
+    if not keep_only_valid_label:
+        return answer_dict, language
+
+    phraser = PhraseConstructor()
+
+    def _filter_label(_dict):
+        phrase, stemmed_token = phraser.tokenize_and_stem_and_phrase(_dict['source'])
+        keywords_valid = list(set(phrase.keys()).intersection(set(_dict['keywords'])))
+        if len(keywords_valid) == 0:
+            return None
+        else:
+            _dict['keywords'] = keywords_valid
+            return _dict
+
+    answer_dict = list(map(lambda x: _filter_label(x), answer_dict))
+    answer_dict = list(filter(None, answer_dict))
     return answer_dict, language
 
 
