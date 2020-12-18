@@ -1,6 +1,7 @@
 import os
 import re
 from glob import glob
+from typing import List
 
 from ._phrase_constructor import PhraseConstructor
 from nltk.stem.porter import PorterStemmer  # only for English
@@ -41,7 +42,7 @@ def split_for_keywords(string):
 def get_benchmark_dataset(data: str = 'Inspec',
                           cache_dir: str = "./cache",
                           keep_only_valid_label: bool = True):
-    """ to get a dataset for keyword extraction (all not stemmed)
+    """ Get a dataset for keyword extraction (all not stemmed)
 
      Parameter
     -------------
@@ -49,6 +50,8 @@ def get_benchmark_dataset(data: str = 'Inspec',
         dataset name
     cache_dir: str
         directory to cache the data
+    keep_only_valid_label: bool
+        False to get all the label, otherwise only keep the label set that is in the phrase candidates
 
      Return
     -------------
@@ -101,13 +104,37 @@ def get_benchmark_dataset(data: str = 'Inspec',
     return answer_dict, language
 
 
-def get_statistics(keywords, source):
-    """Data level feature (per entry):
-    - # gold label
-    - # word (raw/no stopword)
-    - # candidate
-    - # unique word (raw/no stopword)
-    - # mean/std of word distribution (raw/no stopword)
+def get_statistics(keywords: List, source: str):
+    """ Data level feature (per entry):
+    {
+        "n_phrase":
+        "n_label":
+        "n_label_in_candidates":
+        "n_label_out_candidates":
+        "n_label_intractable":
+        "label_in_candidates":
+        "label_out_candidates":
+        "label_intractable":
+        "n_word"
+        "n_unique_word":
+        "mean":
+        "std":
+        "n_word_with_stopword"
+        "n_unique_word_with_stopword":
+        "mean_with_stopword":
+        "std_with_stopword":
+    }
+
+     Parameter
+    -------------
+    keywords: list
+        a list of keywords
+    source: str
+        directory to cache the data
+
+     Return
+    -------------
+    A dictionary containing the above statistics
     """
     phraser = PhraseConstructor()
     phrase, stemmed_token = phraser.tokenize_and_stem_and_phrase(source)

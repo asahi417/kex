@@ -4,7 +4,7 @@ from .graph_tpr import TopicalPageRank
 from .graph_topic_rank import TopicRank
 # from .graph_multipartite_rank import MultipartiteRank
 from .tfidf import TFIDF
-from .lexical_specificity import LexSpec
+from .lexical_specificity import LexSpec, TF
 from .lda import LDA
 from ._get_dataset import get_benchmark_dataset, VALID_DATASET_LIST, get_statistics
 from ._phrase_constructor import PhraseConstructor

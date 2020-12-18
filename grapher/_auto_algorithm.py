@@ -2,7 +2,7 @@ import grapher
 
 VALID_ALGORITHMS = [
     'TopicRank', 'TextRank', 'SingleRank', 'LexSpec', 'PositionRank', 'TFIDF',
-    'LexRank', 'ExpandRank', 'SingleTPR', 'FirstN'
+    'LexRank', 'ExpandRank', 'SingleTPR', 'FirstN', 'TF'
     # 'TopicalPageRank', 'MultipartiteRank',
 ]
 
@@ -27,6 +27,8 @@ def AutoAlgorithm(model_name, *args, **kwargs):
         model = grapher.LexRank(*args, **kwargs)
     elif model_name == 'FirstN':
         model = grapher.FirstN(*args, **kwargs)
+    elif model_name == 'TF':
+        model = grapher.TF(*args, **kwargs)
     # elif model_name == 'MultipartiteRank':
     #     model = grapher.MultipartiteRank(*args, **kwargs)
     # elif model_name == 'TopicalPageRank':

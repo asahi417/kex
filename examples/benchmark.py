@@ -3,6 +3,7 @@ import argparse
 import os
 import logging
 import json
+from itertools import permutations
 from time import time
 from glob import glob
 from tqdm import tqdm
@@ -13,30 +14,80 @@ import grapher
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')  # should be right after import logging
 
 
+def cross_analysis(_export_dir: str):
+    all_data = list(map(lambda x: os.path.basename(x) if os.path.isdir(x) else None,
+                        glob(os.path.join(_export_dir, '*'))))
+    all_data = sorted(list(filter(None, all_data)))
+    all_algorithm = ['FirstN', 'LexSpec', 'TFIDF', 'TextRank', 'SingleRank', 'PositionRank', 'LexRank', 'ExpandRank',
+                     'SingleTPR', 'TopicRank']
+    all_df = []
+    for d in all_data:
+        tmp_label_dict = {}
+        df = pd.DataFrame(columns=all_algorithm, index=all_algorithm)
+        for a in all_algorithm:
+            df[a][a] = 1
+
+            pred_file = os.path.join(_export_dir, d, 'prediction.{}.csv'.format(a))
+            pred_df = pd.read_csv(pred_file, index_col=0)
+            label = list(map(lambda x: x.split('||'), pred_df['label'].values.tolist()))
+            label_pred = list(map(lambda x: str(x).split('||'), pred_df['label_predict'].values.tolist()))
+            label_correct = list(map(lambda x: list(set(x[0]).intersection(set(x[1]))), zip(label, label_pred)))
+            tmp_label_dict[a] = label_correct
+
+        for a, b in permutations(all_algorithm, 2):
+            a_label = tmp_label_dict[a]
+            b_label = tmp_label_dict[b]
+            label_intersection = list(map(
+                lambda x: len(list(set(x[0]).intersection(set(x[1]))))/len(x[0]) if len(x[0]) != 0 else 0,
+                zip(a_label, b_label)))
+            df[a][b] = sum(label_intersection) / len(label_intersection)
+        df.to_csv(os.path.join(_export_dir, d, 'agreement.csv'))
+        logging.info('dataset:{} \n {}'.format(d, df))
+        all_df.append(df)
+
+    df = pd.DataFrame(columns=all_algorithm, index=all_algorithm)
+    for a, b in permutations(all_algorithm, 2):
+        df[a][b] = sum(float(i[a][b]) for i in all_df)/len(all_df)
+        df[a][a] = 1
+
+    df.to_csv(os.path.join(_export_dir, 'agreement_all.csv'))
+    logging.info('All dataset:\n {}'.format(df))
+
+
 def view_result(_export_dir: str):
     d = 2
     all_data = list(map(lambda x: os.path.basename(x) if os.path.isdir(x) else None,
                         glob(os.path.join(_export_dir, '*'))))
     all_data = sorted(list(filter(None, all_data)))
-    # all_algorithm = list(map(lambda x: x.split('accuracy.')[-1].replace('.json', ''),
-    #                          glob(os.path.join(_export_dir, '*/accuracy.*.json'))))
-    # all_algorithm = list(set(all_algorithm))
     all_algorithm = ['FirstN', 'LexSpec', 'TFIDF', 'TextRank', 'SingleRank', 'PositionRank', 'LexRank', 'ExpandRank',
-                     'SingleTPR', 'TopicRank']
+                     'SingleTPR', 'TopicRank'] + ['Best Method']
 
     df = {i: pd.DataFrame(index=all_data, columns=all_algorithm) for i in ['5', '10', '15', 'time']}
     for i in glob(os.path.join(_export_dir, '*')):
+        if not os.path.isdir(i):
+            continue
         _data_name = os.path.basename(i)
+        _tmp_score = {_n: {} for _n in ['5', '10', '15', 'time']}
         for t in glob(os.path.join(i, 'accuracy.*.json')):
             _algorithm_name = t.split('accuracy.')[-1].replace('.json', '')
             tmp = json.load(open(t))
             for _n in ['5', '10', '15']:
-                df[_n][_algorithm_name][_data_name] = "{0} ({1}/{2})".format(
-                    round(tmp['top_{}'.format(_n)]['f_1'] * 100, d),
-                    round(tmp['top_{}'.format(_n)]['mean_precision'] * 100, d),
-                    round(tmp['top_{}'.format(_n)]['mean_recall'] * 100, d))
+                _score = round(tmp['top_{}'.format(_n)]['f_1'] * 100, d)
+                df[_n][_algorithm_name][_data_name] = _score
+                _tmp_score[_n][_algorithm_name] = _score
+                # df[_n][_algorithm_name][_data_name] = "{0} ({1}/{2})".format(
+                #     round(tmp['top_{}'.format(_n)]['f_1'] * 100, d),
+                #     round(tmp['top_{}'.format(_n)]['mean_precision'] * 100, d),
+                #     round(tmp['top_{}'.format(_n)]['mean_recall'] * 100, d))
 
-            df['time'][_algorithm_name][_data_name] = str(round(tmp['process_time_second'], d))
+            complexity = str(round(tmp['process_time_second'], d))
+            df['time'][_algorithm_name][_data_name] = complexity
+            _tmp_score['time'][_algorithm_name] = complexity
+
+        for _n in ['5', '10', '15']:
+            df[_n]['Best Method'][_data_name] = sorted(_tmp_score[_n].items(), key=lambda x: x[1])[-1][0]
+        df['time']['Best Method'][_data_name] = sorted(_tmp_score['time'].items(), key=lambda x: x[1])[0][0]
+
     return df
 
 
@@ -45,7 +96,9 @@ def get_options():
     parser.add_argument('-m', '--model', help='model:{}'.format(grapher.VALID_ALGORITHMS), default=None, type=str)
     parser.add_argument('-d', '--data', help='data:{}'.format(grapher.VALID_DATASET_LIST), default=None, type=str)
     parser.add_argument('-e', '--export', help='log export dir', default='./benchmark', type=str)
+    parser.add_argument('-o', '--overwrite', help='overwrite result', action="store_true")
     parser.add_argument('--view', help='view results', action="store_true")
+    parser.add_argument('--cross', help='cross algorithm results', action="store_true")
     return parser.parse_args()
 
 
@@ -57,15 +110,28 @@ if __name__ == '__main__':
             logging.info("** Result: {} **\n {}".format(k, v))
             v.to_csv("{}/full-result.{}.csv".format(opt.export, k))
         exit()
+    if opt.cross:
+        cross_analysis(opt.export)
+        exit()
 
     data_list = grapher.VALID_DATASET_LIST if opt.data is None else opt.data.split(',')
     algorithm_list = grapher.VALID_ALGORITHMS if opt.model is None else opt.model.split(',')
+    logging.info('Benchmark:\n - dataset: {}\n - algorithm: {}'.format(data_list, algorithm_list))
     for data_name in data_list:
+        logging.info('loading data: {}'.format(data_name))
         # load dataset
         data, language = grapher.get_benchmark_dataset(data_name)
 
         # load model
         for algorithm_name in algorithm_list:
+
+            export_dir = os.path.join(opt.export, data_name)
+            accuracy_file = os.path.join(export_dir, 'accuracy.{}.json'.format(algorithm_name))
+            prediction_file = os.path.join(export_dir, 'prediction.{}.csv'.format(algorithm_name))
+            if os.path.exists(accuracy_file) and os.path.exists(prediction_file) and not opt.overwrite:
+                logging.info('skip: found accuracy/prediction file, {}/{}'.format(accuracy_file, prediction_file))
+                continue
+            
             df_prediction = pd.DataFrame(index=[
                 'filename', 'label', 'label_predict', 'score',
                 'precision_5', 'precision_10', 'precision_15'])
@@ -114,14 +180,13 @@ if __name__ == '__main__':
                 f1 = 2 * precision * recall / (precision + recall)
                 result_json['top_{}'.format(i)] = {"mean_recall": recall, "mean_precision": precision, "f_1": f1}
 
-            # export as a json
-            export_dir = os.path.join(opt.export, data_name)
+            # export
             os.makedirs(export_dir, exist_ok=True)
-            with open(os.path.join(export_dir, 'accuracy.{}.json'.format(algorithm_name)), 'w') as f:
+            with open(accuracy_file, 'w') as f:
                 json.dump(result_json, f)
             logging.info(json.dumps(result_json, indent=4, sort_keys=True))
 
             # export prediction as a csv
-            df_prediction.T.to_csv(os.path.join(export_dir, 'prediction.{}.csv'.format(algorithm_name)))
+            df_prediction.T.to_csv(prediction_file)
 
             logging.info(' - result exported to {}'.format(export_dir))

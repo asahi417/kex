@@ -11,7 +11,7 @@ from ._phrase_constructor import PhraseConstructor
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 CACHE_DIR = './cache/priors/lexical_specificity'
-__all__ = ('LexSpec', 'lexical_specificity')
+__all__ = ('LexSpec', 'lexical_specificity', 'TF')
 
 
 def average(_list):
@@ -202,3 +202,60 @@ class LexSpec:
 
         val = [modify_output(stem, score) for stem, score in phrase_score_sorted_list[:count_valid]]
         return val
+
+
+class TF(LexSpec):
+    """ Term frequency based keyword extraction algorithm """
+
+    def __init__(self, *args, **kwargs):
+        """ Term frequency based keyword extraction algorithm """
+        super(TF, self).__init__(*args, **kwargs)
+
+    def get_keywords(self, document: str, n_keywords: int = 10):
+        """ Get keywords
+
+         Parameter
+        ------------------
+        document: str
+        n_keywords: int
+
+         Return
+        ------------------
+        a list of dictionary consisting of 'stemmed', 'pos', 'raw', 'offset', 'count'.
+        eg) {'stemmed': 'grid comput', 'pos': 'ADJ NOUN', 'raw': ['grid computing'], 'offset': [[11, 12]], 'count': 1}
+        """
+        assert self.is_trained, 'provide prior before running inference'
+
+        # convert phrase instance
+        phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
+        if len(phrase_instance) < 2:
+            # at least 2 phrase are needed to extract keyphrase
+            return []
+
+        sub_freq = dict(Counter(stemmed_tokens))
+
+        # compute term frequency
+        tf_dict = {k: self.freq[k] for k in sub_freq.keys() if k in self.freq.keys()}
+
+        # aggregate score over individual word in a phrase
+        def aggregate_prob(__phrase_key):
+            __phrase = phrase_instance[__phrase_key]
+            prob = float(average([
+                tf_dict[_r] if _r in tf_dict.keys() else 0 for _r in __phrase['stemmed'].split()]))
+            return prob
+
+        phrase_prob = [(k, aggregate_prob(k)) for k in phrase_instance.keys()]
+
+        # sorting
+        phrase_score_sorted_list = sorted(phrase_prob, key=lambda id_score: id_score[1], reverse=True)
+        count_valid = min(n_keywords, len(phrase_score_sorted_list))
+
+        def modify_output(stem, score):
+            tmp = phrase_instance[stem]
+            tmp['score'] = score
+            tmp['n_source_tokens'] = len(stemmed_tokens)
+            return tmp
+
+        val = [modify_output(stem, score) for stem, score in phrase_score_sorted_list[:count_valid]]
+        return val
+
