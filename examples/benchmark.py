@@ -13,13 +13,14 @@ import grapher
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')  # should be right after import logging
 
+all_algorithm = ['FirstN', 'TF', 'LexSpec', 'TFIDF', 'TextRank', 'SingleRank', 'PositionRank', 'LexRank', 'ExpandRank',
+                 'SingleTPR', 'TopicRank']
+
 
 def cross_analysis(_export_dir: str):
     all_data = list(map(lambda x: os.path.basename(x) if os.path.isdir(x) else None,
                         glob(os.path.join(_export_dir, '*'))))
     all_data = sorted(list(filter(None, all_data)))
-    all_algorithm = ['FirstN', 'LexSpec', 'TFIDF', 'TextRank', 'SingleRank', 'PositionRank', 'LexRank', 'ExpandRank',
-                     'SingleTPR', 'TopicRank']
     all_df = []
     for d in all_data:
         tmp_label_dict = {}
@@ -59,10 +60,8 @@ def view_result(_export_dir: str):
     all_data = list(map(lambda x: os.path.basename(x) if os.path.isdir(x) else None,
                         glob(os.path.join(_export_dir, '*'))))
     all_data = sorted(list(filter(None, all_data)))
-    all_algorithm = ['FirstN', 'LexSpec', 'TFIDF', 'TextRank', 'SingleRank', 'PositionRank', 'LexRank', 'ExpandRank',
-                     'SingleTPR', 'TopicRank'] + ['Best Method']
 
-    df = {i: pd.DataFrame(index=all_data, columns=all_algorithm) for i in ['5', '10', '15', 'time']}
+    df = {i: pd.DataFrame(index=all_data, columns=all_algorithm +  ['Best Method']) for i in ['5', '10', '15', 'time']}
     for i in glob(os.path.join(_export_dir, '*')):
         if not os.path.isdir(i):
             continue
