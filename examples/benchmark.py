@@ -158,11 +158,12 @@ def run_benchmark(data: (List, str) = None,
         fn = {n: 0 for n in list(map(str, top_n)) + ['fixed']}
         fp = {n: 0 for n in list(map(str, top_n)) + ['fixed']}
         mrr = []
-        for l_, p in zip(labels, preds):
+        for n_, (l_, p) in enumerate(zip(labels, preds)):
             try:
                 mrr += [1/min(n + 1 for n, l__ in enumerate(l_) if l__ in p)]
             except Exception:
                 print([n + 1 for n, l__ in enumerate(l_) if l__ in p], l_, p)
+                print(n_)
                 raise ValueError('MRR error')
 
             for i in tp.keys():
