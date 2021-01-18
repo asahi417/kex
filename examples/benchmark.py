@@ -13,9 +13,7 @@ import pandas as pd
 import grapher
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-n_keywords = 100
-# all_algorithm = ['FirstN', 'TF', 'LexSpec', 'TFIDF', 'TextRank', 'SingleRank', 'PositionRank', 'LexRank', 'ExpandRank',
-#                  'SingleTPR', 'TopicRank']
+n_keywords = 100000
 
 
 def cross_analysis(_export_dir: str):
@@ -73,16 +71,17 @@ def aggregate_result(_export_dir: str, d: int = 1):
         tmp = json.load(f)
         metrics = list(tmp.keys())
     df = {i: pd.DataFrame(index=all_data, columns=all_algorithm) for i in metrics}
+    metrics.pop(metrics.index('mrr'))
     df_full = {i: pd.DataFrame(index=all_data, columns=all_algorithm) for i in metrics}
     for i in glob(os.path.join(_export_dir, '*/accuracy.*.json')):
         _data_name = i.split('/')[-2]
         _algorithm_name = i.split('accuracy.')[-1].replace('.json', '')
         tmp = json.load(open(i))
+        df['mrr'][_algorithm_name][_data_name] = round(tmp['mrr'] * 100, d)
         for _n in metrics:
             _f1 = round(tmp[_n]['f_1'] * 100, d)
             _pre = round(tmp[_n]['mean_precision'] * 100, d)
             _rec = round(tmp[_n]['mean_recall'] * 100, d)
-
             df[_n][_algorithm_name][_data_name] = _f1
             df_full[_n][_algorithm_name][_data_name] = '{} ({}, {})'.format(_f1, _pre, _rec)
 
@@ -160,8 +159,12 @@ def run_benchmark(data: (List, str) = None,
         fp = {n: 0 for n in list(map(str, top_n)) + ['fixed']}
         mrr = []
         for l_, p in zip(labels, preds):
-            print([n + 1 for n, l__ in enumerate(l_) if l__ in p], l_, p)
-            mrr += [1/min(n + 1 for n, l__ in enumerate(l_) if l__ in p)]
+            try:
+                mrr += [1/min(n + 1 for n, l__ in enumerate(l_) if l__ in p)]
+            except Exception:
+                print([n + 1 for n, l__ in enumerate(l_) if l__ in p], l_, p)
+                raise ValueError('MRR error')
+
             for i in tp.keys():
                 if i == 'fixed':
                     n = len(l_)
@@ -216,6 +219,9 @@ if __name__ == '__main__':
                   export_dir_root=opt.export,
                   top_n=opt.top_n.split(',') if opt.top_n is not None else opt.top_n)
 
-    # _df, _df_full = aggregate_result(opt.export)
-    # print(_df)
-    # print(_df_full)
+    _df, _df_full = aggregate_result(opt.export)
+    # for _k, _v in _df.items():
+    #     logging.info("** Result: {} **\n {}".format(_k, _v))
+    #     _v.to_csv("{}/result.{}.csv".format(opt.export, _k))
+    print(_df)
+    print(_df_full)
