@@ -43,6 +43,15 @@ if __name__ == '__main__':
     tp, fn, fp = 0, 0, 0
 
     topn = 5
+    # predictions = []
+    # labels = []
+    # for v in tqdm(data):
+    #     source = v['source']
+    #     gold_keys = v['keywords']   # already stemmed
+    #     # inference
+    #     predictions.append(model.get_keywords(source, n_keywords=topn))
+    #     labels.append(gold_keys)
+
     for v in tqdm(data):
         source = v['source']
         gold_keys = v['keywords']   # already stemmed

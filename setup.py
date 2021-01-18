@@ -21,11 +21,11 @@ setup(
         'gensim>=3.4.0,<3.5.0',
         'nltk==3.5',
         'spacy==2.3.2',
-        'networkx==2.3',
+        'networkx',
         'numpy>=1.16.1',
-        'mecab-python3==0.996.2',
         'untangle',
         'tqdm',
-        'segtok'
+        'segtok',
+        'pandas'
     ]
 )

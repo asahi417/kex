@@ -1,0 +1,756 @@
+,filename,n_phrase,n_label,n_label_in_candidates,n_label_out_candidates,n_label_intractable,n_word,n_unique_word,mean,std,n_word_with_stopword,n_unique_word_with_stopword,mean_with_stopword,std_with_stopword,label_in_candidates,label_out_candidates,label_intractable
+0,11981864.txt,30,3,0,1,2,107,59,1.8135593220338984,1.5346238568698585,184,95,1.936842105263158,1.8513751720547689,,media schedul,human respons||user interact
+1,14244046.txt,14,6,2,1,3,57,35,1.6285714285714286,1.1731694381513034,85,55,1.5454545454545454,1.0236864189279453,model order select||matrix factor,boolean matrix factor,matrix decomposit||minimum descript length principl||model select
+2,154991.txt,2,3,0,0,3,8,8,1.0,0.0,11,11,1.0,0.0,,,machin learn||word sens discoveri||evalu
+3,13700598.txt,3,4,0,1,3,8,8,1.0,0.0,12,12,1.0,0.0,,redescript,learn||close itemset||minim gener
+4,10508839.txt,4,4,0,0,4,10,10,1.0,0.0,15,15,1.0,0.0,,,escal predict||cost-sensit learn||data mine||learn
+5,5200152.txt,3,3,0,0,3,8,8,1.0,0.0,11,11,1.0,0.0,,,space-tim scan statist||biosurveil||cluster detect
+6,5125895.txt,39,5,2,3,0,147,82,1.7926829268292683,1.5039606643634027,216,109,1.981651376146789,1.7186598757082983,classif||epilepsi,nearest neighbor||multi-dimension time seri||optim,
+7,3961369.txt,2,4,0,2,2,8,8,1.0,0.0,11,11,1.0,0.0,,local recod||util,k-anonym||privaci preserv
+8,4794787.txt,3,5,0,0,5,9,9,1.0,0.0,13,13,1.0,0.0,,,knowledg discoveri process||the user' activ role||data and knowledg visual||represent||model select
+9,103218.txt,3,4,0,1,3,10,10,1.0,0.0,13,13,1.0,0.0,,intrus detect,episod rule||alarm investig||conceptu cluster
+10,9311385.txt,38,4,3,0,1,159,81,1.962962962962963,2.431503342543683,252,112,2.25,2.623724179754528,classif||subspac kernel||hilbert-schmidt independ criterion,,support vector machin
+11,1364573.txt,4,6,1,0,5,12,12,1.0,0.0,17,17,1.0,0.0,usag scenario,,sequenti pattern mine||softwar engin||run-tim behavior analysi||interact reengin||softwar requir recoveri
+12,1288009.txt,3,10,1,0,9,10,9,1.1111111111111112,0.3142696805273545,13,12,1.0833333333333333,0.2763853991962833,inform awar,,databas applic||iter classif||privaci||rank classifi||collect classif||tia||social network analysi||technolog assess||relat data mine
+13,10105197.txt,28,5,3,1,1,103,51,2.019607843137255,1.662624856917653,164,77,2.1298701298701297,1.9430238139496148,evolut||group||affili network,social network,graph gener
+14,3785570.txt,4,4,2,0,2,11,9,1.2222222222222223,0.415739709641549,15,13,1.1538461538461537,0.36080121229410994,inform gene||phenotyp,,array data||bioinformat
+15,989744.txt,4,4,1,1,2,11,11,1.0,0.0,18,18,1.0,0.0,bayesian network,cluster,data mine||text mine
+16,1342241.txt,3,4,0,0,4,9,9,1.0,0.0,12,12,1.0,0.0,,,data mine queri||queri evalu||associ rule||rulebas
+17,4339648.txt,3,4,0,1,3,10,10,1.0,0.0,14,14,1.0,0.0,,vote,learn||ensembl classif||model reconcili
+18,676107.txt,3,4,1,1,2,9,9,1.0,0.0,13,13,1.0,0.0,data select,support vector machin,data classif||concav minim
+19,4609403.txt,21,2,1,0,1,47,37,1.2702702702702702,0.6837357103066768,73,50,1.46,1.1350770898930165,pattern discoveri,,local model
+20,5072072.txt,30,3,1,0,2,133,70,1.9,1.8295198433312656,201,99,2.0303030303030303,1.9093313941846493,webpag understand,,text process||condit random field
+21,10095848.txt,44,3,1,1,1,145,83,1.7469879518072289,1.7891464849008742,236,121,1.9504132231404958,2.0564401547913755,collect classif,label acquisit,activ infer
+22,444298.txt,2,2,0,0,2,6,6,1.0,0.0,8,8,1.0,0.0,,,error toler||frequent itemset
+23,3626889.txt,3,6,1,1,4,9,9,1.0,0.0,13,13,1.0,0.0,reject infer,bayesian network,heckman estim||expectation-maxim||propens score||sampl select bia
+24,9151050.txt,30,5,3,0,2,117,60,1.95,1.8656991540260006,180,88,2.0454545454545454,1.698321972024493,pattern||tree||data stream,,concept drift||close mine
+25,188531.txt,6,3,0,0,3,15,15,1.0,0.0,20,20,1.0,0.0,,,spatial graph||outlier detect||spatial data mine
+26,11482753.txt,33,4,2,0,2,131,79,1.6582278481012658,1.3490369368353123,202,115,1.7565217391304349,1.7123150073248852,domain adapt||text mine,,featur extract||miscellan
+27,10257235.txt,37,3,2,1,0,136,73,1.8630136986301369,1.9953031732639055,221,108,2.0462962962962963,2.2459191769174462,privaci||data publish,anonym,
+28,9167777.txt,40,3,0,2,1,125,72,1.7361111111111112,1.518342074211536,194,95,2.042105263157895,2.041236928787538,,pattern summar||regress,frequenc restor
+29,10224533.txt,38,2,0,2,0,95,65,1.4615384615384615,1.2413010925504186,169,102,1.6568627450980393,1.458545461586315,,classif rule||discrimin,
+30,4271654.txt,3,2,0,0,2,8,8,1.0,0.0,11,11,1.0,0.0,,,data simplif||dna visual
+31,652736.txt,3,6,0,2,4,11,11,1.0,0.0,14,14,1.0,0.0,,person view||person,machin learn||user interfac||www||system and softwar
+32,314861.txt,4,3,0,0,3,11,10,1.1,0.3,15,14,1.0714285714285714,0.25753937681885636,,,nois elimin||web mine||nois detect
+33,13059930.txt,21,4,2,1,1,70,49,1.4285714285714286,0.9476070829586859,108,70,1.542857142857143,1.0781692722350407,divers||rank,inform network,reinforc random walk
+34,10940984.txt,49,3,2,1,0,156,85,1.8352941176470587,1.9514523027646364,254,122,2.081967213114754,2.201304248023801,social network||influenc maxim,viral market,
+35,340719.txt,5,4,0,1,3,12,12,1.0,0.0,19,18,1.0555555555555556,0.2290614236454256,,inform extract,user guid revis||theori revis||text mine
+36,180350.txt,3,2,0,1,1,9,9,1.0,0.0,14,14,1.0,0.0,,dynam time warp,time seri
+37,609510.txt,4,5,0,0,5,12,12,1.0,0.0,16,16,1.0,0.0,,,hoeffd bound||subsampl||discret search||scalabl learn algorithm||bayesian network
+38,7801205.txt,8,3,0,0,3,28,24,1.1666666666666667,0.3726779962499649,38,33,1.1515151515151516,0.3585502898848252,,,regress problem||model comparison||evalu metric
+39,4002392.txt,4,2,1,0,1,11,11,1.0,0.0,17,17,1.0,0.0,multipl tree algorithm,,track initi
+40,11539451.txt,27,3,2,0,1,105,57,1.8421052631578947,1.9266321281813805,175,93,1.881720430107527,1.7588453101584807,compress||social network,,mpk linear
+41,1080840.txt,5,6,0,1,5,14,14,1.0,0.0,19,19,1.0,0.0,,featur gener,genr classif||miscellan||logist regress||music mine||meta learn
+42,10757352.txt,49,4,1,1,2,137,85,1.611764705882353,1.3641986887120716,221,123,1.7967479674796747,1.5924585971491005,health insur claim,machin learn,claim rework identif||decis support
+43,1428788.txt,6,1,0,0,1,13,12,1.0833333333333333,0.2763853991962833,18,17,1.0588235294117647,0.2352941176470589,,,graphic user interfac
+44,3788999.txt,35,7,1,1,5,118,77,1.5324675324675325,1.391853996526632,202,115,1.7565217391304349,1.6502505967688983,inform genealog,flow of idea,languag model||citat infer||miscellan||tempor data||text mine
+45,4504437.txt,3,6,0,1,5,10,10,1.0,0.0,13,13,1.0,0.0,,similar,document manag||scalabl||content manag||content analysi and index||near duplic detect
+46,11980488.txt,43,5,1,2,2,135,83,1.6265060240963856,1.2867334505853476,209,111,1.882882882882883,1.563887157162446,semi-structur data,graph classif||boost,featur select||l1 regular
+47,5005014.txt,4,4,0,0,4,13,13,1.0,0.0,17,17,1.0,0.0,,,empir bay method||associ rule||pharmacovigil||post-market surveil
+48,4739043.txt,3,5,2,0,3,11,11,1.0,0.0,15,15,1.0,0.0,concord index||prostat cancer recurr,,surviv analysi||nomogram||neural network
+49,10017791.txt,50,3,2,1,0,147,78,1.8846153846153846,1.7020407753015065,229,105,2.1809523809523808,2.0599627938431664,tensor factor||tag recommend,rank,
+50,3929140.txt,3,3,2,0,1,9,9,1.0,0.0,13,13,1.0,0.0,kernel trick||distanc function,,inform storag and retriev
+51,105378.txt,4,1,0,0,1,7,7,1.0,0.0,12,12,1.0,0.0,,,associ rule
+52,13827011.txt,53,4,1,1,2,160,100,1.6,1.9544820285692077,272,146,1.8630136986301369,2.0826423449067417,time seri,classif,decis tree||inform gain
+53,839336.txt,4,3,0,0,3,12,12,1.0,0.0,17,17,1.0,0.0,,,deduct||number-theoret comput||represent
+54,9606991.txt,25,3,2,0,1,110,52,2.1153846153846154,2.350563321630389,188,84,2.238095238095238,2.3935381641642257,visual||topic model,,probabilist latent semant analysi
+55,9419452.txt,28,2,1,0,1,94,55,1.709090909090909,1.903802198212134,149,81,1.8395061728395061,1.9016353593907935,partial label,,support vector
+56,329505.txt,3,4,1,1,2,10,10,1.0,0.0,14,14,1.0,0.0,information-theoret approach,correl pattern,quantit databas||mutual inform
+57,4721679.txt,45,4,3,0,1,146,85,1.7176470588235293,1.882499994255963,223,114,1.956140350877193,2.3485357546411674,sporad grid||d-stream||density-bas cluster,,stream data mine
+58,736839.txt,3,3,0,2,1,11,11,1.0,0.0,14,14,1.0,0.0,,microarray data||cluster,bioinformat
+59,337666.txt,3,5,1,1,3,9,9,1.0,0.0,12,12,1.0,0.0,natur commun,larg link network,hierarch agglom cluster||stabil||inform search and retriev
+60,10078748.txt,18,6,2,1,3,52,32,1.625,1.165922381636102,81,48,1.6875,1.1575161985907585,social influenc analysi||large-scal network,social network,topic analysi propag||databas applic||inform search and retriev
+61,11842174.txt,39,1,0,0,1,126,68,1.8529411764705883,1.8332284755585206,188,100,1.88,1.7792133093027394,,,inform extract
+62,8764217.txt,3,3,1,0,2,10,10,1.0,0.0,13,13,1.0,0.0,unexpect rule,,subject interesting||associ rule
+63,8627363.txt,6,5,1,1,3,14,13,1.0769230769230769,0.26646935501059654,19,18,1.0555555555555556,0.22906142364542562,inform retriev,term cluster,queri expans||text mine||content analysi and index
+64,2353166.txt,3,8,1,0,7,10,9,1.1111111111111112,0.3142696805273545,14,13,1.0769230769230769,0.26646935501059654,vlsi,,real-tim control||decis support||belief network||ic test||unsupervis learn||em algorithm||decis theori
+65,228769.txt,2,2,0,0,2,8,8,1.0,0.0,10,10,1.0,0.0,,,text document||frequent item set
+66,4002381.txt,3,3,0,1,2,9,9,1.0,0.0,12,12,1.0,0.0,,graph mine,comput chemistri||frequent pattern discoveri
+67,14303200.txt,2,3,1,0,2,7,7,1.0,0.0,10,10,1.0,0.0,parameter-fre data mine,,cluster||anomali detect
+68,4016160.txt,52,3,2,1,0,158,94,1.6808510638297873,1.9797526492686162,242,130,1.8615384615384616,2.1222406379682273,causal model||graphic model,time seri data,
+69,11626792.txt,37,4,2,1,1,119,71,1.676056338028169,1.709745454140116,171,96,1.78125,1.665852665804112,motif||time seri,onlin algorithm,inform search and retriev
+70,3950072.txt,45,2,0,2,0,170,90,1.8888888888888888,2.23330569358242,258,128,2.015625,2.225506876955225,,softwar specif discoveri||close iter pattern,
+71,3906628.txt,3,5,1,1,3,9,9,1.0,0.0,12,12,1.0,0.0,correl cluster,cluster,cluster descript||data mine||cluster model
+72,532497.txt,5,4,1,2,1,13,13,1.0,0.0,16,16,1.0,0.0,consist,high-ord heterogen data||co-clust,spectral graph
+73,13254437.txt,24,5,1,0,4,69,49,1.4081632653061225,0.9016621238520212,106,76,1.394736842105263,0.8596043668979512,latent dirichlet alloc,,learn||domain integr||user profil||parallel statist infer
+74,13755613.txt,14,4,1,2,1,35,30,1.1666666666666667,0.45338235029118146,56,42,1.3333333333333333,0.7453559924999299,pet,popular event track||social commun,topic model
+75,9015654.txt,2,3,0,1,2,8,8,1.0,0.0,10,10,1.0,0.0,,random project,sampl||rate of converg
+76,4295479.txt,3,1,0,0,1,9,9,1.0,0.0,12,12,1.0,0.0,,,nonnumer algorithm and problem
+77,5014927.txt,36,5,0,3,2,125,69,1.8115942028985508,1.5905095557471245,190,98,1.9387755102040816,1.8616227644050967,,kernel learn||kernel discrimin analysi||quadrat constrain quadrat program,convex optim||model select
+78,5135148.txt,3,8,1,2,5,9,9,1.0,0.0,12,12,1.0,0.0,domain knowledg,index||web object,confid propag||latent semant index||inform retriev||link analysi||music index
+79,103469.txt,4,5,1,0,4,10,10,1.0,0.0,13,13,1.0,0.0,regress,,data integr||secur multi-parti comput||learn||data confidenti
+80,1110787.txt,4,4,0,2,2,14,14,1.0,0.0,18,18,1.0,0.0,,maximum entropi||recommend,user profil||web usag mine
+81,1942011.txt,3,7,1,1,5,9,9,1.0,0.0,12,12,1.0,0.0,segmentation-bas model,target market,databas applic||logist regress||featur select||decis tree||linear regress
+82,10397978.txt,4,4,1,1,2,9,9,1.0,0.0,13,13,1.0,0.0,bucket order,order,partial order||rank
+83,1167595.txt,3,6,0,0,6,9,9,1.0,0.0,12,12,1.0,0.0,,,von mises-fish distribut||singular valu decomposit||perron-frobeniu theorem||time sequenc of graph||princip eigenvector||learn
+84,5629103.txt,3,3,0,2,1,12,12,1.0,0.0,15,15,1.0,0.0,,microeconom data mine||catalog segment,cluster
+85,720943.txt,3,6,0,1,5,10,10,1.0,0.0,13,13,1.0,0.0,,aggreg,relat learn||featur construct||learn||construct induct||proposition
+86,867054.txt,4,1,0,0,1,9,9,1.0,0.0,14,14,1.0,0.0,,,probabilist algorithm
+87,231724.txt,2,5,0,0,5,6,6,1.0,0.0,8,8,1.0,0.0,,,integ linear program||game theori||spam detect||cost-sensit learn||naiv bay
+88,13840249.txt,31,2,1,0,1,127,75,1.6933333333333334,1.875976782609232,220,112,1.9642857142857142,2.4013707820020365,top-k frequent item,,data stream mine
+89,3866622.txt,2,4,0,1,3,9,9,1.0,0.0,11,11,1.0,0.0,,princip compon analysi,dimension reduct||semi-supervis project||supervis project
+90,11270958.txt,51,3,2,1,0,166,88,1.8863636363636365,2.074914117509764,262,129,2.0310077519379846,2.1201798391474966,wikipedia||document represent,text cluster,
+91,750159.txt,2,2,0,0,2,5,5,1.0,0.0,8,8,1.0,0.0,,,knowledg represent formal and method||inform search and retriev
+92,4329265.txt,68,4,1,1,2,208,124,1.6774193548387097,2.0617420879064237,317,162,1.9567901234567902,2.310333110053318,control experi,learn,e-commerc||a/b test
+93,9233862.txt,37,5,2,2,1,109,68,1.6029411764705883,1.2849777508070732,162,91,1.7802197802197801,1.435822678774601,markov network||network reconstruct,graphic model||system biolog,ordinari differenti equat
+94,9317346.txt,33,7,2,4,1,134,75,1.7866666666666666,1.6272130230004382,220,112,1.9642857142857142,1.9222780915425535,multi-label classif||hypergraph,effici||spectral learn||least squar||regular,canon correl analysi
+95,4499230.txt,3,4,1,0,3,8,8,1.0,0.0,12,12,1.0,0.0,kullback-leibl diverg,,em||gener||expect maxim
+96,11546904.txt,39,4,1,1,2,151,91,1.6593406593406594,1.6786950728728178,230,128,1.796875,1.7516036179384307,coauthor network,relationship mine,time-constrain factor graph||advisor-advise predict
+97,6926539.txt,4,1,0,0,1,10,10,1.0,0.0,17,16,1.0625,0.24206145913796356,,,probabilist algorithm
+98,3858841.txt,5,2,0,0,2,11,11,1.0,0.0,16,16,1.0,0.0,,,applic||design methodolog
+99,13189609.txt,40,4,1,2,1,126,70,1.8,1.7936395560822267,189,99,1.9090909090909092,1.9544867268602542,graph,compress||index,distribut comput
+100,1405248.txt,2,1,0,0,1,13,13,1.0,0.0,15,15,1.0,0.0,,,comput of transform
+101,95426.txt,2,6,0,1,5,8,8,1.0,0.0,10,10,1.0,0.0,,data stream,increment learn||hoeffd bound||concept drift||decis tree||subsampl
+102,4270261.txt,39,4,2,0,2,179,81,2.2098765432098766,1.9418461966451124,284,118,2.406779661016949,2.531956060800346,multimod data mine||max margin,,imag annot||imag retriev
+103,8645197.txt,3,4,0,0,4,10,10,1.0,0.0,13,13,1.0,0.0,,,multivari linear regress||sampl||distribut data mine||learn curv
+104,9421192.txt,37,4,2,0,2,129,82,1.5731707317073171,1.506332064295205,205,121,1.6942148760330578,1.6049663378288748,templat detect||wrapper,,inform extract||miscellan
+105,4313661.txt,2,2,0,1,1,8,8,1.0,0.0,10,10,1.0,0.0,,anonym,privaci
+106,4413738.txt,4,4,0,0,4,10,10,1.0,0.0,15,15,1.0,0.0,,,knowledg discoveri in graph||network structur index||central||social network analysi
+107,947506.txt,4,2,0,0,2,10,10,1.0,0.0,14,14,1.0,0.0,,,applic||design methodolog
+108,9635494.txt,24,7,1,1,5,53,39,1.358974358974359,0.7333512639012868,95,65,1.4615384615384615,1.0824036368823287,meme-track,news cycl,social network||inform cascad||blog||inform network||news media
+109,9142727.txt,29,3,3,0,0,83,57,1.456140350877193,1.214967697767073,151,89,1.696629213483146,1.4945932097120465,social network||social influenc||onlin commun,,
+110,5197676.txt,2,6,0,1,5,10,10,1.0,0.0,13,13,1.0,0.0,,diseas progress model,niddk liver transplant databas||logist model||model develop||censor||cluster analysi
+111,147177.txt,3,3,0,1,2,13,12,1.0833333333333333,0.2763853991962833,18,17,1.0588235294117647,0.23529411764705885,,learn,larg dataset||text mine
+112,1239715.txt,3,1,0,1,0,10,10,1.0,0.0,13,13,1.0,0.0,,learn,
+113,5121820.txt,24,3,2,0,1,92,57,1.6140350877192982,1.5418647398399885,163,95,1.7157894736842105,1.6200270166346102,constraint||cluster,,complex
+114,316550.txt,3,5,0,1,4,8,8,1.0,0.0,11,11,1.0,0.0,,cur decomposit,tensor cur||recommend system analysi||miscellan||hyperspectr imag analysi
+115,9125701.txt,38,7,1,2,4,126,71,1.7746478873239437,1.3860185464949346,182,96,1.8958333333333333,1.7823157143322155,expertis search,social network||associ search,inform extract||topic model||name disambigu||inform search and retriev
+116,1473866.txt,3,8,0,1,7,11,11,1.0,0.0,14,14,1.0,0.0,,learn,databas applic||string edit distanc||svm applic||train similar measur||distanc metric learn||data clean||record linkag
+117,5023118.txt,32,3,0,0,3,118,56,2.107142857142857,2.2494330351428204,193,93,2.075268817204301,2.0803047705780977,,,data qualiti||link analysi||web mine
+118,63351.txt,2,4,0,0,4,6,6,1.0,0.0,8,8,1.0,0.0,,,miscellan||spam||adversari classif||linear classifi
+119,4178805.txt,2,3,0,1,2,7,7,1.0,0.0,9,9,1.0,0.0,,cluster,miscellan||fractal dimens
+120,1238162.txt,2,4,1,1,2,9,9,1.0,0.0,12,12,1.0,0.0,scale-fre network,cluster,graph||social network
+121,13222049.txt,29,4,1,2,1,90,63,1.4285714285714286,0.9209085526577961,137,89,1.5393258426966292,1.1223588700377347,belief propag,sensemak||larg network,user interfac
+122,5103822.txt,3,4,0,1,3,11,11,1.0,0.0,14,14,1.0,0.0,,data stream,concept drift||classifi||classifi ensembl
+123,8957852.txt,3,4,1,1,2,8,8,1.0,0.0,11,11,1.0,0.0,similar analysi,regul,legal informat||text mine
+124,13676844.txt,3,3,0,2,1,11,10,1.1,0.3,14,13,1.0769230769230769,0.26646935501059654,,data stream||concept-drift,decis tree
+125,4917920.txt,2,6,1,0,5,8,8,1.0,0.0,12,12,1.0,0.0,proxim,,escap probabl||proxim subgraph||cycle-fre escap probabl||connect subgraph||random walk
+126,365910.txt,4,4,0,0,4,11,11,1.0,0.0,15,15,1.0,0.0,,,scalabl algorithm||outlier||robust estim||robust statist
+127,1835216.txt,3,5,0,2,3,10,10,1.0,0.0,13,13,1.0,0.0,,stream data||decis tree,learn||sampl||databas applic
+128,13797806.txt,46,6,1,1,4,167,88,1.8977272727272727,1.9542481274908903,271,127,2.1338582677165356,2.2774561189214495,diseas map,regular,spatial-tempor data mine||privaci||spatial epidemiolog||movement trajectori
+129,3680878.txt,6,9,0,0,9,16,15,1.0666666666666667,0.2494438257849295,21,20,1.05,0.21794494717703378,,,user model||anomali detect||learn||secur and protect||featur select||machin learn||winnow algorithm||window 2000||intrus detect
+130,6594120.txt,5,9,0,3,6,13,13,1.0,0.0,18,18,1.0,0.0,,spline||outcom||risk,data mine||variabl transform||predict||linear model||learn||adapt
+131,1049322.txt,6,5,1,0,4,13,13,1.0,0.0,17,17,1.0,0.0,decis tree,,classif||interact visual||visual data mine||inform visual
+132,1239494.txt,2,3,0,1,2,7,7,1.0,0.0,10,10,1.0,0.0,,boost,classifi ensembl||distribut learn
+133,4697802.txt,4,4,1,0,3,11,11,1.0,0.0,14,14,1.0,0.0,spatial scan statist,,probabl and statist||kulldorff scan statist||discrep
+134,6847800.txt,22,3,2,0,1,93,55,1.690909090909091,1.450676673114087,133,76,1.75,1.4338483366910109,commun identif||dynam social network,,model develop
+135,1317160.txt,3,1,0,0,1,9,9,1.0,0.0,14,13,1.0769230769230769,0.2664693550105965,,,probabilist algorithm
+136,5108365.txt,3,5,0,1,4,8,8,1.0,0.0,12,12,1.0,0.0,,predict,sale rank||inform search and retriev||time-seri analysi||blog
+137,9633231.txt,21,5,2,0,3,71,47,1.5106382978723405,0.9647475786174157,110,70,1.5714285714285714,1.0766539246523865,constrain optim||condit random field,,extend saddl point||cross valid||financi
+138,8598375.txt,4,6,0,1,5,9,9,1.0,0.0,14,14,1.0,0.0,,season,distanc function||product life cycl||time-seri||gaussian distribut||forecast
+139,565512.txt,4,4,0,1,3,9,9,1.0,0.0,13,13,1.0,0.0,,market campaign,confid interv||perform measur||model evalu
+140,7833205.txt,18,5,3,0,2,56,40,1.4,0.8000000000000002,89,63,1.4126984126984128,0.7691454882276645,infer detect||associ rule mine||search engin,,web mine||infer control
+141,9284044.txt,32,2,0,2,0,109,69,1.5797101449275361,1.5075250578487933,177,103,1.7184466019417475,1.5543079859248665,,recommend system||collabor filter,
+142,565501.txt,5,4,0,0,4,13,13,1.0,0.0,18,18,1.0,0.0,,,pareto-optim model||multipl object||evolutionari comput||databas market
+143,9111641.txt,30,3,0,2,1,123,63,1.9523809523809523,1.8207670756481107,212,102,2.0784313725490198,2.046931105624375,,learn||transfer learn,spectral learn
+144,9135998.txt,27,4,1,1,2,92,61,1.5081967213114753,1.2230431117111147,166,99,1.6767676767676767,1.3840964147846995,quicklink,sitemap,web page titl gener||inform search and retriev
+145,120497.txt,3,6,1,1,4,9,9,1.0,0.0,12,12,1.0,0.0,direct data,cluster,mixtur||em||von mises-fish||inform search and retriev
+146,1523191.txt,3,4,0,1,3,9,9,1.0,0.0,12,12,1.0,0.0,,imag databas,imag mine||databas applic||spatial relationship
+147,60862.txt,3,2,0,0,2,9,9,1.0,0.0,15,15,1.0,0.0,,,em algorithm||mixtur model
+148,239091.txt,4,1,0,1,0,11,11,1.0,0.0,16,16,1.0,0.0,,learn,
+149,49927.txt,5,5,2,0,3,12,12,1.0,0.0,17,17,1.0,0.0,olap||data cube,,approxim queri answer||densiti estim||decis support
+150,4913071.txt,5,3,0,1,2,10,10,1.0,0.0,16,16,1.0,0.0,,constrain optim,neural network||return on invest
+151,9389455.txt,41,5,4,0,1,153,87,1.7586206896551724,1.5006934584130303,253,134,1.8880597014925373,1.7262695858419381,opinion mine||sensit content detect||sub-docu classif||contextu advertis,,gener
+152,55904.txt,4,4,0,1,3,11,11,1.0,0.0,15,15,1.0,0.0,,classif,databas applic||tree mine||xml/semi-structur data
+153,3908215.txt,5,3,0,0,3,14,14,1.0,0.0,19,19,1.0,0.0,,,parallel coordin visual||chang pattern||rule
+154,1522729.txt,3,3,0,0,3,8,8,1.0,0.0,12,12,1.0,0.0,,,fuzzi||uncertainti||and probabilist reason
+155,14051997.txt,15,3,1,1,1,38,28,1.3571428571428572,0.6102859818083951,67,43,1.558139534883721,1.0631748326197639,propag,influenc,social network
+156,7292686.txt,3,6,1,1,4,12,12,1.0,0.0,15,15,1.0,0.0,recent frequent itemset,data stream,prune of itemset||decay mechan||delayed-insert||databas applic
+157,9336615.txt,39,3,1,1,1,139,84,1.6547619047619047,1.531370749323,218,115,1.8956521739130434,1.7662237439802535,multi-label classif,share subspac,least squar
+158,13952526.txt,49,3,0,0,3,152,99,1.5353535353535352,1.2334818199978792,256,130,1.9692307692307693,1.9804368653190623,,,high-precis classif||large-scal classif||multilabel text classif
+159,252249.txt,4,3,1,0,2,11,11,1.0,0.0,16,16,1.0,0.0,scientif data,,spatial object associ||spatio-tempor association/episod
+160,331246.txt,3,3,0,1,2,9,9,1.0,0.0,11,11,1.0,0.0,,cross-mod correl,graph-bas model||automat imag caption
+161,5070260.txt,52,5,1,2,2,144,98,1.469387755102041,1.17111565186968,244,138,1.7681159420289856,1.707994226106319,histogram,synops||effici,miscellan||wavelet
+162,4100505.txt,38,6,3,0,3,131,72,1.8194444444444444,2.0971302408085153,226,110,2.0545454545454547,2.303500749398476,blogospher||commun factor||blog,,iter search||regular||non-neg matrix factor
+163,5097759.txt,25,2,0,0,2,79,54,1.462962962962963,1.2577605460582906,121,77,1.5714285714285714,1.2213317345983108,,,inform extract||data clean
+164,112222.txt,4,5,1,1,3,14,14,1.0,0.0,19,19,1.0,0.0,cross-sel,recommend,electron commerc||imput||collabor filter
+165,13786417.txt,64,4,0,3,1,227,129,1.7596899224806202,1.7332820227875794,348,168,2.0714285714285716,2.3893898119539645,,support vector machin||nonlinear classif||stochast gradient descent,large-scal learn
+166,9759716.txt,45,4,1,2,1,156,87,1.793103448275862,2.3931796337536797,230,113,2.0353982300884956,2.477970921068401,user behavior,gener||sponsor search,implicit feedback
+167,4051385.txt,3,4,0,1,3,9,9,1.0,0.0,12,12,1.0,0.0,,numer,data mine||rank correl||system
+168,5245939.txt,39,5,1,2,2,137,85,1.611764705882353,1.3203753267386542,211,121,1.743801652892562,1.4518664284112637,activ learn,onlin learn||appl tast,stream data||gener
+169,1030913.txt,4,1,0,0,1,11,11,1.0,0.0,18,18,1.0,0.0,,,probabilist algorithm
+170,782673.txt,3,6,0,2,4,9,9,1.0,0.0,12,12,1.0,0.0,,curv cluster||mixtur model,learn||align||em||transform invari
+171,222358.txt,4,3,0,0,3,12,12,1.0,0.0,17,17,1.0,0.0,,,world wide web||web log mine||applic to cach and prefetch on the www
+172,1360368.txt,4,3,0,0,3,9,9,1.0,0.0,12,12,1.0,0.0,,,classif rule||deduct||associ rule
+173,76938.txt,4,1,0,0,1,11,11,1.0,0.0,15,15,1.0,0.0,,,probabilist algorithm
+174,8749.txt,3,3,0,0,3,10,10,1.0,0.0,14,14,1.0,0.0,,,databas administr||databas applic||secur and protect
+175,4882592.txt,4,6,0,2,4,10,10,1.0,0.0,13,13,1.0,0.0,,reinforc learn||learn,crm||custom life time valu||cost sensit learn||target market
+176,1595381.txt,4,7,0,3,4,14,14,1.0,0.0,18,18,1.0,0.0,,classif||tour||support vector machin,visual||multivari data||dynam graphic||machin lean
+177,997055.txt,3,3,0,1,2,10,10,1.0,0.0,13,13,1.0,0.0,,summar,frequent pattern||probabilist model
+178,4223793.txt,36,7,1,1,5,101,74,1.364864864864865,0.8149668261251135,168,104,1.6153846153846154,1.2271581641187546,author predict,recipi predict,undirect graphic model||learn||topic model||text mine||multimod heterogen data
+179,358420.txt,2,2,0,0,2,7,7,1.0,0.0,10,10,1.0,0.0,,,data integr||miscellan
+180,329510.txt,8,6,0,0,6,28,25,1.12,0.32496153618543844,39,35,1.1142857142857143,0.318157963590287,,,search||inform search and retriev||learn||impact rule||associ rule||numer data
+181,13222302.txt,52,2,1,0,1,184,104,1.7692307692307692,1.9769380424456007,277,132,2.0984848484848486,2.2990770496165345,mobil recommend system,,trajectori data analysi
+182,4766160.txt,45,4,1,3,0,158,85,1.8588235294117648,1.7964208938001314,240,120,2.0,1.91049731745428,minimum consist subset cover,pattern summar||minimum rule set||convers k-cluster,
+183,5175387.txt,36,2,2,0,0,125,69,1.8115942028985508,2.059093386531837,173,92,1.8804347826086956,1.9607141074017098,relat cluster||relat data,,
+184,794717.txt,2,3,0,1,2,6,6,1.0,0.0,9,9,1.0,0.0,,storytel,learn||redescript
+185,488746.txt,47,5,5,0,0,136,88,1.5454545454545454,1.3306619243913131,227,130,1.7461538461538462,1.6186962391977375,classif||co-clust||regress||multimod data||predict model,,
+186,8144120.txt,42,6,2,0,4,135,78,1.7307692307692308,1.6769407197378194,240,114,2.1052631578947367,2.50392120921885,citat graph||topic detect,,correl of text and link||graph mine||probabilist measur||content analysi and index
+187,9690351.txt,23,4,0,1,3,67,46,1.4565217391304348,1.0152429938117922,108,62,1.7419354838709677,1.4134775677552671,,social network,user gener content||stretch exponenti distribut||user/machin system
+188,13901808.txt,70,4,1,1,2,192,124,1.5483870967741935,1.461080238405581,297,165,1.8,1.935943901015415,disast inform manag,hierarch summar,dynam queri form||user recommend
+189,4886672.txt,3,6,1,0,5,9,9,1.0,0.0,13,13,1.0,0.0,grid system,,distribut system||outlier detect||grid inform system||system monitor||distribut data mine
+190,9642833.txt,33,3,3,0,0,90,57,1.5789473684210527,1.0751967330557592,139,83,1.6746987951807228,1.3272712630284733,time seri||index||represent,,
+191,5210404.txt,4,3,0,1,2,12,12,1.0,0.0,15,15,1.0,0.0,,wavelet synops,stream algorithm||miscellan
+192,7359581.txt,3,3,0,0,3,9,9,1.0,0.0,13,13,1.0,0.0,,,hierarch mixtur model||adapt em algorithm||imag classif
+193,3790372.txt,3,6,1,1,4,9,9,1.0,0.0,12,12,1.0,0.0,onlin queri relax,learn,nearest neighbor||web-bas inform sourc||rule learn||fail queri
+194,1071109.txt,3,3,0,2,1,10,10,1.0,0.0,13,13,1.0,0.0,,graph||connect,close pattern
+195,11470541.txt,25,4,2,1,1,90,58,1.5517241379310345,1.3793103448275867,138,89,1.550561797752809,1.306949754929919,tag predict||social tag,person tag predict,inform search and retriev
+196,9645630.txt,12,4,0,1,3,38,26,1.4615384615384615,0.7956984948298923,57,41,1.3902439024390243,0.7284480255155158,,miss valu,bayesian network||expect maxim||time seri
+197,14009852.txt,47,3,0,0,3,146,79,1.8481012658227849,1.8286649179525192,222,105,2.1142857142857143,2.4777650671302847,,,skylin queri||time-seri databas||sequenc databas
+198,4739621.txt,5,4,2,0,2,12,12,1.0,0.0,18,18,1.0,0.0,imag collect||relationship,,fuzzi model||semant categori
+199,5570538.txt,4,5,0,0,5,12,12,1.0,0.0,16,16,1.0,0.0,,,gene express analysi||data mine||cancer diagnosi||machin learn||data visual
+200,10346388.txt,29,4,2,2,0,117,69,1.6956521739130435,1.5351377016655496,187,105,1.7809523809523808,1.5429159306848175,naiv bay||logist regress,learn||email spam filter,
+201,147245.txt,3,4,0,2,2,10,10,1.0,0.0,13,13,1.0,0.0,,classifi||data stream,concept drift||classifi ensembl
+202,4666662.txt,4,4,0,1,3,11,11,1.0,0.0,14,14,1.0,0.0,,data embed,dimension reduct||graph connect||manifold learn
+203,14343779.txt,29,4,0,2,2,80,57,1.4035087719298245,0.9339530985407839,122,78,1.564102564102564,1.1612299358178715,,data mine||onlin advertis,applic||adversari learn
+204,5255575.txt,5,3,1,0,2,12,12,1.0,0.0,15,15,1.0,0.0,data stream,,associ rule||frequent close itemset
+205,7663108.txt,4,3,1,0,2,10,10,1.0,0.0,14,14,1.0,0.0,hidden email,,forens||text mine
+206,865529.txt,3,5,0,0,5,9,9,1.0,0.0,13,13,1.0,0.0,,,markov chain||inform search and retriev||stochast complement||numer linear algebra||page rank
+207,10552565.txt,43,5,1,1,3,146,94,1.553191489361702,2.040113791552021,239,143,1.6713286713286712,1.8727946425313284,vulner,exploit,supervis learn||svm||secur and protect
+208,3771308.txt,5,6,0,3,3,15,14,1.0714285714285714,0.2575393768188563,18,17,1.0588235294117647,0.23529411764705893,,vote||learn||onlin learn,averag||model||winnow
+209,5329968.txt,17,4,1,0,3,48,31,1.5483870967741935,1.0108670719995096,102,62,1.6451612903225807,1.2325789144866321,nested,,0-1 matric||nonnumer algorithm and problem||presence/abs data
+210,510194.txt,3,4,0,1,3,10,9,1.1111111111111112,0.3142696805273545,14,13,1.0769230769230769,0.26646935501059654,,autom,attribut select||encod||transform
+211,9953918.txt,27,4,1,1,2,91,67,1.3582089552238805,0.8927818763425772,133,88,1.5113636363636365,1.117976237568848,behavior target,large-scal,design methodolog||grid comput
+212,4454481.txt,29,4,0,1,3,111,58,1.9137931034482758,1.985155971971947,183,94,1.946808510638298,1.7586686289095368,,multinomi distribut,topic model label||inform search and retriev||statist topic model
+213,4481807.txt,5,6,1,1,4,13,13,1.0,0.0,18,18,1.0,0.0,similar measur,social network,on-lin inform servic||collabor filter||recommend system||onlin commun
+214,9412373.txt,11,4,0,0,4,35,23,1.5217391304347827,1.174717920530982,59,38,1.5526315789473684,1.0686284475919448,,,set cover||queri recommend||cluster||commun applic
+215,35009.txt,3,3,1,0,2,7,7,1.0,0.0,11,11,1.0,0.0,support,,associ analysi||hypercliqu
+216,464109.txt,3,4,1,0,3,8,8,1.0,0.0,12,12,1.0,0.0,support vector machin,,implement||classif||train speed-up
+217,425828.txt,4,5,1,1,3,12,11,1.0909090909090908,0.28747978728803447,16,15,1.0666666666666667,0.24944382578492943,weight support,weight associ rule mine,signific relationship||weight downward closur properti||warm algorithm
+218,9706403.txt,33,4,3,0,1,114,74,1.5405405405405406,1.1530123787946773,175,103,1.6990291262135921,1.3207452401742459,concept drift||ensembl method||data stream,,decis tree
+219,89079.txt,3,5,1,1,3,9,9,1.0,0.0,12,12,1.0,0.0,time seri,motif,data mine||databas applic||random algorithm
+220,14043768.txt,40,3,1,0,2,137,81,1.691358024691358,1.9222027957184193,236,120,1.9666666666666666,2.0933757957476793,close episod,,frequent episod||depth-first search
+221,125023.txt,4,2,0,0,2,11,11,1.0,0.0,16,16,1.0,0.0,,,cost sensit learn||roc analysi
+222,7734521.txt,3,3,1,0,2,10,10,1.0,0.0,14,14,1.0,0.0,data stream,,conceptu equival||proactiv learn
+223,524910.txt,3,6,1,1,4,8,8,1.0,0.0,11,11,1.0,0.0,outlier detect,bag,integr||fals alarm||featur subset||detect rate
+224,4604920.txt,3,2,0,0,2,9,9,1.0,0.0,13,13,1.0,0.0,,,holist aggreg||data cube
+225,54521.txt,3,1,0,0,1,9,9,1.0,0.0,12,12,1.0,0.0,,,probabilist algorithm
+226,15381.txt,4,5,0,1,4,11,11,1.0,0.0,16,16,1.0,0.0,,markov model,person||shrinkag||web mine||relat probabilist model
+227,12029.txt,3,7,1,0,6,10,10,1.0,0.0,13,13,1.0,0.0,collect probabilist forecast,,artifici market||knowledg discoveri||foresight exchang||hollywood stock exchang||world wide web game||formula one pick six competit
+228,429539.txt,4,5,2,1,2,12,10,1.2,0.4,17,15,1.1333333333333333,0.339934634239519,complex||maxim frequent itemset,maxim frequent pattern,data mine||nonnumer algorithm and problem
+229,331243.txt,45,3,2,0,1,147,89,1.651685393258427,1.7229522846497825,235,124,1.8951612903225807,2.1620575191055647,correl||graph databas,,pearson' correl coeffici
+230,9497760.txt,26,4,2,0,2,101,59,1.7118644067796611,1.4267522376769484,163,91,1.7912087912087913,1.5585036745734608,inferior exampl||prefer,,skylin||superior exampl
+231,5515991.txt,3,5,1,2,2,10,10,1.0,0.0,14,14,1.0,0.0,heterogen data sourc,learn||distribut learn,privaci||probabilist model
+232,429532.txt,5,2,0,0,2,12,12,1.0,0.0,15,15,1.0,0.0,,,subgraph mine||span tree
+233,574597.txt,3,5,0,1,4,10,10,1.0,0.0,12,12,1.0,0.0,,maximum margin criterion,learn||linear discrimin analysi||princip compon analysi||optim
+234,6360663.txt,2,3,0,2,1,7,7,1.0,0.0,9,9,1.0,0.0,,move object||cluster,micro-clust
+235,10001128.txt,39,2,1,0,1,140,69,2.028985507246377,2.213077171046539,258,116,2.2241379310344827,2.330776868033756,entiti discoveri,,sentiment analysi
+236,10011554.txt,15,5,0,2,3,63,37,1.7027027027027026,1.1593303021366068,88,55,1.6,1.0548588875898388,,event sequenc||summar,dynam program||minimum descript length||log mine
+237,3689200.txt,2,3,0,1,2,9,9,1.0,0.0,12,12,1.0,0.0,,data stream,approxim comput||singular valu decomposit
+238,652735.txt,4,7,2,0,5,11,11,1.0,0.0,16,16,1.0,0.0,queri log||person,,user histori||categor||cluster||user interest||miscellan
+239,5100696.txt,3,3,1,0,2,10,10,1.0,0.0,13,13,1.0,0.0,high dimension data,,design methodolog||pattern recognit
+240,9621509.txt,49,4,1,1,2,180,106,1.6981132075471699,1.649298371811336,300,155,1.935483870967742,2.1899401062802353,activ learn,estim,noisi label||label select
+241,13755977.txt,45,3,3,0,0,162,88,1.8409090909090908,2.2857580980157595,268,131,2.045801526717557,2.4396927457023723,heterogen inform network||classif||rank,,
+242,13502551.txt,51,5,2,2,1,165,91,1.8131868131868132,1.9718462811055093,273,128,2.1328125,2.7849233992775724,bipartit graph||score propag,co-hit||regular,mutual reinforc
+243,6344644.txt,4,7,1,1,5,11,11,1.0,0.0,15,15,1.0,0.0,attack detect,recommend system,collabor filter||inform search and retriev||robust||system and softwar||learn
+244,3852549.txt,3,5,0,0,5,12,11,1.0909090909090908,0.28747978728803447,15,14,1.0714285714285714,0.25753937681885636,,,compar corpora||inform search and retriev||document align||cross-lingu text mine||frequenc correl
+245,3761551.txt,11,8,1,0,7,35,30,1.1666666666666667,0.45338235029118146,48,41,1.170731707317073,0.43630594682922724,particl filter,,self-organ bayesian dynam system||mcmc||origin-destin traffic flow||learn||inform prior||link load||empir bay
+246,1167659.txt,22,6,0,1,5,73,42,1.7380952380952381,1.4152153430203411,109,64,1.703125,1.2708226604743087,,rule weight,invas softwar||rule prune||anomali detect||machin learn||unauthor access
+247,8634591.txt,4,4,0,0,4,13,13,1.0,0.0,17,17,1.0,0.0,,,semi-discret decomposit||non-orthogon matrix decomposit||compress discrete-valu vector||cluster
+248,13908084.txt,3,4,0,2,2,8,8,1.0,0.0,11,11,1.0,0.0,,review||summar,sentiment classif||text mine
+249,1656820.txt,2,7,0,0,7,9,9,1.0,0.0,12,12,1.0,0.0,,,decis support||model fusion||model evalu||machin learn||methodolog||model build||wheel failur predict
+250,2916145.txt,3,4,0,0,4,9,9,1.0,0.0,12,12,1.0,0.0,,,spatial scan statist||spatial data mine algorithm||biosurveil||cluster detect
+251,5133167.txt,4,6,2,0,4,9,9,1.0,0.0,14,14,1.0,0.0,bia||controversi,,inform system applic||social network||social and behavior scienc||evalu
+252,268214.txt,3,4,0,0,4,9,9,1.0,0.0,12,12,1.0,0.0,,,web inform integr||web data record||web mine||databas applic
+253,5862295.txt,31,4,2,1,1,98,63,1.5555555555555556,1.3066105160162969,147,86,1.7093023255813953,1.396559552263293,privaci preserv||gradient descent method,secur multi-parti comput,regress
+254,7362743.txt,30,6,1,1,4,94,67,1.4029850746268657,1.0083191494957935,153,94,1.627659574468085,1.32876556497512,nearest neighbour,support vector machin,data match||entiti resolut||dedupl||data linkag
+255,4398213.txt,3,4,0,1,3,10,10,1.0,0.0,13,13,1.0,0.0,,swap,0-1 data||signific test||random test
+256,8545050.txt,3,6,1,0,5,10,10,1.0,0.0,13,13,1.0,0.0,associ rule,,market basket analysi||frequent itemset||benchmark||comparison||affin analysi
+257,9962233.txt,15,3,0,1,2,48,37,1.2972972972972974,0.6091582524099807,75,51,1.4705882352941178,1.0728912957101537,,blog,learn||person
+258,8759.txt,4,1,0,1,0,12,12,1.0,0.0,17,17,1.0,0.0,,learn,
+259,9499.txt,4,4,2,0,2,12,12,1.0,0.0,17,17,1.0,0.0,matrix approxim||co-clust,,learn||bregman diverg
+260,3748056.txt,2,2,0,0,2,9,9,1.0,0.0,11,11,1.0,0.0,,,kernel method||privaci preserv data mine
+261,558466.txt,4,1,0,0,1,11,11,1.0,0.0,16,16,1.0,0.0,,,decis support
+262,4727109.txt,2,3,0,2,1,8,8,1.0,0.0,10,10,1.0,0.0,,classif||time seri,semi-supervis learn
+263,1413058.txt,4,1,0,0,1,11,11,1.0,0.0,16,16,1.0,0.0,,,fast fourier transform
+264,4916705.txt,33,4,1,2,1,132,66,2.0,2.0075614636426526,215,97,2.216494845360825,2.2804720262139937,pairwis constraint,data cluster||boost,semi-supervis learn
+265,7808818.txt,28,2,1,0,1,69,55,1.2545454545454546,1.0129736928861162,107,73,1.4657534246575343,1.2829993944074627,causal infer,,miscellan
+266,149223.txt,5,3,0,2,1,12,12,1.0,0.0,17,17,1.0,0.0,,block constraint||close pattern,tough constraint
+267,510197.txt,4,1,0,0,1,8,8,1.0,0.0,13,13,1.0,0.0,,,video
+268,4511305.txt,4,4,0,0,4,14,14,1.0,0.0,19,19,1.0,0.0,,,two dimension sequenti model||design methodolog||graph base cluster||web usag mine
+269,13801985.txt,24,4,3,0,1,89,45,1.9777777777777779,1.891370918306953,154,71,2.1690140845070425,2.048605953304417,compress||network||weight graph,,graph mine
+270,524908.txt,4,4,0,2,2,12,12,1.0,0.0,16,16,1.0,0.0,,outlier||mine,inform search and retriev||metric data
+271,9661966.txt,46,6,1,4,1,162,90,1.8,1.9218047073866085,254,128,1.984375,2.40437223810603,maximum flow,integ linear program||rank-on||regular||binari matrix factor,minimum cut
+272,9429173.txt,4,5,1,1,3,10,10,1.0,0.0,13,13,1.0,0.0,time seri,visual,pattern discoveri||anomali detect||motif discoveri
+273,959150.txt,3,5,0,0,5,7,7,1.0,0.0,11,11,1.0,0.0,,,inform search and retriev||rule discoveri||learn||contrast-set discoveri||retail
+274,10169797.txt,36,3,1,0,2,101,65,1.5538461538461539,1.559396029343207,154,95,1.6210526315789473,1.5091227662273552,fault signatur,,network topolog||onlin diagnosi
+275,4031511.txt,40,4,1,0,3,133,74,1.7972972972972974,1.9726489922815595,225,115,1.9565217391304348,1.9309439203250969,decis tree,,formal concept||constraint-bas mine||frequent itemset
+276,10005232.txt,35,6,4,1,1,129,68,1.8970588235294117,2.1292066037014052,188,95,1.9789473684210526,2.020833321434352,high-dimension data||stabil||featur select||kernel densiti estim,classif,learn
+277,69454.txt,4,6,0,1,5,14,14,1.0,0.0,18,18,1.0,0.0,,correl mine,schema match||correl measur||data integr||heterogen databas||deep web
+278,9315193.txt,26,3,0,1,2,73,59,1.2372881355932204,0.8303355060281967,116,79,1.4683544303797469,1.1782355724779845,,low-rank approxim,graph mine||scalabl
+279,9942032.txt,37,4,1,1,2,134,66,2.0303030303030303,1.6327119749120225,214,101,2.118811881188119,1.803665841990087,social network,influenc maxim,nonnumer algorithm and problem||heurist algorithm
+280,3715814.txt,3,4,0,0,4,10,10,1.0,0.0,13,13,1.0,0.0,,,embryon imag analysi||drosophila||gene express||independ compon analysi
+281,7101956.txt,54,3,0,2,1,152,93,1.6344086021505377,1.6183420843139074,230,124,1.8548387096774193,1.7675094031191063,,recommend system||collabor filter,netflix prize
+282,9309392.txt,22,4,1,0,3,71,43,1.6511627906976745,1.0758170703460819,100,64,1.5625,0.9499177595981665,statist relat learn,,collect classif||semi-supervis learn||random walk
+283,9161791.txt,30,4,2,2,0,116,73,1.5890410958904109,1.3732834010796862,176,102,1.7254901960784315,1.4083564523808256,transact databas||hyperrectangl,set cover||summar,
+284,4394712.txt,4,6,0,2,4,12,12,1.0,0.0,15,15,1.0,0.0,,schema match||ensembl,data integr||deep web||heterogen databas||bag predictor
+285,13756289.txt,42,3,3,0,0,163,88,1.8522727272727273,1.9629510062384536,262,135,1.9407407407407407,2.1968427276028835,heterogen inform network||topic model||bias propag,,
+286,4069727.txt,5,3,1,0,2,13,13,1.0,0.0,19,19,1.0,0.0,bayesian network,,sampl||associ rule
+287,4978533.txt,36,5,1,1,3,130,79,1.6455696202531647,1.283172242782196,193,103,1.8737864077669903,1.7386503618013454,clinic trial,classif,comput aid detect||miscellan||lung cancer prognosi
+288,10126598.txt,30,3,0,0,3,97,60,1.6166666666666667,1.3427790419706271,141,82,1.7195121951219512,1.3992540716997581,,,tempor data||similar search||outlier detect
+289,184282.txt,6,5,2,0,3,13,13,1.0,0.0,18,18,1.0,0.0,random project||dimension reduct,,high-dimension data||text document data||imag data
+290,0.txt,2,8,0,0,8,8,8,1.0,0.0,10,10,1.0,0.0,,,vlsi||spars||matrix approxim||structur||svd||and veri larg system||linear algebra||lsi
+291,4056131.txt,4,4,0,0,4,11,11,1.0,0.0,15,15,1.0,0.0,,,spam filter||web mine||data clean||dedupl
+292,211492.txt,5,1,0,0,1,8,8,1.0,0.0,18,17,1.0588235294117647,0.2352941176470589,,,decis support
+293,11536257.txt,31,3,2,1,0,104,67,1.5522388059701493,1.1626472892030126,152,90,1.6888888888888889,1.2792744857443774,markov random field||structur learn,featur select,
+294,379299.txt,3,3,0,2,1,8,8,1.0,0.0,12,12,1.0,0.0,,ontolog||subspac cluster,tendenc preserv
+295,4531703.txt,30,3,2,0,1,123,71,1.732394366197183,1.519430457407591,170,99,1.7171717171717171,1.4073429656762646,local cluster||rare class analysi,,k-mean cluster support vector machin
+296,668606.txt,3,1,0,0,1,9,9,1.0,0.0,13,13,1.0,0.0,,,learn
+297,3792033.txt,3,10,0,1,9,12,12,1.0,0.0,15,15,1.0,0.0,,rapid prototyp,audio and text mine||data pre-process||design methodolog||featur construct||kdd system||data stream mine||multimedia mine||distribut data mine||result visual
+298,9700854.txt,48,3,1,1,1,158,94,1.6808510638297873,1.5243608074977002,247,133,1.8571428571428572,1.6775512817497136,semi-supervis learn,time seri predict,miscellan
+299,1796160.txt,4,1,0,0,1,10,10,1.0,0.0,14,14,1.0,0.0,,,probabilist algorithm
+300,2341962.txt,4,5,1,0,4,11,11,1.0,0.0,15,15,1.0,0.0,spars grid,,classif||combin techniqu||simplici discret||approxim
+301,10269043.txt,46,4,2,0,2,148,87,1.7011494252873562,1.5618655403644155,227,117,1.9401709401709402,2.1053070843697386,social select model||onlin forum,,social network||inform diffus
+302,9647883.txt,37,3,1,1,1,112,73,1.5342465753424657,1.1477457570221044,160,97,1.6494845360824741,1.324170521250377,object-level search,subspac cluster,perform evalu
+303,432453.txt,4,4,1,0,3,12,12,1.0,0.0,16,16,1.0,0.0,naiv bay,,high recal classif||featur select||text categor
+304,9678724.txt,43,6,4,0,2,128,81,1.5802469135802468,1.3413112943744274,197,116,1.6982758620689655,1.4397067923844955,linear dynam system||openmp||multi-cor||kalman filter,,expect maxim||optim
+305,239098.txt,3,7,0,0,7,11,11,1.0,0.0,14,14,1.0,0.0,,,bayesian model||probabl and statist||bias-vari tradeoff||kernel||correl||classif||regress
+306,1223280.txt,9,3,1,2,0,29,26,1.1153846153846154,0.31948553318915673,41,35,1.1714285714285715,0.44629998148038036,k-mean,sql||cluster,
+307,177405.txt,4,4,1,0,3,14,14,1.0,0.0,18,18,1.0,0.0,svm,,unlabel data||label data||mapping-converg algorithm
+308,6731452.txt,3,4,0,1,3,14,14,1.0,0.0,17,17,1.0,0.0,,regular,quadrat discrimin analysi||dimension reduct||cross-valid
+309,10896119.txt,37,5,3,2,0,157,82,1.9146341463414633,1.6245165848472534,227,115,1.9739130434782608,1.8342673910866365,scalabl||gener eigenvalu problem||regular,dimension reduct||least squar,
+310,11109637.txt,32,4,2,1,1,131,69,1.8985507246376812,1.7704902091681685,206,101,2.0396039603960396,2.0773211618546763,fuse lasso||subgradi,restart,l1 regular
+311,14344924.txt,55,5,1,2,2,199,107,1.8598130841121496,2.0299099843346995,292,145,2.013793103448276,2.3459023905864784,linear program,perform display||real-tim bid,combinatori optim||ad exchang
+312,813130.txt,3,13,0,0,13,8,8,1.0,0.0,12,12,1.0,0.0,,,ewma||equi-depth histogram||transact data||percentil||dynam databas||model valid and analysi||simul output analysi||custom profil||stochast approxim||applic||massiv data||sequenti estim||custom relationship manag
+313,14477329.txt,30,2,1,1,0,101,59,1.7118644067796611,1.6056135366494977,170,91,1.8681318681318682,1.8705866225013812,sequenti pattern mine,combinator,
+314,13809567.txt,49,12,6,2,4,164,94,1.7446808510638299,1.5154254385637327,245,129,1.8992248062015504,1.733594022914212,svm||predict||stroke||concord index||featur select||stroke predict,roc||classif,benchmark||medic data analysi||healthcar||data analysi
+315,13886565.txt,50,6,1,1,4,141,96,1.46875,1.3459284667098768,220,138,1.5942028985507246,1.4478253615932966,display ad,smooth deliveri,gener||ad alloc||nonnumer algorithm and problem||onlin match
+316,6949807.txt,3,6,0,2,4,9,9,1.0,0.0,12,12,1.0,0.0,,olap||interesting analysi,class associ rule||gener impress||miscellan||diagnost data mine
+317,4713024.txt,3,1,0,0,1,9,9,1.0,0.0,13,13,1.0,0.0,,,cluster
+318,1832411.txt,7,5,0,1,4,16,16,1.0,0.0,23,21,1.0952380952380953,0.2935435239509036,,invert matrix,frequent pattern mine||databas applic||associ rule||cofi-tre
+319,4653195.txt,3,7,2,1,4,9,9,1.0,0.0,13,13,1.0,0.0,mixtur model||contextu text mine,context,em algorithm||inform search and retriev||cluster||theme pattern
+320,3920459.txt,2,4,0,2,2,11,11,1.0,0.0,14,14,1.0,0.0,,dissimilar||cluster,poset||poclust
+321,9015634.txt,4,4,1,0,3,11,11,1.0,0.0,15,15,1.0,0.0,redescript,,learn||data mine in biolog domain||classif tree
+322,14214144.txt,39,3,2,0,1,112,70,1.6,1.4081396034687557,193,105,1.838095238095238,1.5682796733321667,differenti privaci||anonym,,miscellan
+323,1041340.txt,4,5,1,0,4,10,10,1.0,0.0,15,15,1.0,0.0,novelti,,semant distanc||interest rule||knowledg hierarchi||wordnet
+324,1254605.txt,3,2,0,0,2,12,12,1.0,0.0,14,14,1.0,0.0,,,learn dissimilar measur||cluster
+325,93110.txt,3,2,0,0,2,10,10,1.0,0.0,13,13,1.0,0.0,,,frequent pattern||associ rule
+326,679710.txt,23,5,2,2,1,94,50,1.88,1.6928083175599054,161,84,1.9166666666666667,1.7334821364699193,latent semant analysi||parafac2,multilingu||inform retriev,perform evalu
+327,4602979.txt,3,3,1,0,2,10,10,1.0,0.0,13,13,1.0,0.0,partial order,,hidden order||consecut one properti
+328,10489135.txt,35,4,2,1,1,138,76,1.8157894736842106,1.8617374900867367,222,111,2.0,1.9727878476642875,approxim algorithm||dynam social network,gener,commun identif
+329,82229.txt,4,2,0,1,1,13,13,1.0,0.0,21,21,1.0,0.0,,time seri,experiment evalu
+330,954813.txt,38,7,1,5,1,132,90,1.4666666666666666,1.2220201853215573,197,118,1.6694915254237288,1.4846964236055693,sensor network,em||learn||calibr||local||track,crf
+331,9109385.txt,29,3,1,1,1,104,58,1.793103448275862,2.163638543731171,155,90,1.7222222222222223,1.8380410935907812,transact databas,anonym,data publish
+332,783980.txt,5,4,1,0,3,12,12,1.0,0.0,18,18,1.0,0.0,support envelop,,error-toler itemset||associ analysi||formal concept analysi
+333,10925003.txt,14,3,1,1,1,47,30,1.5666666666666667,1.054619467970425,86,58,1.4827586206896552,0.8952244817756665,cliqu,social network,graph gener
+334,802275.txt,3,2,1,0,1,8,8,1.0,0.0,12,12,1.0,0.0,time seri,,knowledg discoveri
+335,10837032.txt,22,4,0,2,2,74,58,1.2758620689655173,0.7142177647313094,100,77,1.2987012987012987,0.7036995939815103,,co-clust||dataflow,scalabl||predict model
+336,9403280.txt,48,3,0,2,1,145,94,1.5425531914893618,1.4041344241963516,238,135,1.762962962962963,1.7350735170993108,,emerg artist||p2p queri,model develop
+337,657734.txt,5,7,1,1,5,13,13,1.0,0.0,18,18,1.0,0.0,imag compress,dimens reduct,inform search and retriev||vector space||singular valu decomposit||tensor product||princip compon analysi
+338,321801.txt,3,1,0,0,1,9,9,1.0,0.0,13,13,1.0,0.0,,,chang mine
+339,8664081.txt,4,6,0,1,5,10,10,1.0,0.0,13,13,1.0,0.0,,predict model,airlin overbook||model aggreg||no-show forecast||classif||probabilist estim
+340,10386938.txt,4,3,0,1,2,12,12,1.0,0.0,16,16,1.0,0.0,,classif,databas applic||visual data mine
+341,4601568.txt,4,6,1,1,4,11,11,1.0,0.0,14,14,1.0,0.0,extract,kernel featur,learn||scalabl||design methodolog||svm
+342,60813.txt,3,4,1,0,3,8,8,1.0,0.0,12,12,1.0,0.0,semi-supervis cluster,,learn||hidden markov random field||distanc metric learn
+343,878023.txt,3,6,0,0,6,9,9,1.0,0.0,13,13,1.0,0.0,,,noisi data||background knowledg||case studi||increment algorithm||implement and use of kdd system||evalu knowledg and potenti discoveri
+344,341875.txt,31,4,3,0,1,123,65,1.8923076923076922,1.6836140332682408,212,103,2.058252427184466,1.914813193851681,classif||co-clust||out-of-domain,,kullback-leibl diverg
+345,947504.txt,31,5,2,0,3,97,46,2.108695652173913,1.9696419986953404,168,84,2.0,1.8257418583505538,featur select||text classif,,miscellan||random sampl||regular least squar classif
+346,4677655.txt,23,3,0,1,2,75,51,1.4705882352941178,1.1436601232484467,123,75,1.64,1.228983319658977,,disguis miss data,data qualiti||data clean
+347,1094028.txt,3,8,0,1,7,9,8,1.125,0.33071891388307384,13,12,1.0833333333333333,0.2763853991962833,,maxim inform k-itemset,system and inform theori||joint entropi||subgroup discoveri||featur select||learn||binari data||inform theori
+348,5440865.txt,3,1,0,0,1,10,10,1.0,0.0,13,13,1.0,0.0,,,self-modifi machin
+349,11134936.txt,35,6,3,1,2,140,77,1.8181818181818181,2.5468456310190555,212,115,1.8434782608695652,2.2634767575868993,folksonomi||social metadata||relat cluster,taxonomi,collect knowledg||social inform process
+350,8604501.txt,3,7,1,1,5,9,9,1.0,0.0,12,12,1.0,0.0,featur rule,identif,meta classifi||weight vote||local adapt threshold||dynam water immers||major vote
+351,938622.txt,3,5,0,0,5,14,13,1.0769230769230769,0.2664693550105966,21,19,1.105263157894737,0.306892204991858,,,internet||price mine||learn||airlin price predict||web mine
+352,3769919.txt,4,3,1,0,2,11,11,1.0,0.0,14,14,1.0,0.0,center-piec subgraph,,kand||good score
+353,11470328.txt,32,3,2,1,0,88,54,1.6296296296296295,1.3094570021973104,153,84,1.8214285714285714,1.983027473128819,social network||probabilist graph,link predict,
+354,3568707.txt,3,3,1,1,1,10,10,1.0,0.0,13,13,1.0,0.0,high-dimension data,redund,featur select
+355,54393.txt,4,2,0,0,2,9,9,1.0,0.0,12,12,1.0,0.0,,,unauthor access||deduct
+356,13928451.txt,26,3,3,0,0,95,61,1.5573770491803278,1.3970060511730946,142,91,1.5604395604395604,1.2684574971875233,frequent pattern||associ rule||uncertain data,,
+357,14206390.txt,29,2,0,0,2,86,63,1.3650793650793651,0.8600772815329565,136,87,1.5632183908045978,1.0580957676197755,,,concurr program||gpgpu
+358,6188803.txt,28,5,2,0,3,80,54,1.4814814814814814,1.117880612799006,118,77,1.5324675324675325,1.0761211680969662,clickthrough data||activ explor,,learn to rank||inform search and retriev||web search
+359,10201372.txt,58,4,1,2,1,193,115,1.6782608695652175,1.9361450991572275,302,158,1.9113924050632911,2.2314771937600972,consensu,heterogen sourc||classif,ensembl
+360,9133885.txt,50,3,1,1,1,183,90,2.033333333333333,2.7221315177632395,267,131,2.0381679389312977,2.4319896674922137,relat learn,matrix factor,stochast approxim
+361,939073.txt,3,4,1,1,2,9,9,1.0,0.0,13,13,1.0,0.0,decis tree,associ rule,decis support||databas applic
+362,10285045.txt,40,3,3,0,0,146,92,1.5869565217391304,1.5190970853212047,227,131,1.7328244274809161,1.6978856518421783,increment crawl||sitemap||web forum,,
+363,3627582.txt,4,5,0,2,3,11,10,1.1,0.3,15,14,1.0714285714285714,0.25753937681885636,,rank sum test||inform gene,classif||support vector machin||rank criterion
+364,3588647.txt,3,7,0,0,7,8,8,1.0,0.0,11,11,1.0,0.0,,,olap||databas applic||sampl||data stream||frequenc estim||count dataset||associ rule
+365,13635985.txt,4,4,1,1,2,14,14,1.0,0.0,18,18,1.0,0.0,larg margin classif,scalabl,birch||gaussian mixtur model
+366,704684.txt,4,3,0,1,2,11,11,1.0,0.0,15,15,1.0,0.0,,boolean express,close itemset||minim gener
+367,3962376.txt,5,3,0,2,1,13,13,1.0,0.0,17,17,1.0,0.0,,associ rule mine||profil hidden markov model,model mine
+368,14156740.txt,51,4,1,2,1,181,107,1.691588785046729,1.9257779831143698,300,144,2.0833333333333335,2.2157893000513877,coordin descent method,non-neg matrix factor||converg,learn
+369,683762.txt,3,6,0,0,6,9,9,1.0,0.0,12,12,1.0,0.0,,,comput linguist||inform search and retriev||inform retriev||machin learn||content system||text mine
+370,9058723.txt,47,5,4,1,0,166,95,1.7473684210526317,1.8004000786528793,256,127,2.015748031496063,2.1406609177677645,hierarch summari||parsimoni explan||statist model||chang,olap,
+371,419156.txt,4,2,1,0,1,11,11,1.0,0.0,16,16,1.0,0.0,distanc function,,user interact
+372,676998.txt,3,5,1,1,3,7,7,1.0,0.0,11,11,1.0,0.0,associ rule,search,learn||inform search and retriev||miscellan
+373,6529493.txt,2,4,0,2,2,8,8,1.0,0.0,12,12,1.0,0.0,,cluster||evalu,pac bound||mdl
+374,9942601.txt,23,4,3,0,1,60,40,1.5,1.2449899597988732,103,64,1.609375,1.1939585877973322,correl||social network||social influenc,,tag
+375,10600830.txt,42,2,1,0,1,151,87,1.735632183908046,1.784091707573678,235,121,1.9421487603305785,1.934025565229495,ensembl prune,,ensembl learn
+376,1370349.txt,4,7,0,0,7,9,9,1.0,0.0,14,14,1.0,0.0,,,custom profil||approxim queri||increment updat||massiv data||histogram||signatur||dynam databas
+377,4584686.txt,12,4,0,0,4,37,28,1.3214285714285714,0.7098073897982782,61,42,1.4523809523809523,0.9310102283817695,,,databas dissimilar||compress||tempor data mine||applic
+378,10937824.txt,45,5,1,0,4,136,86,1.5813953488372092,1.5132370683718557,202,114,1.7719298245614035,1.638543896372193,path-constrain random walk,,filter and recommend||learn to rank||inform search and retriev||relat retriev
+379,10130863.txt,33,3,2,0,1,133,63,2.111111111111111,2.2261869394194242,210,97,2.1649484536082473,2.118550430171071,supervis learn||activ learn,,classif
+380,904705.txt,2,4,0,0,4,7,7,1.0,0.0,9,9,1.0,0.0,,,sale lead||decis rule induct||databas applic||expert system
+381,8600422.txt,3,1,0,0,1,9,9,1.0,0.0,13,13,1.0,0.0,,,deduct
+382,13035191.txt,47,4,0,0,4,168,84,2.0,2.721169216487998,261,121,2.15702479338843,2.634821694730337,,,classif||data extract||miscellan||web mine
+383,285080.txt,3,6,0,0,6,8,8,1.0,0.0,12,12,1.0,0.0,,,social network||viral market||collabor filter||direct market||markov random field||depend network
+384,4753000.txt,36,6,1,2,3,110,67,1.6417910447761195,1.3124148022077973,188,102,1.8431372549019607,1.6254417079264873,model,linear regress tree||regress,scalabl algorithm||model tree||predict model
+385,7168080.txt,3,8,0,0,8,8,8,1.0,0.0,11,11,1.0,0.0,,,inform search and retriev||gain ratio||websit segment||facil locat||classif||kl-distanc||tree partit||websit hierarchi
+386,10275752.txt,42,5,0,1,4,121,82,1.475609756097561,1.1500329767922728,175,106,1.650943396226415,1.2667180355950067,,onlin learn,on-lin inform servic||keyword-bas advertis||keyword similar||inform search and retriev
+387,4249633.txt,3,4,1,0,3,8,8,1.0,0.0,12,12,1.0,0.0,model combin,,learn||roc||data envelop analysi
+388,9621454.txt,58,6,1,2,3,169,110,1.5363636363636364,1.3596608716699952,254,141,1.801418439716312,1.9432365272387027,inform retriev,gibb sampl||topic model,learn||multimod data||bioinformat
+389,14180205.txt,14,3,1,0,2,41,33,1.2424242424242424,0.5521474896451091,63,47,1.3404255319148937,0.6282903429886552,balanc alloc,,maximum flow||convex flow
+390,3859887.txt,4,4,1,0,3,11,11,1.0,0.0,15,15,1.0,0.0,frequent pattern,,pattern semant analysi||pattern context||pattern annot
+391,10186200.txt,43,6,1,1,4,154,88,1.75,1.8231466305164914,263,129,2.0387596899224807,2.482194268003925,commute-tim distanc,graph mine,shortest path||resist distanc||kernel on a graph||bias random walk
+392,366857.txt,50,3,3,0,0,174,96,1.8125,2.2606806681469482,275,136,2.0220588235294117,2.5623602164591803,constraint||np-hard||cluster,,
+393,13083411.txt,66,4,2,1,1,234,132,1.7727272727272727,1.8812910987795322,352,184,1.9130434782608696,2.0464825279586627,graph||random walk,link predict,extern memori
+394,9696778.txt,67,6,2,0,4,225,118,1.9067796610169492,1.8038907485783784,364,163,2.233128834355828,2.685042760846367,social network||email priorit,,cluster||applic||miscellan||text mine
+395,6158185.txt,2,3,0,1,2,8,8,1.0,0.0,10,10,1.0,0.0,,progress confid,classif||sequenc
+396,9261711.txt,31,4,1,2,1,115,68,1.6911764705882353,1.5554208144533102,169,96,1.7604166666666667,1.4912578001099919,graph mine,partial least squar regress||graph boost,chemoinformat
+397,11213575.txt,33,3,1,0,2,102,68,1.5,1.1311108542958477,165,99,1.6666666666666667,1.4070529413628985,topic model,,onlin learn||time-seri analysi
+398,4762612.txt,3,4,0,0,4,11,11,1.0,0.0,14,14,1.0,0.0,,,classif||multi-rel data mine||relat databas||multi-view learn
+399,7463889.txt,28,6,1,0,5,79,58,1.3620689655172413,0.8847028697012067,127,84,1.5119047619047619,1.1072708579360635,model,,activ feature-valu acquisit||activ learn||learn||web mine||text categor
+400,6383098.txt,40,4,0,1,3,145,91,1.5934065934065933,1.497088911290234,221,120,1.8416666666666666,1.7223812650578336,,lesson learn,on-board data mine||real-tim data analysi||resource-constrain comput
+401,6461568.txt,4,5,0,1,4,13,12,1.0833333333333333,0.2763853991962833,18,17,1.0588235294117647,0.23529411764705885,,data qualiti,classif||decis tree||ensembl approach||six-sigma
+402,4956024.txt,3,4,0,1,3,9,9,1.0,0.0,12,12,1.0,0.0,,time seri,interv pattern||knowledg discoveri||pattern recognit
+403,19409.txt,4,4,1,2,1,12,12,1.0,0.0,17,17,1.0,0.0,time seri data,gricean maxim||summar,natur languag process
+404,10597102.txt,47,6,1,3,2,147,93,1.5806451612903225,1.4090535269575202,242,129,1.875968992248062,1.8384681521106987,inform cascad,blog||network of diffus||news media,social network||meme-track
+405,1477795.txt,3,5,0,0,5,8,8,1.0,0.0,11,11,1.0,0.0,,,inform extract||inform search and retriev||bioinformat||learn||boost
+406,8837037.txt,6,5,0,1,4,13,13,1.0,0.0,18,18,1.0,0.0,,classif,bootstrap method||supervis and unsupervis learn||miscellan||expect maxim
+407,9050379.txt,57,2,1,1,0,197,115,1.7130434782608697,1.9008703607938193,282,141,2.0,2.275369193018796,quasi-experiment design,causal discoveri,
+408,8614407.txt,6,2,0,0,2,16,15,1.0666666666666667,0.2494438257849295,22,21,1.0476190476190477,0.21295885499998002,,,larg dataset||gaussian mixtur model
+409,7297300.txt,3,4,0,0,4,11,11,1.0,0.0,14,14,1.0,0.0,,,machin learn||classif||applic||po data
+410,3769914.txt,20,4,0,2,2,65,42,1.5476190476190477,1.276199360310229,105,67,1.5671641791044777,1.405998668785753,,pattern match||attribut graph,miscellan||random walk
+411,9975051.txt,12,3,1,2,0,37,28,1.3214285714285714,0.6008072800450256,54,40,1.35,0.7262919523166974,differenti privaci,recommend system||netflix,
+412,9050920.txt,3,6,0,0,6,9,8,1.125,0.33071891388307384,12,11,1.0909090909090908,0.28747978728803447,,,large-scal problem||learn||ordin regress||support vector machin||train algorithm||roc-area
+413,1167574.txt,5,7,0,3,4,12,12,1.0,0.0,17,17,1.0,0.0,,spacecraft||kernel featur space||anomali detect,learn||princip compon analysi||time seri data||von mise fisher distribut
+414,75941.txt,3,3,2,0,1,9,9,1.0,0.0,14,14,1.0,0.0,interesting measur||associ,,conting tabl
+415,331245.txt,4,4,0,1,3,10,10,1.0,0.0,16,16,1.0,0.0,,structur,graph||frequent item set||semi-structur
+416,9632155.txt,13,3,0,0,3,49,33,1.4848484848484849,0.8570991287109668,77,51,1.5098039215686274,0.848818071447583,,,bayesian model||click log analysi||web search
+417,1027147.txt,2,5,0,1,4,7,7,1.0,0.0,10,10,1.0,0.0,,nic,network interfac card||data mine||network intrus detect||network secur
+418,774603.txt,3,5,0,2,3,13,13,1.0,0.0,16,16,1.0,0.0,,gene express data||subspac cluster,scalabl||twig cluster||order-preserv submatrix
+419,86539.txt,3,4,1,0,3,11,11,1.0,0.0,15,15,1.0,0.0,log-linear model,,graphic model||databas applic||associ rule
+420,10010518.txt,52,4,0,0,4,159,102,1.5588235294117647,1.785417671856022,237,134,1.7686567164179106,2.0329897809188715,,,patent process||patent visual||document rank||inform retriev
+421,8393015.txt,4,4,2,1,1,12,11,1.0909090909090908,0.28747978728803447,15,14,1.0714285714285714,0.2575393768188563,learn||cluster,supervis learn,iter optim
+422,4422616.txt,4,3,0,0,3,10,10,1.0,0.0,14,14,1.0,0.0,,,ensembl learn||pattern order||rank aggreg
+423,11669627.txt,21,4,0,1,3,90,47,1.9148936170212767,1.49935854701684,153,82,1.8658536585365855,1.4960288500051029,,learn,interact learn||contextu bandit||associ reinforc learn
+424,9633586.txt,33,3,2,0,1,139,80,1.7375,1.5471243485899897,201,113,1.7787610619469028,1.572633849977307,dual sparsiti||primal sparsiti,,l_1-norm max-margin markov network
+425,13964421.txt,47,3,2,0,1,181,91,1.989010989010989,1.895596432536228,314,141,2.226950354609929,2.9181962619171564,serendipit learn||label space,,maximum margin classif
+426,1204685.txt,3,4,2,0,2,8,8,1.0,0.0,11,11,1.0,0.0,solicit campaign||experiment design,,probabl and statist||data collect
+427,9714416.txt,41,3,2,1,0,123,70,1.7571428571428571,1.4485038023098595,199,112,1.7767857142857142,1.6185852587355167,util||privaci,anonym,
+428,852338.txt,4,10,0,1,9,11,11,1.0,0.0,14,14,1.0,0.0,,money launder crime,cluster||link discoveri base on correl analysi||uni-parti data||bi-parti data||coral||timelin analysi||commun gener||histogram||mlc group model
+429,10038011.txt,28,3,1,0,2,72,52,1.3846153846153846,0.8583043694008227,118,78,1.5128205128205128,1.129370027976679,imag process,,similar search||cultur artifact
+430,1474163.txt,4,6,0,0,6,10,10,1.0,0.0,15,15,1.0,0.0,,,data mine||similar search||index and retriev||dimension reduct||content analysi and index||time seri
+431,6146930.txt,3,3,0,0,3,9,9,1.0,0.0,13,13,1.0,0.0,,,hierarch cluster||inform visual||dendrogram
+432,280213.txt,5,1,0,0,1,13,12,1.0833333333333333,0.2763853991962833,20,19,1.0526315789473684,0.22329687826943603,,,data archiv
+433,1186368.txt,5,3,0,1,2,13,13,1.0,0.0,17,17,1.0,0.0,,program depend graph,graph mine||softwar plagiar detect
+434,7440.txt,8,1,0,0,1,30,27,1.1111111111111112,0.3142696805273545,41,37,1.1081081081081081,0.31051689981286645,,,privaci
+435,687857.txt,4,3,1,0,2,11,11,1.0,0.0,15,15,1.0,0.0,weight associ rule,,databas applic||order shrinkag
+436,9910103.txt,4,9,2,0,7,10,10,1.0,0.0,17,17,1.0,0.0,grand challeng||x-prize,,imag mine||video mine||web mine||multimedia mine||bioinformat||link mine||text mine
+437,4186146.txt,3,4,0,1,3,10,10,1.0,0.0,13,13,1.0,0.0,,graph databas,graph mine||frequent graph pattern||index
+438,13845985.txt,33,4,0,1,3,110,66,1.6666666666666667,1.417780310944192,165,90,1.8333333333333333,1.5147423690002362,,twitter,tdt||gener||stream process
+439,3869373.txt,3,6,0,1,5,10,10,1.0,0.0,14,14,1.0,0.0,,autom softwar test,input-output analysi||regress test||test tool||info-fuzzi network||finit element solver
+440,423858.txt,37,2,1,0,1,104,73,1.4246575342465753,1.1694490942692084,155,95,1.631578947368421,1.7171128251497132,trajectori pattern,,spatio-tempor data mine
+441,9729483.txt,4,2,1,1,0,13,7,1.8571428571428572,1.124858267715973,18,12,1.5,0.9574271077563381,heterogen inform network,cluster,
+442,10193735.txt,38,4,1,0,3,131,84,1.5595238095238095,1.3482898381017132,208,120,1.7333333333333334,1.9093337988826233,kernel,,domain transfer||ensembl||gener bound
+443,13693678.txt,6,5,0,0,5,14,14,1.0,0.0,18,18,1.0,0.0,,,graph mine||graph gener||densif power law||small-world phenomena||heavy-tail distribut
+444,305332.txt,5,4,0,1,3,12,12,1.0,0.0,15,15,1.0,0.0,,close pattern,row enumer||frequent pattern||databas applic
+445,9524696.txt,24,6,2,0,4,70,49,1.4285714285714286,1.0497813183356477,105,69,1.5217391304347827,1.1242865132301145,social network||network evolut,,transit||graph gener||triadic closur||maximum likelihood
+446,14058457.txt,35,4,1,1,2,115,67,1.7164179104477613,1.433146732436752,182,101,1.801980198019802,1.4959999601590923,link predict,social network,location-bas servic||databas applic
+447,95427.txt,4,3,0,0,3,12,12,1.0,0.0,16,16,1.0,0.0,,,ensembl classif||databas applic||stream data
+448,1225233.txt,3,4,2,1,1,9,9,1.0,0.0,12,12,1.0,0.0,nomogram||support vector machin,visual,machin learn
+449,11657462.txt,17,6,2,0,4,61,38,1.605263157894737,0.9878065462696554,91,62,1.467741935483871,0.8746933459971773,privaci||frequent pattern,,frequent itemset||differenti privaci||gener||exponenti mechan
+450,23318.txt,4,5,0,2,3,10,10,1.0,0.0,17,17,1.0,0.0,,web||model-bas cluster,internet||sequenc cluster||data visual
+451,8357167.txt,3,7,0,0,7,10,10,1.0,0.0,13,13,1.0,0.0,,,manufactur optim||neural network||pattern recognit||machin learn||rule induct||self organ map||semiconductor yield enhanc
+452,14166794.txt,24,3,1,0,2,84,50,1.68,1.3332666649999176,130,69,1.8840579710144927,1.698560617273462,mime,,pattern explor||interact visual mine
+453,9727373.txt,31,4,2,1,1,117,62,1.8870967741935485,1.4267585494317852,180,91,1.978021978021978,1.5547023458309794,uncertain databas||frequent itemset mine,probabilist frequent itemset,probabilist data
+454,632417.txt,3,4,0,2,2,8,8,1.0,0.0,13,13,1.0,0.0,,bag||boost,design methodolog||robust fit
+455,13066434.txt,25,2,0,1,1,74,53,1.3962264150943395,0.9969694198960684,126,82,1.5365853658536586,1.0264207518293074,,multi-dimension scale,dimension reduct
+456,7833551.txt,36,5,2,0,3,141,75,1.88,2.2027861145982084,218,109,2.0,2.1588308082653436,tempor smooth||evolutionari spectral cluster,,mine data stream||preserv cluster membership||treserv cluster qualiti
+457,980270.txt,3,4,1,0,3,9,9,1.0,0.0,13,13,1.0,0.0,text classif,,cluster comput||naiv bay||parallel expectation-maxim algorithm
+458,9942600.txt,18,3,0,0,3,54,38,1.4210526315789473,1.1614777100375737,84,58,1.4482758620689655,1.1012909946669873,,,social network learn||graphic model||statist topic model
+459,6171877.txt,18,2,0,1,1,53,32,1.65625,1.018865024181319,90,54,1.6666666666666667,1.0540925533894594,,anomali detect,machin learn
+460,7036412.txt,2,4,0,2,2,7,7,1.0,0.0,9,9,1.0,0.0,,anonym||data collect,data encrypt||data mine
+461,4882089.txt,37,4,2,1,1,124,68,1.8235294117647058,1.8703662465393693,207,103,2.0097087378640777,2.1155694022529454,frequent episod||non-overlap occurr,event stream,tempor data mine
+462,7540968.txt,38,3,3,0,0,134,76,1.763157894736842,1.7981600321954214,223,114,1.956140350877193,2.0278341694769146,hidden markov model||classif||string,,
+463,1218844.txt,2,4,0,0,4,7,7,1.0,0.0,10,10,1.0,0.0,,,addit model||partial residu||predict model||financi
+464,4304753.txt,44,3,0,1,2,195,86,2.2674418604651163,2.3497868216255093,294,128,2.296875,2.4055904128456698,,correl bursti pattern,coordin stream||reinforc
+465,784343.txt,3,4,0,1,3,10,10,1.0,0.0,14,14,1.0,0.0,,graph cluster,kernel method||spectral cluster||multilevel method
+466,4697801.txt,17,4,1,1,2,64,36,1.7777777777777777,1.2044157438154883,99,56,1.7678571428571428,1.336186891180745,densiti test,chang detect,databas applic||kernel densiti estim
+467,55062.txt,1,5,0,3,2,7,7,1.0,0.0,11,11,1.0,0.0,,activ learn||learn||adapt resampl,machin learn||classif
+468,5228328.txt,25,6,0,0,6,85,61,1.3934426229508197,0.7305665559067935,112,78,1.435897435897436,0.7265962725797314,,,document layout analysi||optic charact recognit||gener||learn||name entiti extract||condit random field
+469,6856142.txt,3,4,0,2,2,9,9,1.0,0.0,13,13,1.0,0.0,,learn||cost-sensit learn,multi-class classif||boost
+470,5301226.txt,3,6,0,1,5,10,9,1.1111111111111112,0.3142696805273545,13,12,1.0833333333333333,0.2763853991962833,,gap analysi,databas applic||cluster||inform search and retriev||knowledg manag||text mine
+471,1209092.txt,3,4,0,0,4,9,9,1.0,0.0,12,12,1.0,0.0,,,learn||re-sampl||cluster||consensu partit
+472,8579874.txt,4,7,1,0,6,13,12,1.0833333333333333,0.2763853991962833,17,16,1.0625,0.24206145913796356,dgx,,lognorm distribut||outlier detect||maximum likelihood estim||zipf' law||rank-frequ plot||frequency-count plot
+473,4454482.txt,2,5,0,0,5,7,7,1.0,0.0,9,9,1.0,0.0,,,text model||probabilist algorithm||topic model||miscellan||entiti recognit
+474,9683909.txt,50,4,1,1,2,189,114,1.6578947368421053,1.8440465960947925,309,165,1.8727272727272728,2.069002501173514,frequent pattern,itemset,graph mine||scalabl
+475,13290109.txt,53,5,1,2,2,179,105,1.7047619047619047,1.72336221505029,263,144,1.8263888888888888,1.9232851709420051,topic model,dimension reduct||gener,document classif||semi-supervis learn
+476,13824712.txt,36,3,2,0,1,138,76,1.8157894736842106,1.9648927004036956,209,114,1.8333333333333333,1.8727813384163337,hierarch cluster||rel constraint,,constrain cluster
+477,9640142.txt,50,3,0,2,1,153,96,1.59375,1.3195495206698382,262,138,1.8985507246376812,1.9347690386540346,,social network||belief propag,anomali detect
+478,4409709.txt,3,4,0,0,4,10,10,1.0,0.0,14,14,1.0,0.0,,,learn||statist relat learn||relat probabl tree||fraud detect
+479,552094.txt,4,4,2,0,2,10,10,1.0,0.0,14,14,1.0,0.0,recommend system||time seri,,shill attack||anomali detect
+480,4401640.txt,2,8,0,1,7,9,9,1.0,0.0,12,12,1.0,0.0,,linear program,convex optim||inform search and retriev||rel distanc constraint||linear project||miscellan||metric learn||dimension reduct
+481,762867.txt,2,4,0,1,3,7,7,1.0,0.0,9,9,1.0,0.0,,entiti resolut,relat||queri||adapt
+482,580786.txt,5,5,0,2,3,11,11,1.0,0.0,16,16,1.0,0.0,,rank||select sampl,support vector machin||miscellan||activ learn
+483,748573.txt,3,2,1,0,1,9,9,1.0,0.0,13,13,1.0,0.0,privaci preserv,,associ rule
+484,13833336.txt,38,6,1,1,4,113,75,1.5066666666666666,1.6842274852947348,177,106,1.669811320754717,1.9068975994966764,social network,de-anonym,random graph||network privaci||graph sampl||gener
+485,6823262.txt,3,4,2,1,1,9,9,1.0,0.0,13,13,1.0,0.0,gener model||binari data,cluster,matrix approxim
+486,10061437.txt,28,5,2,1,2,92,63,1.4603174603174602,0.9398648471801563,155,85,1.8235294117647058,1.4885956318010947,bypass rate||queri abandon,relev,similar search||random walk
+487,998449.txt,3,7,1,0,6,10,10,1.0,0.0,13,13,1.0,0.0,fals posit reduct,,data mine||model combin||aggreg||email mine||spam||multipl classifi
+488,939453.txt,3,4,0,3,1,10,10,1.0,0.0,13,13,1.0,0.0,,learn||cluster||relat learn,featur gener
+489,4617810.txt,43,2,2,0,0,115,67,1.7164179104477613,1.6097276134582388,200,94,2.127659574468085,2.38003237307319,xml||cluster,,
+490,9978676.txt,34,3,0,0,3,121,73,1.6575342465753424,1.5190045233566147,194,107,1.8130841121495327,1.6751668413015388,,,telecommun||fault manag||event log mine
+491,435078.txt,4,3,0,0,3,9,9,1.0,0.0,13,13,1.0,0.0,,,unsupervis cluster||inform search and retriev||em initi
+492,10284571.txt,20,4,2,1,1,86,48,1.7916666666666667,1.7315495629316797,130,75,1.7333333333333334,1.5260697523012805,olap||search log,queri session,suffix tree
+493,147623.txt,5,7,0,0,7,13,13,1.0,0.0,18,18,1.0,0.0,,,authorship attribut||comput stylist||inform search and retriev||text mine||learn||electron commun||text categor
+494,154043.txt,4,2,0,0,2,11,11,1.0,0.0,17,17,1.0,0.0,,,interact data mine||high-dimension data
+495,9611024.txt,47,2,0,0,2,157,96,1.6354166666666667,1.7085556257812877,244,136,1.7941176470588236,1.8194926856731237,,,non-decompos loss function||max-margin structur learn to rank
+496,1746450.txt,3,7,1,1,5,9,9,1.0,0.0,12,12,1.0,0.0,distance-bas oper,space transform,data mine||robust estim||outlier||robust statist||comput of transform
+497,7773106.txt,4,6,1,0,5,12,12,1.0,0.0,17,17,1.0,0.0,system manag,,event relationship||tempor pattern||learn||applic||log categor
+498,380155.txt,4,4,0,0,4,10,10,1.0,0.0,14,14,1.0,0.0,,,pima indian diabet data||split criteria||boston hous data||cart
+499,48523.txt,3,5,0,0,5,9,9,1.0,0.0,12,12,1.0,0.0,,,self-modifi machin||ensembl learn||classif||semi-supervis learn||boost
+500,13222301.txt,32,4,1,2,1,116,66,1.7575757575757576,1.360265193179603,195,97,2.0103092783505154,2.132202024048661,divers,scalabl||rank,graph mine
+501,353415.txt,8,5,0,1,4,33,28,1.1785714285714286,0.3829930462415574,47,37,1.2702702702702702,0.7221832008587772,,e-commerc,learn||web server||web site architectur||applic server
+502,10930051.txt,2,4,1,0,3,8,8,1.0,0.0,11,11,1.0,0.0,featur select,,classif||multipl regress||fals discoveri rate
+503,12116254.txt,4,6,1,0,5,11,11,1.0,0.0,15,15,1.0,0.0,implicit feedback,,clickthrough data||inform search and retriev||search engin||machin learn||support vector machin
+504,1094423.txt,4,4,0,0,4,12,12,1.0,0.0,17,17,1.0,0.0,,,learn||pattern match||machin learn||relat extract
+505,959718.txt,4,1,0,0,1,13,13,1.0,0.0,16,16,1.0,0.0,,,world wide web
+506,2073594.txt,4,3,1,0,2,11,11,1.0,0.0,14,14,1.0,0.0,gene map,,prefix tree||permut test
+507,3951829.txt,3,4,0,2,2,10,10,1.0,0.0,13,13,1.0,0.0,,correl||time seri,data structur||random algorithm
+508,9312060.txt,38,3,2,0,1,126,74,1.7027027027027026,1.522175982738239,187,106,1.7641509433962264,1.640017756418215,gene select||bioinformat,,inform integr
+509,347.txt,2,1,0,0,1,7,7,1.0,0.0,10,10,1.0,0.0,,,learn
+510,4234225.txt,3,4,2,0,2,8,8,1.0,0.0,11,11,1.0,0.0,density-bas cluster||uncertain data,,fuzzi distanc function||probabilist algorithm
+511,4901952.txt,35,2,1,0,1,103,62,1.6612903225806452,1.4584962249842965,169,97,1.7422680412371134,1.5550274338115284,topic model,,review find
+512,252243.txt,5,3,2,0,1,14,13,1.0769230769230769,0.26646935501059654,19,18,1.0555555555555556,0.2290614236454256,evolutionari theme pattern||tempor text mine,,theme thread
+513,4306370.txt,27,3,0,0,3,78,59,1.3220338983050848,0.7906375450637703,123,80,1.5375,1.1720041595489312,,,dynam network||social network||anomali detect
+514,4341651.txt,39,4,0,2,2,121,76,1.5921052631578947,1.1717916059893227,183,103,1.7766990291262137,1.58225621650201,,pattern summar||self-supervis cluster,meaning itemset mine||imag data mine
+515,4209115.txt,27,1,1,0,0,80,52,1.5384615384615385,1.2628042430293847,140,81,1.728395061728395,1.5792821128836927,cancer,,
+516,1504181.txt,4,4,0,0,4,10,10,1.0,0.0,14,14,1.0,0.0,,,page cluster||databas applic||code restructur||program local
+517,14076694.txt,36,4,1,0,3,108,64,1.6875,1.1162856937182344,165,92,1.7934782608695652,1.3395168132597923,probabilist databas,,novel model and algorithm||mine complex sequenti data||mine uncertain data
+518,565368.txt,10,3,0,2,1,32,28,1.1428571428571428,0.3499271061118826,43,38,1.131578947368421,0.33803243628066126,,order||collabor filter,recommend system
+519,9965882.txt,57,2,1,0,1,200,90,2.2222222222222223,2.3559748054575236,313,132,2.371212121212121,2.535820060502525,data stream,,evalu design
+520,4980157.txt,3,6,0,1,5,10,10,1.0,0.0,13,13,1.0,0.0,,syslog mine,failur detect||probabilist model||correl analysi||artifici intellig||model select
+521,9624095.txt,38,3,0,2,1,133,77,1.7272727272727273,1.7405504699970218,229,118,1.9406779661016949,1.9756671170293623,,search session||queri aspect,latent user intent
+522,663987.txt,3,5,0,1,4,8,8,1.0,0.0,12,12,1.0,0.0,,cluster,singular valu decomposit||earth scienc data||mine scientif data||time seri
+523,7833553.txt,32,4,1,1,2,99,67,1.4776119402985075,1.250172632320713,157,93,1.6881720430107527,1.3832989602439365,graph mine,proxim,miscellan||random walk
+524,11279489.txt,30,4,0,0,4,123,78,1.5769230769230769,1.5402233501806861,205,118,1.7372881355932204,1.5645867278109866,,,multivari test||control experi||a/b test||websit test
+525,239095.txt,2,3,0,1,2,9,9,1.0,0.0,11,11,1.0,0.0,,support vector machin,data classif||linear equat
+526,4818705.txt,3,4,0,2,2,10,10,1.0,0.0,13,13,1.0,0.0,,discret||time seri,persist||pattern recognit
+527,8912400.txt,3,3,0,0,3,8,8,1.0,0.0,12,12,1.0,0.0,,,nonnumer algorithm and problem||mine frequent itemset||foundat of data mine
+528,402053.txt,3,5,0,1,4,9,9,1.0,0.0,12,12,1.0,0.0,,novelti detect,support vector regress||design methodolog||anomali detect||onlin algorithm
+529,3921987.txt,3,6,1,0,5,9,9,1.0,0.0,12,12,1.0,0.0,text classif,,featur extract||suffix tree||machin learn||text mine||content analysi and index
+530,5169771.txt,20,4,1,2,1,54,38,1.4210526315789473,1.01648462714884,69,47,1.4680851063829787,1.0283443381782618,motif,uniform scale||time seri,random project
+531,1092205.txt,2,2,1,0,1,6,6,1.0,0.0,8,8,1.0,0.0,model compress,,supervis learn
+532,35521.txt,5,6,1,0,5,10,10,1.0,0.0,13,13,1.0,0.0,learn,,semi-supervis multi-task learn||em||document classif||support vector machin||design methodolog
+533,902409.txt,3,5,0,0,5,12,12,1.0,0.0,16,16,1.0,0.0,,,data mine||bay net||databas applic||tempor reason||hmm
+534,482358.txt,3,6,0,0,6,9,8,1.125,0.33071891388307384,12,11,1.0909090909090908,0.28747978728803447,,,databas applic||distribut mine||collect mine||inform consortium||statist model||estim
+535,3744272.txt,4,7,0,2,5,12,12,1.0,0.0,17,17,1.0,0.0,,simul||cluster,em||program phase||mixtur of multinomi||singl data stream architectur||k-mean
+536,925579.txt,4,5,0,1,4,8,8,1.0,0.0,12,12,1.0,0.0,,link analysi,hit||graph kernel||inform search and retriev||co-cit coupl
+537,1450770.txt,3,3,1,0,2,10,10,1.0,0.0,13,13,1.0,0.0,adapt document classif,,increment mine||context text mine
+538,4030512.txt,4,4,1,1,2,12,11,1.0909090909090908,0.28747978728803447,15,14,1.0714285714285714,0.2575393768188563,index,spatiotempor data,pattern mine||trajectori
+539,13023.txt,5,6,0,1,5,13,12,1.0833333333333333,0.2763853991962833,19,17,1.1176470588235294,0.32218973970892123,,time seri,suffix tree||markov model||anomali detect||featur extract||novelti detect
+540,286972.txt,3,1,0,1,0,7,7,1.0,0.0,13,13,1.0,0.0,,fractal,
+541,10008070.txt,29,5,2,1,2,89,49,1.816326530612245,1.5342813166704083,135,80,1.6875,1.3655928199869827,featur select||stabil,small sampl,ensembl||high-dimension data
+542,13537024.txt,36,3,2,0,1,104,74,1.4054054054054055,0.9714703111141318,157,90,1.7444444444444445,1.7292330420103152,autonom comput||affin propag,,onlin cluster
+543,9010759.txt,2,3,0,0,3,7,7,1.0,0.0,10,10,1.0,0.0,,,graph mine||scale law||graph sampl
+544,3583231.txt,3,3,0,1,2,12,12,1.0,0.0,15,15,1.0,0.0,,bayesian network,distribut databas||privacy-preserv data mine
+545,58630.txt,5,4,2,2,0,11,11,1.0,0.0,16,16,1.0,0.0,fraction||refraction,model-bas cluster||cluster,
+546,3816158.txt,38,2,0,1,1,107,70,1.5285714285714285,1.3703120454994238,161,96,1.6770833333333333,1.4469421180736821,,convex,optim
+547,9662316.txt,46,5,3,0,2,158,85,1.8588235294117648,2.2236850241221626,237,126,1.880952380952381,2.0142631992437487,social media||relat learn||social dimens,,modular||behavior predict
+548,1075103.txt,2,4,0,0,4,8,8,1.0,0.0,11,11,1.0,0.0,,,conduct matrix||maximum entropi||network flow||pagerank
+549,1195189.txt,4,3,0,1,2,12,12,1.0,0.0,15,15,1.0,0.0,,quasi-cliqu,graph mine||coher subgraph
+550,3744882.txt,4,6,0,0,6,12,12,1.0,0.0,17,17,1.0,0.0,,,stream data mine||mine evolv data||cluster||web mine||artifici immun system||person
+551,4740231.txt,3,3,1,1,1,10,10,1.0,0.0,13,13,1.0,0.0,enterpris system,perform forecast,system manag
+552,123198.txt,3,4,0,0,4,9,8,1.125,0.33071891388307384,12,11,1.0909090909090908,0.28747978728803447,,,learn||unsupervis learn||gibb sampl||text model
+553,545316.txt,5,8,0,2,6,15,15,1.0,0.0,20,20,1.0,0.0,,supervis learn||metric,precis||roc||perform evalu||cross entropi||recal||lift
+554,1955132.txt,2,1,0,0,1,6,6,1.0,0.0,9,9,1.0,0.0,,,logic design
+555,9757313.txt,29,4,2,1,1,85,53,1.6037735849056605,1.2184063615821092,137,80,1.7125,1.324705155874317,compress||social network,reciproc,linear arrang
+556,9572870.txt,31,5,3,1,1,107,60,1.7833333333333334,1.5926044357871447,188,90,2.088888888888889,2.153263386090181,class distribut||quantif||semi-supervis learn,classif,concept drift
+557,646294.txt,1,3,0,0,3,7,7,1.0,0.0,10,10,1.0,0.0,,,graph mine||pattern||bioinformat
+558,11504561.txt,4,5,0,4,1,12,12,1.0,0.0,16,16,1.0,0.0,,parallel||correl||covari||robust,maronna
+559,6697256.txt,3,7,0,0,7,9,9,1.0,0.0,13,13,1.0,0.0,,,supervis learn||activ learn||text mine||machin learn||classif||support vector machin||text classif
+560,261834.txt,4,1,0,0,1,8,8,1.0,0.0,14,14,1.0,0.0,,,decis support
+561,2316298.txt,6,6,2,0,4,15,15,1.0,0.0,22,22,1.0,0.0,biolog data mine||neural network,,machin learn||featur extract from protein data||sequenc align||bioinformat
+562,36492.txt,3,4,0,1,3,9,9,1.0,0.0,13,13,1.0,0.0,,classif,associ mine||lazi learn||bayesian learn
+563,5291733.txt,5,8,1,1,6,12,12,1.0,0.0,17,17,1.0,0.0,failur detect,onlin track,distribut comput||system manag||subspac decomposit||statist||learn||internet servic
+564,8137629.txt,4,2,2,0,0,9,9,1.0,0.0,14,14,1.0,0.0,featur select||evolutionari search,,
+565,4207171.txt,1,4,0,1,3,7,7,1.0,0.0,9,9,1.0,0.0,,cluster,noise-robust||data summar||parameter-fre data mine
+566,4663726.txt,3,3,0,0,3,9,9,1.0,0.0,12,12,1.0,0.0,,,distanc function||pattern recognit||near neighbor
+567,13947277.txt,48,2,1,1,0,149,97,1.5360824742268042,1.392630498207693,220,127,1.7322834645669292,1.544351245682646,onlin advertis,client-sid person,
+568,9485675.txt,50,4,2,1,1,184,87,2.1149425287356323,1.9909293581995147,302,129,2.3410852713178296,2.7435509272479783,transfer learn||classif,ensembl,semi-supervis learn
+569,5119222.txt,4,6,0,2,4,11,11,1.0,0.0,15,15,1.0,0.0,,morpholog||regress,implement||nearest neighbor||pincip compon analysi||astronomi
+570,10164574.txt,37,3,3,0,0,133,72,1.8472222222222223,2.177279917582066,222,113,1.9646017699115044,1.9774355590221817,probabilist gener model||entiti identif||document categor,,
+571,1217647.txt,6,3,0,1,2,15,14,1.0714285714285714,0.2575393768188563,19,18,1.0555555555555556,0.22906142364542562,,social network,on-lin commun||diffus of innov
+572,3809174.txt,3,5,1,0,4,10,10,1.0,0.0,13,13,1.0,0.0,rule extract,,linear classifi||miscellan||medic decision-support||mathemat program
+573,8813474.txt,3,2,1,1,0,8,8,1.0,0.0,12,12,1.0,0.0,data stream,classif,
+574,432461.txt,4,4,1,0,3,11,11,1.0,0.0,16,16,1.0,0.0,text categor,,rocchio algorithm||probabilist algorithm||naïv bayesian classifi
+575,9972873.txt,21,2,1,0,1,79,54,1.462962962962963,1.1338718159141945,122,83,1.4698795180722892,1.1442612116225308,classif,,pattern extract
+576,14186437.txt,28,4,0,0,4,88,59,1.4915254237288136,1.3067345943997553,135,83,1.6265060240963856,1.4117479840416425,,,latent rate analysi||aspect identif||inform search and retriev||review mine
+577,11244062.txt,29,2,1,0,1,95,52,1.8269230769230769,1.8884380383936539,157,74,2.1216216216216215,2.15577604201278,concis represent,,close and free itemset
+578,13519165.txt,46,3,0,1,2,134,83,1.6144578313253013,1.611938332561403,236,122,1.9344262295081966,2.075373578529791,,analyt servic,gener||text mine
+579,9997445.txt,31,2,1,1,0,101,57,1.7719298245614035,1.4632041727714424,192,93,2.064516129032258,2.1190708636118516,social network,team format,
+580,10557122.txt,35,5,3,2,0,122,73,1.6712328767123288,1.2827068395309174,175,100,1.75,1.291317157014496,tempor signatur||featur select||rank-ord space,biolog network||system biolog,
+581,11117574.txt,31,4,2,2,0,131,67,1.955223880597015,2.2087535204401125,207,96,2.15625,2.4252496649829682,learn||multi-task learn,transfer learn||metric learn,
+582,8704242.txt,4,2,1,1,0,10,10,1.0,0.0,13,13,1.0,0.0,data stream,elast burst,
+583,4061777.txt,3,4,0,0,4,10,10,1.0,0.0,13,13,1.0,0.0,,,hierarch model||text classif||hierarch classif||taxonomi adjust
+584,56709.txt,5,4,0,1,3,14,13,1.0769230769230769,0.26646935501059654,18,17,1.0588235294117647,0.23529411764705885,,dimens reduct,linear discrimin analysi||increment learn||qr decomposit
+585,4709565.txt,3,6,0,2,4,9,9,1.0,0.0,12,12,1.0,0.0,,cluster||bridg rule,learn||outlier||associ rule||entropi
+586,251373.txt,3,3,1,0,2,9,9,1.0,0.0,12,12,1.0,0.0,statist model,,large-scal scientif data set||approxim ad-hoc queri
+587,13180915.txt,42,3,1,2,0,156,92,1.6956521739130435,2.083783820229872,234,128,1.828125,2.165458146530429,cluster,featur select||unsupervis,
+588,9007904.txt,3,4,1,0,3,9,9,1.0,0.0,12,12,1.0,0.0,earli buyer,,social network||consum behavior||semidefinit program
+589,5203398.txt,4,4,0,1,3,11,11,1.0,0.0,18,18,1.0,0.0,,regress,learn||multi-view learn||bayesian network
+590,13981383.txt,41,3,1,0,2,124,81,1.5308641975308641,0.9948809687854708,194,117,1.6581196581196582,1.3534532797823962,partial order,,medic informat||tempor data mine
+591,9505.txt,1,5,0,1,4,6,6,1.0,0.0,8,8,1.0,0.0,,co-clust,inform theori||cluster||inform search and retriev||mutual inform
+592,180364.txt,4,4,0,0,4,11,11,1.0,0.0,15,15,1.0,0.0,,,longest common subsequ||databas applic||trajectori||dynam time warp
+593,6845596.txt,36,4,1,1,2,106,60,1.7666666666666666,1.406729856400613,164,89,1.8426966292134832,1.6138367738669452,event summar,ern,tempor depend||log
+594,4532444.txt,3,4,0,1,3,10,10,1.0,0.0,14,14,1.0,0.0,,data mine,privaci||decis tree||databas applic
+595,9135542.txt,17,4,1,0,3,54,35,1.542857142857143,0.8731832451392071,94,54,1.7407407407407407,1.2047004420215257,distribut,,dpln||gener process||power law
+596,35018.txt,4,4,2,0,2,11,11,1.0,0.0,15,15,1.0,0.0,high dimens||error-toler frequent itemset,,queri select estim||collabor filter
+597,6058769.txt,11,8,1,3,4,27,18,1.5,0.9574271077563381,42,27,1.5555555555555556,0.9938079899999067,citat,plsa||lda||topic model,influenc||learn||hyperlink||variat infer
+598,1123415.txt,1,5,0,1,4,6,6,1.0,0.0,8,8,1.0,0.0,,cluster,k-mean||agglom||inform search and retriev||tempor evolut
+599,10201458.txt,56,6,4,1,1,199,106,1.8773584905660377,2.108844046179599,339,152,2.2302631578947367,2.893891922146319,biclust||rang support||associ analysi||microarray data,real-valu data,function modul
+600,123208.txt,3,6,1,0,5,9,9,1.0,0.0,13,13,1.0,0.0,rel import,,social network||markov chain||inform search and retriev||graph||pagerank
+601,4253674.txt,7,5,0,0,5,23,19,1.2105263157894737,0.40768245749551757,34,28,1.2142857142857142,0.410325903324145,,,inform cascad||submodular function||graph||viru propag||sensor placement
+602,4738342.txt,4,5,0,2,3,12,12,1.0,0.0,15,15,1.0,0.0,,quantif||classif,decis support||text mine||cost quantif
+603,10181044.txt,32,4,3,0,1,106,68,1.5588235294117647,1.3653522809923706,163,99,1.6464646464646464,1.335703433735028,self-similar||pattern||anomali,,bgp monitor
+604,6361738.txt,44,5,1,0,4,146,92,1.5869565217391304,1.2950757398788244,195,117,1.6666666666666667,1.402074165588957,malwar,,learn||ooa mine||window api sequenc||pe file
+605,419557.txt,5,5,0,1,4,16,15,1.0666666666666667,0.2494438257849295,21,20,1.05,0.2179449471770338,,data integr,inform extract||name entiti recognit||learn||sequenti learn
+606,111410.txt,3,4,0,0,4,10,9,1.1111111111111112,0.3142696805273545,13,12,1.0833333333333333,0.2763853991962833,,,inform extract||entropi||inform content discoveri||inform retriev
+607,434661.txt,3,3,1,0,2,10,10,1.0,0.0,14,14,1.0,0.0,asynchron period pattern,,segment-bas approach||databas applic
+608,8919943.txt,2,3,0,1,2,7,7,1.0,0.0,9,9,1.0,0.0,,cross-associ,mdl||content analysi and index
+609,10550383.txt,21,5,0,1,4,73,49,1.489795918367347,1.1450416440086153,118,76,1.5526315789473684,1.1049498302745795,,cluster,learn||multi-criteria optimization.||conting tabl||relat cluster
+610,9944671.txt,43,5,1,1,3,142,77,1.844155844155844,1.659799198189347,210,102,2.0588235294117645,1.9645062714144665,social network,user-gener content,privaci||predict model||on-lin advertis
+611,3789006.txt,5,4,0,0,4,12,11,1.0909090909090908,0.28747978728803447,17,16,1.0625,0.24206145913796356,,,learn||topic model||graphic model||tempor analysi
+612,4469535.txt,43,5,1,2,2,148,94,1.574468085106383,1.7165611448110598,227,127,1.7874015748031495,1.8427552174647555,data pre-process,normal||fraud detect,statist relat learn||relat probabl tree
+613,11971785.txt,37,4,3,0,1,131,68,1.9264705882352942,1.8175304550453344,215,95,2.263157894736842,3.109274839524618,unsupervis transfer classif||gener maximum entropi model||text categor,,miscellan
+614,11080150.txt,40,3,1,1,1,134,77,1.7402597402597402,1.7462583183347131,192,107,1.794392523364486,1.6334031772294775,topic model,infer,miscellan
+615,303682.txt,4,5,0,1,4,10,10,1.0,0.0,14,14,1.0,0.0,,cluster,nonparametr cluster||densiti estim||model-bas cluster||unimod
+616,8928116.txt,4,8,0,0,8,10,10,1.0,0.0,16,16,1.0,0.0,,,infoviz||hyperbol multi-dimension scale||interact style||visual high-dimension data||h-md||focus+context||text mine||semant brows
+617,9618001.txt,31,5,1,0,4,91,63,1.4444444444444444,1.095123067343514,129,85,1.5176470588235293,1.1743510318557917,malici web site,,abus and crime involv comput||l1-regular||supervis learn||secur and protect
+618,4046.txt,3,1,0,0,1,11,11,1.0,0.0,14,14,1.0,0.0,,,probabilist algorithm
+619,285082.txt,4,5,1,0,4,9,9,1.0,0.0,15,15,1.0,0.0,social network,,diffus of innov||viral market||nonnumer algorithm and problem||approxim algorithm
+620,5199140.txt,3,4,0,0,4,7,7,1.0,0.0,11,11,1.0,0.0,,,graph algorithm||graph decomposit||news thread||inform search and retriev
+621,379300.txt,1,4,0,1,3,6,6,1.0,0.0,8,8,1.0,0.0,,coclust,gene express data||cluster||co-regul
+622,10971362.txt,46,6,2,1,3,129,80,1.6125,1.4957753006384351,204,110,1.8545454545454545,1.8332106144752693,failur detect||softwar behavior,pattern-bas classif,close uniqu pattern||iter pattern||sequenti databas
+623,10903275.txt,35,3,0,2,1,134,73,1.8356164383561644,1.4898165615695913,214,100,2.14,2.130821437849733,,spars and low-rank pattern||multi-task learn,trace norm
+624,9617212.txt,37,3,2,0,1,119,66,1.803030303030303,1.3508661303445397,186,100,1.86,1.4698299221338493,latent dirichlet alloc||sampl,,probabilist algorithm
+625,9920189.txt,39,4,0,0,4,143,78,1.8333333333333333,1.6046140734725984,214,111,1.927927927927928,1.6963751057210537,,,news recommend||news filter||person||content analysi and index
+626,1009607.txt,4,3,1,1,1,9,9,1.0,0.0,12,12,1.0,0.0,trajectori,rotat invari,time warp
+627,10837037.txt,34,5,2,1,2,136,62,2.193548387096774,2.014773738016412,225,100,2.25,2.372235232855292,biolog network||graph rewrit rule,learn,graph mine||dynam network analysi
+628,9194903.txt,25,4,0,1,3,87,59,1.4745762711864407,0.9804172789138689,124,82,1.5121951219512195,0.9783498107381263,,collabor filter,person recommend||probabilist model||miscellan
+629,9248967.txt,38,4,1,2,1,155,86,1.802325581395349,1.9755468329922212,246,123,2.0,2.0914071195817896,pca,numer linear algebra||subset select,random sampl
+630,9418685.txt,42,4,1,0,3,131,88,1.4886363636363635,1.4537906422194904,193,120,1.6083333333333334,1.4218288301417388,kernel,,large-scal problem||support vector machin||learn
+631,14125260.txt,37,4,2,0,2,119,77,1.5454545454545454,1.243637882584323,176,102,1.7254901960784315,1.3369328575475121,stochast gradient descent||mapreduc,,recommend system||distribut matrix factor
+632,281930.txt,5,4,0,1,3,13,13,1.0,0.0,20,20,1.0,0.0,,outlier,diskbas algorithm||distance-bas oper||anomali detect
+633,405114.txt,3,6,0,1,5,10,10,1.0,0.0,13,13,1.0,0.0,,text segment,machin learn||inform extract||learn||data clean||text manag
+634,4453627.txt,43,10,2,1,7,146,88,1.6590909090909092,1.3218991472014423,228,123,1.853658536585366,1.8727091233393702,hierarchi||tree-structur markov model,imput,internet advertis||maximum entropi||contextu match||miscellan||clickthrough rate||hypertext/hypermedia||on-lin inform servic
+635,460977.txt,5,8,1,1,6,13,13,1.0,0.0,19,18,1.0555555555555556,0.22906142364542562,associ rule,analysi of microarray data,expert-driven rule valid||deduct||rule filter||rule group||post-process of discov rule||bioinformat
+636,208816.txt,3,5,0,1,4,10,10,1.0,0.0,14,14,1.0,0.0,,pattern match,hidden markov model||deform templat||segment markov model||time seri
+637,391282.txt,4,5,1,0,4,12,12,1.0,0.0,16,16,1.0,0.0,critic event predict,,learn||system event log||databas applic||large-scal cluster
+638,4711482.txt,5,4,0,0,4,13,13,1.0,0.0,19,18,1.0555555555555556,0.22906142364542562,,,inform discoveri||data mine||data gener||test tool
+639,565513.txt,2,1,0,0,1,6,6,1.0,0.0,9,9,1.0,0.0,,,custom prospect
+640,9640202.txt,49,5,1,3,1,166,96,1.7291666666666667,1.5710875125919053,245,127,1.9291338582677164,2.1922594764313885,spars learn,bag-of-word||regular||gene express pattern,imag annot
+641,1862670.txt,3,6,0,1,5,9,9,1.0,0.0,12,12,1.0,0.0,,outer membran protein,databas applic||classif||support vector machin||associ rule||subcellular local
+642,4739987.txt,2,2,0,0,2,9,9,1.0,0.0,14,14,1.0,0.0,,,invas softwar||malici softwar
+643,9668553.txt,25,3,0,0,3,82,52,1.5769230769230769,0.9873459733071868,114,73,1.5616438356164384,0.979044843024967,,,learn||ensembl||semi-supervis learn
+644,4685648.txt,40,6,2,1,3,114,63,1.8095238095238095,1.520830421206791,166,86,1.930232558139535,1.626743770467225,movi search||recommend system,collabor filter,search rank||perform evalu||inform retriev
+645,1063961.txt,3,4,1,1,2,10,10,1.0,0.0,14,14,1.0,0.0,compar text mine,mixtur model,inform search and retriev||cluster
+646,9943486.txt,41,4,1,0,3,151,82,1.8414634146341464,1.8244244812230241,227,113,2.0088495575221237,1.9620089723177998,topic model,,web mine||name entiti recognit||search log mine
+647,11394822.txt,29,5,1,1,3,121,62,1.9516129032258065,1.937968834887393,191,97,1.9690721649484537,1.761288236639359,implicit social graph,cluster,tie strength||contact group cluster||group and organ interfac
+648,9927253.txt,38,4,0,2,2,124,73,1.6986301369863013,1.584902499112959,205,107,1.9158878504672898,1.7245966361778446,,climat chang attribut||extrem valu model,graphic granger model||spatio-tempor causal model
+649,89883.txt,4,5,1,0,4,11,11,1.0,0.0,13,13,1.0,0.0,frequent graph,,graph represent||canon label||databas applic||close pattern
+650,10589922.txt,22,3,0,0,3,74,49,1.510204081632653,0.992264961725977,116,73,1.5890410958904109,1.180151098270677,,,accuraci vs cost||cost sensit learn||cascad design
+651,1220729.txt,2,1,0,0,1,7,7,1.0,0.0,9,9,1.0,0.0,,,nonnumer algorithm and problem
+652,402058.txt,2,2,0,1,1,7,7,1.0,0.0,9,9,1.0,0.0,,anomali detect,graph regular
+653,6259100.txt,3,3,0,0,3,9,9,1.0,0.0,12,12,1.0,0.0,,,markov random field||probabilist graphic model||itemset pattern summar
+654,8964447.txt,3,3,0,0,3,8,8,1.0,0.0,11,11,1.0,0.0,,,steganalysi||steganographi||outlier detect
+655,100442.txt,4,2,0,0,2,12,12,1.0,0.0,17,17,1.0,0.0,,,unauthor access||secur and protect
+656,10843921.txt,21,3,0,1,2,68,48,1.4166666666666667,0.9753916592266361,104,72,1.4444444444444444,0.9262962222518372,,classif,queri intent||automat label data
+657,303639.txt,1,6,0,1,5,7,7,1.0,0.0,9,9,1.0,0.0,,overlap cluster,high-dimension cluster||exponenti model||learn||graphic model||bregman diverg
+658,332961.txt,3,1,0,0,1,8,8,1.0,0.0,12,12,1.0,0.0,,,time-seri queri process
+659,93113.txt,4,4,1,0,3,8,8,1.0,0.0,11,11,1.0,0.0,diffset,,databas applic||associ rule mine||frequent itemset
+660,698383.txt,5,1,0,0,1,14,14,1.0,0.0,20,20,1.0,0.0,,,probabilist algorithm
+661,3780602.txt,3,4,0,0,4,9,9,1.0,0.0,12,12,1.0,0.0,,,optim risk pattern set||medic applic||rel risk||rule
+662,11804378.txt,6,3,0,3,0,14,14,1.0,0.0,21,21,1.0,0.0,,random||decis tree||regress,
+663,7098036.txt,3,4,0,1,3,10,10,1.0,0.0,14,14,1.0,0.0,,pattern mine,secondari memori||itemset||out of core
+664,959147.txt,4,3,0,2,1,15,15,1.0,0.0,19,19,1.0,0.0,,contrast pattern||zero-suppress binari decis diagram,disjunct emerg pattern
+665,5895331.txt,4,4,0,1,3,11,11,1.0,0.0,16,16,1.0,0.0,,privaci,associ rule mine||privacy-preserv data mine||distribut data mine
+666,5143105.txt,36,4,1,2,1,137,72,1.9027777777777777,1.7009778415029255,219,104,2.105769230769231,2.365286896042786,cluster,distanc metric||kernel,convex program
+667,10655059.txt,30,1,0,0,1,114,60,1.9,1.6093476939431084,175,85,2.0588235294117645,1.7779892223353002,,,inform search and retriev
+668,1335900.txt,5,1,0,0,1,12,12,1.0,0.0,17,16,1.0625,0.24206145913796356,,,probabilist algorithm
+669,9102538.txt,25,3,1,2,0,70,53,1.320754716981132,0.8416870952149228,113,76,1.486842105263158,1.019460913432497,text classif,support vector machin||multi-class,
+670,4433499.txt,4,1,0,0,1,12,12,1.0,0.0,16,16,1.0,0.0,,,bounded-act devic
+671,1302645.txt,3,1,0,0,1,9,9,1.0,0.0,12,12,1.0,0.0,,,probabilist algorithm
+672,682495.txt,5,4,1,0,3,12,12,1.0,0.0,16,16,1.0,0.0,increment mine,,buffer pattern||revers pattern match||share project
+673,13997787.txt,39,4,0,2,2,154,83,1.855421686746988,1.9947674328946001,280,126,2.2222222222222223,2.875426507739496,,regress||gener,hierarch||coars to fine
+674,11142969.txt,17,3,1,0,2,45,39,1.1538461538461537,0.48243301851863535,78,59,1.3220338983050848,0.8721817173063465,news,,learn||coher
+675,9479071.txt,36,10,4,1,5,138,73,1.8904109589041096,1.4856541738451323,243,113,2.150442477876106,1.877775180159271,commun find||activ learn||semi-supervis learn||empir risk minim,within-network learn,cluster||between central||statist relat learn||social network analysi||close central
+676,4324571.txt,3,8,0,0,8,10,10,1.0,0.0,13,13,1.0,0.0,,,interpret||draphic model||addit model||visual||featur select||function anova||diagnost||learn
+677,369247.txt,4,6,1,1,4,10,10,1.0,0.0,16,16,1.0,0.0,fraud detect,classif,knowledg discoveri in databas||decis tree||integr of queri and mine||logic-bas databas languag
+678,431266.txt,4,3,1,0,2,9,9,1.0,0.0,14,14,1.0,0.0,dynam social network,,model develop||diseas spread
+679,551996.txt,4,2,0,0,2,12,12,1.0,0.0,17,17,1.0,0.0,,,scalabl||categor data
+680,5326332.txt,43,7,2,2,3,120,74,1.6216216216216217,1.3626554233465435,189,100,1.89,1.8324573664890549,social search||messag rout,learn||peer product,smart rss||expert identif||social faq gener
+681,9692779.txt,46,4,1,0,3,122,79,1.5443037974683544,1.4823644161060647,190,118,1.6101694915254237,1.408412366816423,wikipedia,,inform search and retriev||entiti annotation/disambigu||collect infer
+682,14987.txt,2,6,0,0,6,7,7,1.0,0.0,10,10,1.0,0.0,,,decis support||increment learn||disk-bas algorithm||subsampl||decis tree||hoeffd bound
+683,681489.txt,4,3,1,0,2,10,10,1.0,0.0,13,13,1.0,0.0,microarray data,,gene select||featur redund
+684,1374932.txt,4,3,3,0,0,11,10,1.1,0.3,15,14,1.0714285714285714,0.25753937681885636,partial inform||time seri||similar measur,,
+685,27107.txt,6,6,1,1,4,14,13,1.0769230769230769,0.2664693550105966,20,19,1.0526315789473684,0.22329687826943603,transact data,profil,em algorithm||type of simul||electron commerc||mixtur model
+686,720941.txt,3,5,1,0,4,10,10,1.0,0.0,12,12,1.0,0.0,collect infer,,learn||relat learn||model||probabilist relat model
+687,11786701.txt,4,5,1,0,4,12,12,1.0,0.0,16,16,1.0,0.0,attribut label,,data record detect||hierarch condit random field||web page segment||condit random field
+688,510141.txt,3,3,0,0,3,7,7,1.0,0.0,13,13,1.0,0.0,,,score||target select||data mine applic in educ
+689,4738341.txt,5,7,0,2,5,16,16,1.0,0.0,20,20,1.0,0.0,,quantif||text mine,log process||decis support||text classif||applic||supervis machin learn
+690,11018316.txt,28,3,0,2,1,95,58,1.6379310344827587,1.4586043856592674,163,89,1.8314606741573034,1.7107456489553834,,block minim||svm,larg scale learn
+691,4700797.txt,3,3,1,0,2,9,9,1.0,0.0,13,13,1.0,0.0,outlier detect,,ensembl method||activ learn
+692,8608260.txt,2,6,0,1,5,7,7,1.0,0.0,9,9,1.0,0.0,,novelti detect,inform search and retriev||design methodolog||text classif||featur select||name entiti
+693,9521135.txt,45,4,1,0,3,142,90,1.5777777777777777,1.4604244267242446,216,116,1.8620689655172413,1.7064611078149843,spectral cluster,,learn||unsupervis learn||data quantiz
+694,3918474.txt,5,6,0,1,5,12,12,1.0,0.0,16,16,1.0,0.0,,comput aid detect,support vector machin||miscellan||cascad classif||spars solut||mathemat program
+695,75896.txt,3,5,0,0,5,6,6,1.0,0.0,9,9,1.0,0.0,,,spectral analysi of data||novel data mine algorithm||nonnumer algorithm and problem||discov hidden order||consecut one properti
+696,4108225.txt,3,8,1,1,6,9,9,1.0,0.0,12,12,1.0,0.0,naïv filterbot,robust,hybrid content and collabor filter||recommend system||collabor filter||learn||perform analysi||cold start
+697,4774319.txt,3,3,0,0,3,9,9,1.0,0.0,12,12,1.0,0.0,,,sampl||load balanc||parallel algorithm
+698,10514814.txt,44,4,0,2,2,132,75,1.76,1.6560193235587555,204,103,1.9805825242718447,1.9257104729719925,,chang detect||land cover,land use||time seri
+699,13802275.txt,42,3,2,1,0,176,84,2.0952380952380953,2.437890616413374,295,133,2.218045112781955,2.587820942617082,vulner||privaci,social network,
+700,1364456.txt,4,2,0,0,2,8,8,1.0,0.0,13,13,1.0,0.0,,,deduct||represent
+701,264444.txt,3,4,0,0,4,9,9,1.0,0.0,12,12,1.0,0.0,,,gener||suppress||data transform||predict model
+702,10561862.txt,37,5,4,1,0,138,82,1.6829268292682926,1.5763345006884417,224,122,1.8360655737704918,1.685816705016649,graph mine||memori leak||domin tree||graph grammar,heap profil,
+703,13808584.txt,42,3,2,0,1,132,72,1.8333333333333333,1.6499158227686113,205,108,1.8981481481481481,1.7476959160818457,social network||human mobil,,commun network
+704,10351682.txt,34,3,0,3,0,127,78,1.6282051282051282,1.3407706773361618,203,109,1.8623853211009174,1.7943227999006317,,angle-bas||outlier detect||high-dimension,
+705,4487770.txt,3,6,2,0,4,10,9,1.1111111111111112,0.3142696805273545,13,12,1.0833333333333333,0.2763853991962833,peer-to-p network||social network,,learn||hierarch dirichlet process||distribut hash tabl||overlay network
+706,1865038.txt,4,5,0,1,4,13,13,1.0,0.0,17,17,1.0,0.0,,classif,high dimens||k nearest neighbor||learn||metric tree
+707,13755742.txt,63,3,2,0,1,189,110,1.7181818181818183,1.7639409296531963,292,152,1.9210526315789473,2.0727756492121285,outlier detect||inform network,,commun discoveri
+708,4884040.txt,2,4,1,1,2,8,8,1.0,0.0,11,11,1.0,0.0,k-partit graph,unsupervis learn,relat summari network||bregman diverg
+709,95906.txt,3,7,0,0,7,9,9,1.0,0.0,12,12,1.0,0.0,,,shrinkag estim||empir bay method||gamma-poisson model||knowledg discoveri||statist model||associ rule||market basket problem
+710,15380.txt,4,3,1,0,2,12,12,1.0,0.0,15,15,1.0,0.0,web usag mine,,plsa||user profil
+711,10151654.txt,19,6,2,1,3,61,43,1.4186046511627908,0.9457999724494304,91,60,1.5166666666666666,1.024559525953578,sustain||data center,chiller,frequent episod||cluster||motif
+712,5446340.txt,35,6,1,4,1,105,65,1.6153846153846154,1.4325051503981268,172,99,1.7373737373737375,1.4604956857858784,concept drift,rank||data stream||learn||onlin learn,miscellan
+713,4842627.txt,4,5,0,1,4,9,9,1.0,0.0,13,13,1.0,0.0,,social network,graph mine||small-world phenomenon||star||graph evolut
+714,406323.txt,5,6,0,1,5,13,13,1.0,0.0,20,20,1.0,0.0,,web person,concept hierarchi||databas applic||semant annot of web content||on-lin inform servic||web mine
+715,6365307.txt,4,5,0,0,5,11,11,1.0,0.0,16,16,1.0,0.0,,,hidden markov model||inform search and retriev||topograph map||em algorithm||latent space model
+716,9337148.txt,30,5,2,1,2,104,64,1.625,1.3975424859373686,161,90,1.788888888888889,1.5740566447836788,commun evolut||multi-mod network,evolut,dynam network analysi||dynam heterogen network
+717,7176671.txt,42,4,2,0,2,116,76,1.5263157894736843,1.219077349673736,168,105,1.6,1.269420565229891,inform extract||wikipedia,,semant web||inform system applic
+718,11790102.txt,5,6,0,4,2,12,12,1.0,0.0,18,18,1.0,0.0,,mixtur of multinomi||cluster||classif||naiv bay,learn||data transform
+719,10236111.txt,34,2,1,0,1,102,69,1.4782608695652173,1.2111641980160106,149,97,1.5360824742268042,1.2440527027496149,associ studi,,anova test
+720,959140.txt,51,2,1,1,0,179,103,1.7378640776699028,2.061958561110943,294,153,1.9215686274509804,2.1739076943584634,equival class,itemset with rank statist merit,
+721,680148.txt,3,1,0,0,1,8,8,1.0,0.0,12,12,1.0,0.0,,,graph mine
+722,10843923.txt,27,4,2,0,2,76,46,1.6521739130434783,1.5909716924810418,107,64,1.671875,1.436735530421309,web classif||social tag,,gener||optim
+723,207697.txt,4,4,2,0,2,11,11,1.0,0.0,17,17,1.0,0.0,associ rule||product assort decis,,decis support||frequent itemset
+724,433612.txt,5,4,0,0,4,13,13,1.0,0.0,18,17,1.0588235294117647,0.23529411764705885,,,learn||novel data mine algorithm||robust and scalabl statist method||bayesian network
+725,1028607.txt,2,5,0,3,2,8,8,1.0,0.0,13,13,1.0,0.0,,squash||scalabl||support vector machin,databas applic||boost
+726,9663908.txt,39,5,0,2,3,139,81,1.7160493827160495,1.50910461476403,212,105,2.019047619047619,2.212436503822587,,logist regress||adapt line search,l1-ball constraint||nesterov' method||spars learn
+727,9060690.txt,32,3,0,2,1,130,67,1.9402985074626866,1.6561112246782321,224,101,2.217821782178218,2.3361301689456884,,pattern detect||anomali detect,machin learn
+728,275061.txt,3,6,1,0,5,9,9,1.0,0.0,12,12,1.0,0.0,viral market,,social network||knowledg share||probabilist model||linear model||direct market
+729,6099720.txt,3,1,0,0,1,8,8,1.0,0.0,12,12,1.0,0.0,,,probabilist algorithm
+730,10905790.txt,13,3,1,1,1,45,31,1.4516129032258065,0.9784355411679422,66,49,1.346938775510204,0.8219196149225412,time-vari factor graph,social action track,social influenc analysi
+731,8206742.txt,4,3,1,0,2,9,9,1.0,0.0,14,14,1.0,0.0,decis tree,,classif||decis support
+732,9701993.txt,51,3,0,0,3,130,89,1.4606741573033708,1.1123028018664805,225,118,1.9067796610169492,2.4005200288849595,,,graph visual||dynam interact network||visual analyt
+733,9463669.txt,24,4,1,1,2,77,51,1.5098039215686274,1.3339099099368577,115,72,1.5972222222222223,1.3192982375134799,privaci,anonym,adversari attack||gener
+734,9015376.txt,2,3,0,1,2,8,8,1.0,0.0,10,10,1.0,0.0,,sampl,subgroup discoveri||prior knowledg
+735,13631835.txt,24,7,2,2,3,83,48,1.7291666666666667,1.2704917573741101,135,75,1.8,1.3165611772087666,data acquisit||cost-sensit learn,data mine||machin learn,interact and onlin data mine||activ learn||activ cost-sensit learn
+736,980627.txt,2,4,0,1,3,7,7,1.0,0.0,9,9,1.0,0.0,,workflow mine,causal model||graphic model||probabl and statist
+737,13782849.txt,28,2,1,1,0,73,48,1.5208333333333333,1.0406244786451817,125,68,1.838235294117647,1.5205484122672455,k-nn classif,discrimin discoveri and prevent,
+738,8613999.txt,3,1,0,0,1,15,15,1.0,0.0,18,18,1.0,0.0,,,analyz
+739,10272741.txt,4,4,2,0,2,9,9,1.0,0.0,13,13,1.0,0.0,click-through data||event detect,,dynam web||evolut pattern
+740,6755571.txt,4,4,1,0,3,9,9,1.0,0.0,13,13,1.0,0.0,random project,,dimension reduct||pattern recognit||probabl and statist
+741,1369352.txt,4,7,0,2,5,14,14,1.0,0.0,17,17,1.0,0.0,,gene express||heterogen,backpropag through time||trajectori learn||time lag neural network||probabilist algorithm||self-modifi machin
+742,9605734.txt,31,4,1,0,3,106,64,1.65625,1.3136155973114814,171,97,1.7628865979381443,1.4556905462774063,bounc rate,,machin learn||applic||onlin advertis
+743,823049.txt,4,1,0,0,1,9,9,1.0,0.0,16,16,1.0,0.0,,,decis support
+744,13194551.txt,23,4,1,0,3,72,38,1.894736842105263,1.5006923609877105,122,63,1.9365079365079365,1.670215420694082,matrix decomposit,,altern least squar||column-row decomposit||local search
+745,5162268.txt,3,2,1,0,1,10,10,1.0,0.0,14,14,1.0,0.0,privaci,,infer
+746,9274894.txt,51,2,0,0,2,180,100,1.8,2.3832750575625963,281,140,2.007142857142857,2.4712530903844487,,,data select||data preprocess
+747,1353138.txt,4,1,0,0,1,10,10,1.0,0.0,17,17,1.0,0.0,,,learn
+748,4657809.txt,2,5,1,0,4,7,7,1.0,0.0,10,10,1.0,0.0,correl,,data mine||databas applic||minimum cut||associ rule
+749,1141080.txt,5,3,1,1,1,14,12,1.1666666666666667,0.372677996249965,21,18,1.1666666666666667,0.37267799624996495,dimension curs,index,databas applic
+750,1014501.txt,4,6,0,1,5,11,10,1.1,0.3,17,16,1.0625,0.24206145913796356,,lifetim valu,retent campaign||churn model||number-theoret comput||incent alloc||length of servic
+751,3779321.txt,5,6,3,2,1,11,11,1.0,0.0,16,16,1.0,0.0,bayesian network||interesting||frequent itemset,background||knowledg,associ rule
+752,9101741.txt,20,4,1,0,3,60,29,2.0689655172413794,1.4367356314482522,111,51,2.176470588235294,1.7679708358980164,unlabel exampl,,supervis learn||text mine||bioinformat
+753,9251891.txt,43,4,1,2,1,157,99,1.5858585858585859,1.325812889658974,243,128,1.8984375,1.7403297269752505,surviv analysi,cox regress||privacy-preserv data mine,miscellan
+754,178846.txt,6,3,0,1,2,13,13,1.0,0.0,19,18,1.0555555555555556,0.2290614236454256,,frequent close itemset,associ rule||mine method and algorithm

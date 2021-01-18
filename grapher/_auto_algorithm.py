@@ -1,10 +1,8 @@
 import grapher
 
-VALID_ALGORITHMS = [
-    'TopicRank', 'TextRank', 'SingleRank', 'LexSpec', 'PositionRank', 'TFIDF',
-    'LexRank', 'ExpandRank', 'SingleTPR', 'FirstN', 'TF'
-    # 'TopicalPageRank', 'MultipartiteRank',
-]
+
+VALID_ALGORITHMS = ['FirstN', 'TF', 'LexSpec', 'TFIDF', 'TextRank', 'SingleRank', 'PositionRank', 'LexRank',
+                    'ExpandRank', 'SingleTPR', 'TopicRank']
 
 
 def AutoAlgorithm(model_name, *args, **kwargs):

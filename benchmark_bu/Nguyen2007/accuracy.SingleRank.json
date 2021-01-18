@@ -1,0 +1,1 @@
+{"process_time_second": 122.30018901824951, "top_5": {"mean_recall": 0.118, "mean_precision": 0.17184466019417477, "f_1": 0.1399209486166008}, "top_10": {"mean_recall": 0.178, "mean_precision": 0.12961165048543688, "f_1": 0.15}, "top_15": {"mean_recall": 0.224, "mean_precision": 0.1087378640776699, "f_1": 0.14640522875816991}}
