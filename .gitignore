@@ -2,3 +2,4 @@ cache
 tests/*.json
 benchmark/*/*.csv
 benchmark/*/*.json
+benchmark_tmp

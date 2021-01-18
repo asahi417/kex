@@ -159,13 +159,11 @@ def run_benchmark(data: (List, str) = None,
         fp = {n: 0 for n in list(map(str, top_n)) + ['fixed']}
         mrr = []
         for n_, (l_, p) in enumerate(zip(labels, preds)):
-            try:
-                mrr += [1/min(n + 1 for n, l__ in enumerate(l_) if l__ in p)]
-            except Exception:
-                print([n + 1 for n, l__ in enumerate(l_) if l__ in p], l_, p)
-                print(n_)
-                raise ValueError('MRR error')
-
+            all_ranks = [n + 1 for n, p_ in enumerate(p) if p_ in l_]
+            if len(all_ranks) == 0:  # no answer is found (TopicRank may cause it)
+                mrr.append(1 / (len(preds) + 1))
+            else:
+                mrr.append(1/min(all_ranks))
             for i in tp.keys():
                 if i == 'fixed':
                     n = len(l_)
