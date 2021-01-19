@@ -16,30 +16,40 @@ logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logg
 n_keywords = 100000
 
 
-def cross_analysis(_export_dir: str):
-    all_data = list(map(lambda x: os.path.basename(x) if os.path.isdir(x) else None,
-                        glob(os.path.join(_export_dir, '*'))))
-    all_data = sorted(list(filter(None, all_data)))
+def get_data_algorithm(_export_dir):
+    all_data = sorted(list(filter(
+        None,
+        map(lambda x: os.path.basename(x) if os.path.isdir(x) else None,
+            glob(os.path.join(_export_dir, '*')))
+    )))
+
+    all_algorithm = list(map(
+        lambda x: x.split('.')[-2],
+        glob(os.path.join(_export_dir, '*/accuracy.*.json'))
+    ))
+    all_algorithm = list(filter(lambda x: x in all_algorithm, grapher.VALID_ALGORITHMS))
+    return all_data, all_algorithm
+
+
+def aggregate_agreement(_export_dir: str, top_n: int = 5):
+
+    def clip(_list):
+        return _list[:min(len(_list), top_n)]
+
+    all_data, all_algorithm = get_data_algorithm(_export_dir)
     all_df = []
     for d in all_data:
         tmp_label_dict = {}
         df = pd.DataFrame(columns=all_algorithm, index=all_algorithm)
         for a in all_algorithm:
             df[a][a] = 1
-
-            pred_file = os.path.join(_export_dir, d, 'prediction.{}.csv'.format(a))
-            pred_df = pd.read_csv(pred_file, index_col=0)
-            label = list(map(lambda x: x.split('||'), pred_df['label'].values.tolist()))
-            label_pred = list(map(lambda x: str(x).split('||'), pred_df['label_predict'].values.tolist()))
-            label_correct = list(map(lambda x: list(set(x[0]).intersection(set(x[1]))), zip(label, label_pred)))
-            tmp_label_dict[a] = label_correct
+            pred_df = pd.read_csv(os.path.join(_export_dir, d, 'prediction.{}.csv'.format(a)), index_col=0)
+            tmp_label_dict[a] = list(map(lambda x: clip(str(x).split('||')), pred_df['label_predict'].values.tolist()))
 
         for a, b in permutations(all_algorithm, 2):
-            a_label = tmp_label_dict[a]
-            b_label = tmp_label_dict[b]
             label_intersection = list(map(
-                lambda x: len(list(set(x[0]).intersection(set(x[1]))))/len(x[0]) if len(x[0]) != 0 else 0,
-                zip(a_label, b_label)))
+                lambda x: len(list(set(x[0]).intersection(set(x[1])))) / len(x[0]) if len(x[0]) != 0 else 0,
+                zip(tmp_label_dict[a], tmp_label_dict[b])))
             df[a][b] = sum(label_intersection) / len(label_intersection)
         df.to_csv(os.path.join(_export_dir, d, 'agreement.csv'))
         logging.info('dataset:{} \n {}'.format(d, df))
@@ -55,17 +65,7 @@ def cross_analysis(_export_dir: str):
 
 
 def aggregate_result(_export_dir: str, d: int = 1):
-    all_data = sorted(list(filter(
-        None,
-        map(lambda x: os.path.basename(x) if os.path.isdir(x) else None,
-            glob(os.path.join(_export_dir, '*')))
-    )))
-
-    all_algorithm = list(map(
-        lambda x: x.split('.')[-2],
-        glob(os.path.join(_export_dir, '*/accuracy.*.json'))
-    ))
-    all_algorithm = list(filter(lambda x: x in all_algorithm, grapher.VALID_ALGORITHMS))
+    all_data, all_algorithm = get_data_algorithm(_export_dir)
 
     with open(glob(os.path.join(_export_dir, '*/accuracy.*.json'))[0], 'r') as f:
         tmp = json.load(f)
@@ -84,8 +84,12 @@ def aggregate_result(_export_dir: str, d: int = 1):
             _rec = round(tmp[_n]['mean_recall'] * 100, d)
             df[_n][_algorithm_name][_data_name] = _f1
             df_full[_n][_algorithm_name][_data_name] = '{} ({}, {})'.format(_f1, _pre, _rec)
-
-    return df, df_full
+    for _k, _v in df.items():
+        logging.info("** Result: {} **\n {}".format(_k, _v))
+        _v.to_csv("{}/result.{}.csv".format(_export_dir, _k))
+    for _k, _v in df_full.items():
+        logging.info("** Result: {} **\n {}".format(_k, _v))
+        _v.to_csv("{}/result.combined.{}.csv".format(_export_dir, _k))
 
 
 def get_model_prediction(model_name: str, data_name: str):
@@ -195,32 +199,15 @@ def get_options():
     parser.add_argument('-m', '--model', help='model:{}'.format(grapher.VALID_ALGORITHMS), default=None, type=str)
     parser.add_argument('-d', '--data', help='data:{}'.format(grapher.VALID_DATASET_LIST), default=None, type=str)
     parser.add_argument('-e', '--export', help='log export dir', default='./benchmark', type=str)
-    parser.add_argument('--view', help='view results', action="store_true")
-    parser.add_argument('--cross', help='cross algorithm results', action="store_true")
     parser.add_argument('--top-n', default=None)
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     opt = get_options()
-    # if opt.view:
-    #     _df = view_result(opt.export)
-    #     for _k, _v in _df.items():
-    #         logging.info("** Result: {} **\n {}".format(_k, _v))
-    #         _v.to_csv("{}/full-result.{}.csv".format(opt.export, _k))
-    #     exit()
-    # if opt.cross:
-    #     cross_analysis(opt.export)
-    #     exit()
-
     run_benchmark(data=opt.data.split(',') if opt.data is not None else opt.data,
                   model=opt.model.split(',') if opt.model is not None else opt.model,
                   export_dir_root=opt.export,
                   top_n=opt.top_n.split(',') if opt.top_n is not None else opt.top_n)
-
-    _df, _df_full = aggregate_result(opt.export)
-    # for _k, _v in _df.items():
-    #     logging.info("** Result: {} **\n {}".format(_k, _v))
-    #     _v.to_csv("{}/result.{}.csv".format(opt.export, _k))
-    print(_df)
-    print(_df_full)
+    aggregate_result(opt.export)
+    aggregate_agreement(opt.export)
