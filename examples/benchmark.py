@@ -31,7 +31,7 @@ def get_data_algorithm(_export_dir):
     return all_data, all_algorithm
 
 
-def aggregate_agreement(_export_dir: str, top_n: int = 5, d: int = 1):
+def aggregate_agreement(_export_dir: str, top_n: int = 5):
 
     def clip(_list):
         return _list[:min(len(_list), top_n)]
@@ -42,7 +42,7 @@ def aggregate_agreement(_export_dir: str, top_n: int = 5, d: int = 1):
         tmp_label_dict = {}
         df = pd.DataFrame(columns=all_algorithm, index=all_algorithm)
         for a in all_algorithm:
-            df[a][a] = 1.0
+            df[a][a] = 100.0
             pred_df = pd.read_csv(os.path.join(_export_dir, d, 'prediction.{}.csv'.format(a)), index_col=0)
             tmp_label_dict[a] = list(map(lambda x: clip(str(x).split('||')), pred_df['label_predict'].values.tolist()))
 
@@ -50,15 +50,15 @@ def aggregate_agreement(_export_dir: str, top_n: int = 5, d: int = 1):
             label_intersection = list(map(
                 lambda x: len(list(set(x[0]).intersection(set(x[1])))) / len(x[0]) if len(x[0]) != 0 else 0,
                 zip(tmp_label_dict[a], tmp_label_dict[b])))
-            df[a][b] = round(sum(label_intersection) / len(label_intersection), d)
+            df[a][b] = round(sum(label_intersection) / len(label_intersection) * 100, 1)
         df.to_csv(os.path.join(_export_dir, d, 'agreement.csv'))
         logging.info('dataset:{} \n {}'.format(d, df))
         all_df.append(df)
 
     df = pd.DataFrame(columns=all_algorithm, index=all_algorithm)
     for a, b in permutations(all_algorithm, 2):
-        df[a][b] = round(sum(float(i[a][b]) for i in all_df)/len(all_df), d)
-        df[a][a] = 1.0
+        df[a][b] = round(sum(float(i[a][b]) for i in all_df)/len(all_df), 1)
+        df[a][a] = 100.0
 
     df.to_csv(os.path.join(_export_dir, 'agreement_all.csv'))
     logging.info('All dataset:\n {}'.format(df))
@@ -70,26 +70,39 @@ def aggregate_result(_export_dir: str, d: int = 1):
     with open(glob(os.path.join(_export_dir, '*/accuracy.*.json'))[0], 'r') as f:
         tmp = json.load(f)
         metrics = list(tmp.keys())
-    df = {i: pd.DataFrame(index=all_data, columns=all_algorithm) for i in metrics}
-    metrics.pop(metrics.index('mrr'))
-    df_full = {i: pd.DataFrame(index=all_data, columns=all_algorithm) for i in metrics}
+        metrics.pop(metrics.index('mrr'))
+
+    def update(_df, _key):
+        if _key not in _df.keys():
+            _df[_key] = pd.DataFrame(index=all_data, columns=all_algorithm)
+        return _df
+
+    df = {}
+    df_full = {}
     for i in glob(os.path.join(_export_dir, '*/accuracy.*.json')):
         _data_name = i.split('/')[-2]
         _algorithm_name = i.split('accuracy.')[-1].replace('.json', '')
         tmp = json.load(open(i))
+        df = update(df, 'mrr')
         df['mrr'][_algorithm_name][_data_name] = round(tmp['mrr'] * 100, d)
         for _n in metrics:
             _f1 = round(tmp[_n]['f_1'] * 100, d)
             _pre = round(tmp[_n]['mean_precision'] * 100, d)
             _rec = round(tmp[_n]['mean_recall'] * 100, d)
-            df[_n][_algorithm_name][_data_name] = _f1
+            df = update(df, '{}.f1'.format(_n))
+            df = update(df, '{}.precision'.format(_n))
+            df = update(df, '{}.recall'.format(_n))
+            df['{}.f1'.format(_n)][_algorithm_name][_data_name] = _f1
+            df['{}.precision'.format(_n)][_algorithm_name][_data_name] = _pre
+            df['{}.recall'.format(_n)][_algorithm_name][_data_name] = _rec
+            df_full = update(df_full, _n)
             df_full[_n][_algorithm_name][_data_name] = '{} ({}, {})'.format(_f1, _pre, _rec)
     for _k, _v in df.items():
         logging.info("** Result: {} **\n {}".format(_k, _v))
         _v.to_csv("{}/result.{}.csv".format(_export_dir, _k))
     for _k, _v in df_full.items():
         logging.info("** Result: {} **\n {}".format(_k, _v))
-        _v.to_csv("{}/result.combined.{}.csv".format(_export_dir, _k))
+        _v.to_csv("{}/result.{}.combined.csv".format(_export_dir, _k))
 
 
 def get_model_prediction(model_name: str, data_name: str):
@@ -118,9 +131,10 @@ def get_model_prediction(model_name: str, data_name: str):
 def run_benchmark(data: (List, str) = None,
                   model: (List, str) = None,
                   export_dir_root: str = './benchmark_result',
-                  top_n: List = None):
+                  top_n: List = None,
+                  fixed_metric: bool = True):
     """ Run keyword extraction benchmark """
-
+    _prefix = '' if fixed_metric else '.unfixed.'
     if top_n is None:
         top_n = [5, 10, 15]
     if data is None:
@@ -140,8 +154,8 @@ def run_benchmark(data: (List, str) = None,
         if not os.path.exists(export_dir):
             os.makedirs(export_dir, exist_ok=True)
 
-        accuracy_file = os.path.join(export_dir, 'accuracy.{}.json'.format(model_name))
-        prediction_file = os.path.join(export_dir, 'prediction.{}.csv'.format(model_name))
+        accuracy_file = os.path.join(export_dir, 'accuracy.{}{}.json'.format(model_name, _prefix))
+        prediction_file = os.path.join(export_dir, 'prediction.{}{}.csv'.format(model_name, _prefix))
         if os.path.exists(accuracy_file) and os.path.exists(prediction_file):
             logging.info('skip: found accuracy/prediction file, `{}`, `{}`'.format(accuracy_file, prediction_file))
             continue
@@ -158,9 +172,9 @@ def run_benchmark(data: (List, str) = None,
             df_prediction.to_csv(prediction_file)
 
         # run algorithm and test it over data
-        tp = {n: 0 for n in list(map(str, top_n)) + ['fixed']}
-        fn = {n: 0 for n in list(map(str, top_n)) + ['fixed']}
-        fp = {n: 0 for n in list(map(str, top_n)) + ['fixed']}
+        tp = {n: 0 for n in list(map(str, top_n))}
+        fn = {n: 0 for n in list(map(str, top_n))}
+        fp = {n: 0 for n in list(map(str, top_n))}
         mrr = []
         for n_, (l_, p) in enumerate(zip(labels, preds)):
             all_ranks = [n + 1 for n, p_ in enumerate(p) if p_ in l_]
@@ -169,8 +183,8 @@ def run_benchmark(data: (List, str) = None,
             else:
                 mrr.append(1/min(all_ranks))
             for i in tp.keys():
-                if i == 'fixed':
-                    n = len(l_)
+                if fixed_metric:
+                    n = min(int(i), len(l_))
                 else:
                     n = int(i)
                 positive_answers = list(set(p[:n]).intersection(set(l_)))
@@ -208,6 +222,7 @@ if __name__ == '__main__':
     run_benchmark(data=opt.data.split(',') if opt.data is not None else opt.data,
                   model=opt.model.split(',') if opt.model is not None else opt.model,
                   export_dir_root=opt.export,
-                  top_n=opt.top_n.split(',') if opt.top_n is not None else opt.top_n)
-    aggregate_result(opt.export)
-    aggregate_agreement(opt.export)
+                  top_n=opt.top_n.split(',') if opt.top_n is not None else opt.top_n,
+                  fixed_metric=False)
+    # aggregate_result(opt.export)
+    # aggregate_agreement(opt.export)
