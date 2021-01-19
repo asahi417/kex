@@ -155,7 +155,7 @@ def run_benchmark(data: (List, str) = None,
             os.makedirs(export_dir, exist_ok=True)
 
         accuracy_file = os.path.join(export_dir, 'accuracy.{}{}.json'.format(model_name, _prefix))
-        prediction_file = os.path.join(export_dir, 'prediction.{}{}.csv'.format(model_name, _prefix))
+        prediction_file = os.path.join(export_dir, 'prediction.{}.csv'.format(model_name))
         if os.path.exists(accuracy_file) and os.path.exists(prediction_file):
             logging.info('skip: found accuracy/prediction file, `{}`, `{}`'.format(accuracy_file, prediction_file))
             continue
