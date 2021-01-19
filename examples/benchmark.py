@@ -31,7 +31,7 @@ def get_data_algorithm(_export_dir):
     return all_data, all_algorithm
 
 
-def aggregate_agreement(_export_dir: str, top_n: int = 5):
+def aggregate_agreement(_export_dir: str, top_n: int = 5, d: int = 1):
 
     def clip(_list):
         return _list[:min(len(_list), top_n)]
@@ -42,7 +42,7 @@ def aggregate_agreement(_export_dir: str, top_n: int = 5):
         tmp_label_dict = {}
         df = pd.DataFrame(columns=all_algorithm, index=all_algorithm)
         for a in all_algorithm:
-            df[a][a] = 1
+            df[a][a] = 1.0
             pred_df = pd.read_csv(os.path.join(_export_dir, d, 'prediction.{}.csv'.format(a)), index_col=0)
             tmp_label_dict[a] = list(map(lambda x: clip(str(x).split('||')), pred_df['label_predict'].values.tolist()))
 
@@ -50,15 +50,15 @@ def aggregate_agreement(_export_dir: str, top_n: int = 5):
             label_intersection = list(map(
                 lambda x: len(list(set(x[0]).intersection(set(x[1])))) / len(x[0]) if len(x[0]) != 0 else 0,
                 zip(tmp_label_dict[a], tmp_label_dict[b])))
-            df[a][b] = sum(label_intersection) / len(label_intersection)
+            df[a][b] = round(sum(label_intersection) / len(label_intersection), d)
         df.to_csv(os.path.join(_export_dir, d, 'agreement.csv'))
         logging.info('dataset:{} \n {}'.format(d, df))
         all_df.append(df)
 
     df = pd.DataFrame(columns=all_algorithm, index=all_algorithm)
     for a, b in permutations(all_algorithm, 2):
-        df[a][b] = sum(float(i[a][b]) for i in all_df)/len(all_df)
-        df[a][a] = 1
+        df[a][b] = round(sum(float(i[a][b]) for i in all_df)/len(all_df), d)
+        df[a][a] = 1.0
 
     df.to_csv(os.path.join(_export_dir, 'agreement_all.csv'))
     logging.info('All dataset:\n {}'.format(df))
