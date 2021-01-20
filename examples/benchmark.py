@@ -15,6 +15,8 @@ import grapher
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 n_keywords = 100000
 
+top_n = [5, 10, 15]
+
 
 def get_data_algorithm(_export_dir):
     all_data = sorted(list(filter(
@@ -31,10 +33,10 @@ def get_data_algorithm(_export_dir):
     return all_data, all_algorithm
 
 
-def aggregate_agreement(_export_dir: str, top_n: int = 5):
+def aggregate_agreement(_export_dir: str, top_n_prediction: int = 5):
 
     def clip(_list):
-        return _list[:min(len(_list), top_n)]
+        return _list[:min(len(_list), top_n_prediction)]
 
     all_data, all_algorithm = get_data_algorithm(_export_dir)
     all_df = []
@@ -66,11 +68,7 @@ def aggregate_agreement(_export_dir: str, top_n: int = 5):
 
 def aggregate_result(_export_dir: str, d: int = 1):
     all_data, all_algorithm = get_data_algorithm(_export_dir)
-
-    with open(glob(os.path.join(_export_dir, '*/accuracy.*.json'))[0], 'r') as f:
-        tmp = json.load(f)
-        metrics = list(tmp.keys())
-        metrics.pop(metrics.index('mrr'))
+    metrics = list(map(str, top_n))
 
     def update(_df, _key):
         if _key not in _df.keys():
@@ -86,23 +84,26 @@ def aggregate_result(_export_dir: str, d: int = 1):
         df = update(df, 'mrr')
         df['mrr'][_algorithm_name][_data_name] = round(tmp['mrr'] * 100, d)
         for _n in metrics:
-            _f1 = round(tmp[_n]['f_1'] * 100, d)
-            _pre = round(tmp[_n]['mean_precision'] * 100, d)
-            _rec = round(tmp[_n]['mean_recall'] * 100, d)
-            df = update(df, '{}.f1'.format(_n))
-            df = update(df, '{}.precision'.format(_n))
-            df = update(df, '{}.recall'.format(_n))
-            df['{}.f1'.format(_n)][_algorithm_name][_data_name] = _f1
-            df['{}.precision'.format(_n)][_algorithm_name][_data_name] = _pre
-            df['{}.recall'.format(_n)][_algorithm_name][_data_name] = _rec
-            df_full = update(df_full, _n)
-            df_full[_n][_algorithm_name][_data_name] = '{} ({}, {})'.format(_f1, _pre, _rec)
+            for _type in ['fixed', 'unfixed']:
+                _f1 = round(tmp[_type][_n]['f_1'] * 100, d)
+                _pre = round(tmp[_type][_n]['precision'] * 100, d)
+                _rec = round(tmp[_type][_n]['recall'] * 100, d)
+                df = update(df, '{}.f1.{}'.format(_n, _type))
+                df = update(df, '{}.precision.{}'.format(_n, _type))
+                df = update(df, '{}.recall.{}'.format(_n, _type))
+                df['{}.f1.{}'.format(_n, _type)][_algorithm_name][_data_name] = _f1
+                df['{}.precision.{}'.format(_n, _type)][_algorithm_name][_data_name] = _pre
+                df['{}.recall.{}'.format(_n, _type)][_algorithm_name][_data_name] = _rec
+
+                df_full = update(df_full, '{}.combined.{}'.format(_n, _type))
+                df_full['{}.combined.{}'.format(_n, _type)][_algorithm_name][_data_name] = \
+                    '{} ({}, {})'.format(_f1, _pre, _rec)
     for _k, _v in df.items():
         logging.info("** Result: {} **\n {}".format(_k, _v))
         _v.to_csv("{}/result.{}.csv".format(_export_dir, _k))
     for _k, _v in df_full.items():
         logging.info("** Result: {} **\n {}".format(_k, _v))
-        _v.to_csv("{}/result.{}.combined.csv".format(_export_dir, _k))
+        _v.to_csv("{}/result.{}.csv".format(_export_dir, _k))
 
 
 def get_model_prediction(model_name: str, data_name: str):
@@ -130,13 +131,8 @@ def get_model_prediction(model_name: str, data_name: str):
 
 def run_benchmark(data: (List, str) = None,
                   model: (List, str) = None,
-                  export_dir_root: str = './benchmark_result',
-                  top_n: List = None,
-                  fixed_metric: bool = True):
+                  export_dir_root: str = './benchmark_result'):
     """ Run keyword extraction benchmark """
-    _prefix = '' if fixed_metric else '.unfixed.'
-    if top_n is None:
-        top_n = [5, 10, 15]
     if data is None:
         data_list = grapher.VALID_DATASET_LIST
     else:
@@ -154,7 +150,7 @@ def run_benchmark(data: (List, str) = None,
         if not os.path.exists(export_dir):
             os.makedirs(export_dir, exist_ok=True)
 
-        accuracy_file = os.path.join(export_dir, 'accuracy.{}{}.json'.format(model_name, _prefix))
+        accuracy_file = os.path.join(export_dir, 'accuracy.{}.json'.format(model_name))
         prediction_file = os.path.join(export_dir, 'prediction.{}.csv'.format(model_name))
         if os.path.exists(accuracy_file) and os.path.exists(prediction_file):
             logging.info('skip: found accuracy/prediction file, `{}`, `{}`'.format(accuracy_file, prediction_file))
@@ -175,6 +171,9 @@ def run_benchmark(data: (List, str) = None,
         tp = {n: 0 for n in list(map(str, top_n))}
         fn = {n: 0 for n in list(map(str, top_n))}
         fp = {n: 0 for n in list(map(str, top_n))}
+        tp_unfixed = {n: 0 for n in list(map(str, top_n))}
+        fn_unfixed = {n: 0 for n in list(map(str, top_n))}
+        fp_unfixed = {n: 0 for n in list(map(str, top_n))}
         mrr = []
         for n_, (l_, p) in enumerate(zip(labels, preds)):
             all_ranks = [n + 1 for n, p_ in enumerate(p) if p_ in l_]
@@ -183,22 +182,32 @@ def run_benchmark(data: (List, str) = None,
             else:
                 mrr.append(1/min(all_ranks))
             for i in tp.keys():
-                if fixed_metric:
-                    n = min(int(i), len(l_))
-                else:
-                    n = int(i)
+                n = min(int(i), len(l_))
+                n_unfixed = int(i)
+
                 positive_answers = list(set(p[:n]).intersection(set(l_)))
                 tp[i] += len(positive_answers)
                 fn[i] += len(l_) - len(positive_answers)
                 fp[i] += n - len(positive_answers)
 
+                positive_answers = list(set(p[:n_unfixed]).intersection(set(l_)))
+                tp_unfixed[i] += len(positive_answers)
+                fn_unfixed[i] += len(l_) - len(positive_answers)
+                fp_unfixed[i] += n_unfixed - len(positive_answers)
+
         # result summary: micro F1 score
-        result_json = {'mrr': sum(mrr)/len(mrr)}
+        result_json = {'mrr': sum(mrr)/len(mrr), 'fixed': {}, 'unfixed': {}}
         for i in tp.keys():
+
             precision = tp[str(i)] / (fp[str(i)] + tp[str(i)])
             recall = tp[str(i)] / (fn[str(i)] + tp[str(i)])
             f1 = 2 * precision * recall / (precision + recall)
-            result_json[i] = {"mean_recall": recall, "mean_precision": precision, "f_1": f1}
+            result_json['fixed'][i] = {"recall": recall, "precision": precision, "f_1": f1}
+
+            precision = tp_unfixed[str(i)] / (fp_unfixed[str(i)] + tp_unfixed[str(i)])
+            recall = tp_unfixed[str(i)] / (fn_unfixed[str(i)] + tp_unfixed[str(i)])
+            f1 = 2 * precision * recall / (precision + recall)
+            result_json['unfixed'][i] = {"recall": recall, "precision": precision, "f_1": f1}
 
         # export
         os.makedirs(export_dir, exist_ok=True)
@@ -213,7 +222,6 @@ def get_options():
     parser.add_argument('-m', '--model', help='model:{}'.format(grapher.VALID_ALGORITHMS), default=None, type=str)
     parser.add_argument('-d', '--data', help='data:{}'.format(grapher.VALID_DATASET_LIST), default=None, type=str)
     parser.add_argument('-e', '--export', help='log export dir', default='./benchmark', type=str)
-    parser.add_argument('--top-n', default=None)
     return parser.parse_args()
 
 
@@ -221,8 +229,6 @@ if __name__ == '__main__':
     opt = get_options()
     run_benchmark(data=opt.data.split(',') if opt.data is not None else opt.data,
                   model=opt.model.split(',') if opt.model is not None else opt.model,
-                  export_dir_root=opt.export,
-                  top_n=opt.top_n.split(',') if opt.top_n is not None else opt.top_n,
-                  fixed_metric=False)
-    # aggregate_result(opt.export)
-    # aggregate_agreement(opt.export)
+                  export_dir_root=opt.export)
+    aggregate_result(opt.export)
+    aggregate_agreement(opt.export)
