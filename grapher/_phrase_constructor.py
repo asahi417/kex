@@ -13,7 +13,6 @@ from ._stopwords import get_stopwords_list
 
 
 __all__ = 'PhraseConstructor'
-nltk.download('averaged_perceptron_tagger')
 
 
 class Phrase:
@@ -128,6 +127,7 @@ class PhraseConstructor:
         language: str
         stopwords_list: List
         """
+        nltk.download('averaged_perceptron_tagger')
         self.__language = language.lower()[:2]
         self.__stopwords = get_stopwords_list(self.__language, stopwords_list=stopwords_list)
         self.__maximum_word_number = maximum_word_number

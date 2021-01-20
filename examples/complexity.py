@@ -2,10 +2,12 @@
 import argparse
 import logging
 import json
+import os
 from tqdm import tqdm
 from time import time
 
 import grapher
+import pandas as pd
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 trial = 100
@@ -31,31 +33,45 @@ def run_model(model_name: str):
 
 def measure_complexity(export_dir_root: str = './benchmark'):
     """ Run keyword extraction benchmark """
+    _file = '{}/complexity.json'.format(export_dir_root)
+    if os.path.exists(_file):
+        with open(_file, 'r') as f:
+            complexity = json.load(f)
+    else:
+        model_list = grapher.VALID_ALGORITHMS
 
-    model_list = grapher.VALID_ALGORITHMS
+        logging.info('Measure complexity')
+        complexity = {}
+        for model_name in model_list:
+            logging.info(' - algorithm: {}'.format(model_name))
+            complexity[model_name] = {}
+            n = 0
+            elapse_list = []
+            elapse_prior_list = []
+            while n < trial:
+                elapse, elapse_prior = run_model(model_name)
+                elapse_list.append(elapse)
+                if elapse_prior is not None:
+                    elapse_prior_list.append(elapse_prior)
+                n += 1
+            complexity[model_name]['elapse'] = sum(elapse_list) / len(elapse_list)
+            if len(elapse_prior_list) > 0:
+                complexity[model_name]['elapse_prior'] = sum(elapse_prior_list) / len(elapse_prior_list)
+            else:
+                complexity[model_name]['elapse_prior'] = 0
 
-    logging.info('Measure complexity')
-    complexity = {}
-    for model_name in model_list:
-        logging.info(' - algorithm: {}'.format(model_name))
-        complexity[model_name] = {}
-        n = 0
-        elapse_list = []
-        elapse_prior_list = []
-        while n < trial:
-            elapse, elapse_prior = run_model(model_name)
-            elapse_list.append(elapse)
-            if elapse_prior is not None:
-                elapse_prior_list.append(elapse_prior)
-            n += 1
-        complexity[model_name]['elapse'] = sum(elapse_list) / len(elapse_list)
-        if len(elapse_prior_list) > 0:
-            complexity[model_name]['elapse_prior'] = sum(elapse_prior_list) / len(elapse_prior_list)
-        else:
-            complexity[model_name]['elapse_prior'] = 0
+        with open(_file, 'w') as f:
+            json.dump(complexity, f)
 
-    with open('{}/complexity.json'.format(export_dir_root), 'w') as f:
-        json.dump(complexity, f)
+    df = pd.DataFrame(complexity).T
+    df_tmp = df['elapse'].round(1)
+    df_tmp.name = 'Time (sec.)'
+    df_tmp.to_csv('{}/complexity.csv'.format(export_dir_root))
+    pd.DataFrame({
+        'TF': {'Model': 'TF,LexSpec,LexRank', 'Time (sec.)': df['elapse_prior']['TF'].round(1)},
+        'TFIDF': {'Model': 'TFIDF,TFIDFRank', 'Time (sec.)': df['elapse_prior']['TFIDF'].round(1)},
+        'LDA': {'Model': 'SingleTPR', 'Time (sec.)': df['elapse_prior']['SingleTPR'].round(1)}
+    }).to_csv('{}/complexity.prior.csv'.format(export_dir_root))
 
 
 def get_options():

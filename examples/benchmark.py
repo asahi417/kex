@@ -9,6 +9,8 @@ from glob import glob
 from tqdm import tqdm
 from itertools import product
 
+import seaborn as sns
+import matplotlib.pyplot as plt
 import pandas as pd
 import grapher
 
@@ -52,18 +54,32 @@ def aggregate_agreement(_export_dir: str, top_n_prediction: int = 5):
             label_intersection = list(map(
                 lambda x: len(list(set(x[0]).intersection(set(x[1])))) / len(x[0]) if len(x[0]) != 0 else 0,
                 zip(tmp_label_dict[a], tmp_label_dict[b])))
-            df[a][b] = round(sum(label_intersection) / len(label_intersection) * 100, 1)
-        df.to_csv(os.path.join(_export_dir, d, 'agreement.csv'))
+            df[a][b] = sum(label_intersection) / len(label_intersection) * 100
+        df.round(1).to_csv(os.path.join(_export_dir, d, 'agreement.csv'))
         logging.info('dataset:{} \n {}'.format(d, df))
         all_df.append(df)
 
     df = pd.DataFrame(columns=all_algorithm, index=all_algorithm)
     for a, b in permutations(all_algorithm, 2):
-        df[a][b] = round(sum(float(i[a][b]) for i in all_df)/len(all_df), 1)
-        df[a][a] = 100.0
+        df[a][b] = sum(float(i[a][b]) for i in all_df)/len(all_df)
+        df[a][a] = 100
 
-    df.to_csv(os.path.join(_export_dir, 'agreement_all.csv'))
+    df.round(1).to_csv(os.path.join(_export_dir, 'agreement_all.csv'))
     logging.info('All dataset:\n {}'.format(df))
+
+    # plot heatmap
+    fig = plt.figure()
+    fig.clear()
+    df.columns = [c.replace('Expand', 'TFIDF') for c in df.columns]
+    df.index = [c.replace('Expand', 'TFIDF') for c in df.index]
+    df = df.astype(float).round()
+    sns_plot = sns.heatmap(df, annot=True, fmt="g", cmap='viridis', cbar=True)
+    sns_plot.set_xticklabels(sns_plot.get_xticklabels(), rotation=60)
+    sns_plot.tick_params(labelsize=10)
+    fig = sns_plot.get_figure()
+    plt.tight_layout()
+    fig.savefig('{}/agreement_all.heatmap.png'.format(_export_dir))
+    fig.savefig('{}/agreement_all.heatmap.pdf'.format(_export_dir))
 
 
 def aggregate_result(_export_dir: str, d: int = 1):
