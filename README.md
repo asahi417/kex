@@ -1,4 +1,4 @@
-# Kex
+# [Kex](https://pypi.org/project/kex/)
 *Kex* is a python library for unsurpervised keyword extractions: 
 - [Easy interface for keyword extraction with a variety of algorithms](#extract-keywords-with-kex)
 - [Quick benchmarking over 15 English public datasets](#benchmark-on-15-public-datasets)
@@ -7,15 +7,7 @@
 ## Get Started
 Install via pip
 ```shell script
-pip install git+https://github.com/asahi417/kex
-```
-
-or clone and install
-
-```shell script
-git clone https://github.com/asahi417/kex
-cd kex
-pip install .
+pip install kex
 ```
 
 ## Extract Keywords with `kex`
