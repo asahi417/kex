@@ -2,7 +2,7 @@
 import unittest
 import logging
 
-from grapher import TFIDF, ExpandRank
+from kex import TFIDF, ExpandRank
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 TEST_DOCS = [

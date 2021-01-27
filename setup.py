@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 VERSION = '0.0.0'
-NAME = 'grapher'
+NAME = 'kex'
 IS_RELEASED = False
 
 with open('README.md') as f:
@@ -10,11 +10,11 @@ with open('README.md') as f:
 setup(
     name=NAME,
     version=VERSION,
-    description='Graph-based keyword extractions.',
+    description='Light/easy keyword extraction.',
     long_description=readme,
     author='Asahi Ushio',
     author_email='asahi1992ushio@gmail.com',
-    packages=find_packages(exclude=('random', 'dataset')),
+    packages=find_packages(),
     include_package_data=True,
     test_suite='tests',
     install_requires=[

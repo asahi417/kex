@@ -5,7 +5,7 @@ from typing import List
 
 def get_stopwords_list(language: str = 'en', stopwords_list: List = None):
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    local_path = os.path.join("yake_stopwords", "stopwords_{}.txt".format(language[:2]))
+    local_path = os.path.join("_stopwords", "stopwords_{}.txt".format(language[:2]))
     if not os.path.exists(os.path.join(dir_path, local_path)):
         local_path = os.path.join("StopwordsList", "stopwords_noLang.txt")
 

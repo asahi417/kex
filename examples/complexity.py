@@ -1,4 +1,4 @@
-""" Benchmark preset methods in grapher """
+""" Benchmark preset methods in kex """
 import argparse
 import logging
 import json
@@ -6,16 +6,16 @@ import os
 from tqdm import tqdm
 from time import time
 
-import grapher
+import kex
 import pandas as pd
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 trial = 100
-data, language = grapher.get_benchmark_dataset("Inspec")
+data, language = kex.get_benchmark_dataset("Inspec")
 
 
 def run_model(model_name: str):
-    model = grapher.AutoAlgorithm(model_name, language=language)
+    model = kex.AutoAlgorithm(model_name, language=language)
     elapse_prior = None
     if model.prior_required:
         try:
@@ -38,7 +38,7 @@ def measure_complexity(export_dir_root: str = './benchmark'):
         with open(_file, 'r') as f:
             complexity = json.load(f)
     else:
-        model_list = grapher.VALID_ALGORITHMS
+        model_list = kex.VALID_ALGORITHMS
 
         logging.info('Measure complexity')
         complexity = {}
@@ -75,7 +75,7 @@ def measure_complexity(export_dir_root: str = './benchmark'):
 
 
 def get_options():
-    parser = argparse.ArgumentParser(description='Benchmark preset methods in grapher')
+    parser = argparse.ArgumentParser(description='Benchmark preset methods in kex')
     parser.add_argument('-e', '--export', help='log export dir', default='./benchmark', type=str)
     return parser.parse_args()
 

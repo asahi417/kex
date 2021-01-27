@@ -2,7 +2,7 @@
 import unittest
 import logging
 
-from grapher import PhraseConstructor
+from kex import PhraseConstructor
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 

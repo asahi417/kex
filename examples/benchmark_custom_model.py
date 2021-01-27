@@ -4,7 +4,7 @@ import json
 from random import shuffle
 from tqdm import tqdm
 
-import grapher
+import kex
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')  # should be right after import logging
 
@@ -14,7 +14,7 @@ class CustomExtractor:
 
     def __init__(self, maximum_word_number: int = 3):
         """ random keywords extractor """
-        self.phrase_constructor = grapher.PhraseConstructor(maximum_word_number=maximum_word_number)
+        self.phrase_constructor = kex.PhraseConstructor(maximum_word_number=maximum_word_number)
 
     def get_keywords(self, document: str, n_keywords: int = 10):
         """ Get keywords
@@ -37,7 +37,7 @@ class CustomExtractor:
 
 if __name__ == '__main__':
     model = CustomExtractor()
-    data, _ = grapher.get_benchmark_dataset('Inspec')
+    data, _ = kex.get_benchmark_dataset('Inspec')
 
     # run algorithm and test it over data
     tp, fn, fp = 0, 0, 0

@@ -1,4 +1,4 @@
-""" Benchmark preset methods in grapher """
+""" Benchmark preset methods in kex """
 import argparse
 import os
 import logging
@@ -12,7 +12,7 @@ from itertools import product
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
-import grapher
+import kex
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 n_keywords = 100000
@@ -31,7 +31,7 @@ def get_data_algorithm(_export_dir):
         lambda x: x.split('.')[-2],
         glob(os.path.join(_export_dir, '*/accuracy.*.json'))
     ))
-    all_algorithm = list(filter(lambda x: x in all_algorithm, grapher.VALID_ALGORITHMS))
+    all_algorithm = list(filter(lambda x: x in all_algorithm, kex.VALID_ALGORITHMS))
     return all_data, all_algorithm
 
 
@@ -124,8 +124,8 @@ def aggregate_result(_export_dir: str, d: int = 1):
 
 def get_model_prediction(model_name: str, data_name: str):
     """ get prediction from single model on single dataset """
-    data, language = grapher.get_benchmark_dataset(data_name)
-    model = grapher.AutoAlgorithm(model_name, language=language)
+    data, language = kex.get_benchmark_dataset(data_name)
+    model = kex.AutoAlgorithm(model_name, language=language)
 
     # compute prior
     if model.prior_required:
@@ -150,11 +150,11 @@ def run_benchmark(data: (List, str) = None,
                   export_dir_root: str = './benchmark_result'):
     """ Run keyword extraction benchmark """
     if data is None:
-        data_list = grapher.VALID_DATASET_LIST
+        data_list = kex.VALID_DATASET_LIST
     else:
         data_list = data if type(data) is list else [data]
     if model is None:
-        model_list = grapher.VALID_ALGORITHMS
+        model_list = kex.VALID_ALGORITHMS
     else:
         model_list = model if type(model) is list else [model]
 
@@ -234,9 +234,9 @@ def run_benchmark(data: (List, str) = None,
 
 
 def get_options():
-    parser = argparse.ArgumentParser(description='Benchmark preset methods in grapher')
-    parser.add_argument('-m', '--model', help='model:{}'.format(grapher.VALID_ALGORITHMS), default=None, type=str)
-    parser.add_argument('-d', '--data', help='data:{}'.format(grapher.VALID_DATASET_LIST), default=None, type=str)
+    parser = argparse.ArgumentParser(description='Benchmark preset methods in kex')
+    parser.add_argument('-m', '--model', help='model:{}'.format(kex.VALID_ALGORITHMS), default=None, type=str)
+    parser.add_argument('-d', '--data', help='data:{}'.format(kex.VALID_DATASET_LIST), default=None, type=str)
     parser.add_argument('-e', '--export', help='log export dir', default='./benchmark', type=str)
     return parser.parse_args()
 

@@ -2,7 +2,7 @@
 import unittest
 import logging
 
-from grapher import get_benchmark_dataset, VALID_DATASET_LIST, get_statistics
+from kex import get_benchmark_dataset, VALID_DATASET_LIST, get_statistics
 
 LOGGER = logging.getLogger()
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')

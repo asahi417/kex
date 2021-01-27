@@ -1,32 +1,25 @@
-# Grapher
-
-<p align="center">
-  <img src="./asset/topic_rank_fig.png" width="800">
-  <br><i>Fig 1: TopicRank visualization (Bougouin et al.,13) </i>
-</p>
-
-
-*Grapher* is a python library for unsurpervised keyword extractions: 
-- [Easy interface for keyword extraction with various algorithms via python](#extract-keywords-with-grapher)
+# Kex
+*Kex* is a python library for unsurpervised keyword extractions: 
+- [Easy interface for keyword extraction with various algorithms via python](#extract-keywords-with-kex)
 - [Quick benchmarking over 16 English public datasets](#benchamrk)
-- [Modules to support implementing custom keyword extractor](#implement-custom-method-with-grapher)
+- [Modules to support implementing custom keyword extractor](#implement-custom-method-with-kex)
 
 ## Get Started
 Install via pip
 ```shell script
-pip install git+https://github.com/asahi417/grapher
+pip install git+https://github.com/asahi417/kex
 ```
 
 or clone and install
 
 ```shell script
-git clone https://github.com/asahi417/grapher
-cd grapher
+git clone https://github.com/asahi417/kex
+cd kex
 pip install .
 ```
 
-## Extract Keywords with grapher
-*Grapher* retrieves keywords given a document with various algorithms:
+## Extract Keywords with kex
+*kex* retrieves keywords given a document with various algorithms:
 - `FirstN`: a heuristic baseline to pick up first n phrases as keywords 
 - `TFIDF`: a simple statistic baseline
 - `TextRank`: [Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
@@ -41,8 +34,8 @@ pip install .
 Basic usage:
 
 ```python
-import grapher
-model = grapher.SingleRank()  # any algorithm listed above
+import kex
+model = kex.SingleRank()  # any algorithm listed above
 sample = '''
 We propose a novel unsupervised keyphrase extraction approach that filters candidate keywords using outlier detection.
 It starts by training word embeddings on the target document to capture semantic regularities among the words. It then
@@ -73,16 +66,16 @@ model.get_keywords(sample, n_keywords=2)
 ### Algorithm with prior
 Algorithms with priors (`TFIDF`, `ExpandRank`, `TopicalPageRank`, `SingleTPR`) need to be trained beforehand:
 ```python
-import grapher
-model = grapher.SingleTPR()
+import kex
+model = kex.SingleTPR()
 test_sentences = ['documentA', 'documentB', 'documentC']
 model.train(test_sentences, export_directory='./tmp')
 ``` 
 
 Priors are cached and can be loaded on the fly:
 ```python
-import grapher
-model = grapher.SingleTPR()
+import kex
+model = kex.SingleTPR()
 model.load('./tmp')
 ```
 
@@ -90,18 +83,18 @@ model.load('./tmp')
 Currently, algorithms are available only in English, but soon we will relax the constrain to allow other language to be supported.
 The dependency is mainly due to the Part-of-Speech tagger and the word stemmer.
 
-## Implement Custom Method with grapher
-Here is a brief example to create a custom extractor with grapher.
+## Implement Custom Method with kex
+Here is a brief example to create a custom extractor with kex.
 
 ```python
-import grapher
+import kex
 
 class CustomExtractor:
     """ Custom keyword extractor example: First N keywords extractor """
 
     def __init__(self, maximum_word_number: int = 3):
         """ First N keywords extractor """
-        self.phrase_constructor = grapher.PhraseConstructor(maximum_word_number=maximum_word_number)
+        self.phrase_constructor = kex.PhraseConstructor(maximum_word_number=maximum_word_number)
 
     def get_keywords(self, document: str, n_keywords: int = 10):
         """ Get keywords
@@ -124,7 +117,7 @@ class CustomExtractor:
 
 ## Benchamrk
 We enable users to fetch 16 public keyword extraction datasets via 
-[`grapher.get_benchmark_dataset`](./grapher/_get_dataset.py) module.
+[`kex.get_benchmark_dataset`](./kex/_get_dataset.py) module.
 By which, we provide an [example script](./examples/benchmark.py) to run benchmark over preset algorithms.
 All the metrics are in the format of micro F1 score (recall/precision), and model priors are 
 computed within each dataset.
@@ -135,4 +128,4 @@ Please take a look the result below:
 - [***top 15***](./benchmark/full-result.15.csv)
 - [***complexity***](./benchmark/full-result.time.csv) 
 
-To benchmark [custom algorithm](#implement-custom-method-with-grapher), see [the other script](./examples/benchmark_custom_model.py).
+To benchmark [custom algorithm](#implement-custom-method-with-kex), see [the other script](./examples/benchmark_custom_model.py).
