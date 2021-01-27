@@ -1,6 +1,6 @@
-# Kex 
+# Kex
 *Kex* is a python library for unsurpervised keyword extractions: 
-- [Easy interface for keyword extraction with various algorithms via python](#extract-keywords-with-kex)
+- [Easy interface for keyword extraction with a variety of algorithms](#extract-keywords-with-kex)
 - [Quick benchmarking over 16 English public datasets](#benchamrk)
 - [Modules to support implementing custom keyword extractor](#implement-custom-method-with-kex)
 
@@ -18,7 +18,7 @@ cd kex
 pip install .
 ```
 
-## Extract Keywords with kex
+## Extract Keywords with `kex`
 *kex* retrieves keywords given a document with various algorithms:
 - `FirstN`: a heuristic baseline to pick up first n phrases as keywords 
 - `TFIDF`: a simple statistic baseline
