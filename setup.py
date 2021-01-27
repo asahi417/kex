@@ -13,7 +13,7 @@ setup(
     license='MIT',
     description='Light/easy keyword extraction.',
     url='https://github.com/asahi417/kex',
-    download_url='https://github.com/asahi417/kex/archive/v0.0.tar.gz',
+    download_url='https://github.com/asahi417/kex/archive/v1.0.tar.gz',
     keywords=['keyword-extraction', 'nlp', 'information-retrieval'],
     long_description=readme,
     author='Asahi Ushio',
