@@ -9,7 +9,7 @@ from gensim import corpora
 from ._phrase_constructor import PhraseConstructor
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-CACHE_DIR = './cache/priors/tfidf'
+CACHE_DIR = '{}/.kex_cache/tfidf'.format(os.path.expanduser('~'))
 __all__ = 'TFIDF'
 
 
@@ -22,7 +22,7 @@ class TFIDF:
         self.prior_required = True
         self.phrase_constructor = PhraseConstructor(language=language)
 
-    def load(self, directory: str = './cache/priors/tfidf'):
+    def load(self, directory: str = CACHE_DIR):
         """ load saved lda model and dictionary instance used to train the model """
         path_to_model = os.path.join(directory, 'tfidf_model')
         path_to_dict = os.path.join(directory, 'tfidf_dict')
@@ -35,7 +35,7 @@ class TFIDF:
         self.__dict = gensim.corpora.Dictionary.load_from_text(path_to_dict)
         self.__dict.id2token = dict([(v, k) for k, v in self.__dict.token2id.items()])
 
-    def save(self, directory: str = './cache/priors/tfidf'):
+    def save(self, directory: str = CACHE_DIR):
         assert self.is_trained, 'training before run any inference'
         os.makedirs(os.path.join(directory), exist_ok=True)
         self.__model.save(os.path.join(directory, 'tfidf_model'))

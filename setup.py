@@ -6,11 +6,11 @@ with open('README.md', 'r') as f:
 setup(
     name='kex',
     packages=find_packages(),
-    version='1.0.0',
+    version='2.0.2',
     license='MIT',
     description='Light/easy keyword extraction.',
     url='https://github.com/asahi417/kex',
-    download_url='https://github.com/asahi417/kex/archive/v1.0.tar.gz',
+    download_url='https://github.com/asahi417/kex/archive/v1.1.tar.gz',
     keywords=['keyword-extraction', 'nlp', 'information-retrieval'],
     long_description=readme,
     long_description_content_type="text/markdown",

@@ -9,6 +9,7 @@ from ._phrase_constructor import PhraseConstructor
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 __all__ = 'LDA'
+CACHE_DIR = '{}/.kex_cache/lda'.format(os.path.expanduser('~'))
 
 
 class LDA:
@@ -19,7 +20,7 @@ class LDA:
         self.__dict = None
         self.phrase_constructor = PhraseConstructor(language=language)
 
-    def load(self, directory: str = './cache/priors/lda'):
+    def load(self, directory: str = CACHE_DIR):
         """ load saved lda model and dictionary instance used to train the model """
         path_to_model = os.path.join(directory, 'lda_model')
         path_to_dict = os.path.join(directory, 'lda_dict')
@@ -32,7 +33,7 @@ class LDA:
         self.__dict = gensim.corpora.Dictionary.load_from_text(path_to_dict)
         self.__dict.id2token = dict([(v, k) for k, v in self.__dict.token2id.items()])
 
-    def save(self, directory: str = './cache/priors/lda'):
+    def save(self, directory: str = CACHE_DIR):
         assert self.is_trained, 'training before run any inference'
         os.makedirs(os.path.join(directory), exist_ok=True)
         self.__model.save(os.path.join(directory, 'lda_model'))

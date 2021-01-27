@@ -10,6 +10,7 @@ from itertools import chain
 from ._phrase_constructor import PhraseConstructor
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
+CACHE_DIR = '{}/.kex_cache/lexspec'.format(os.path.expanduser('~'))
 __all__ = ('LexSpec', 'lexical_specificity', 'TF')
 
 
@@ -98,7 +99,7 @@ class LexSpec:
         self.prior_required = True
         self.phrase_constructor = PhraseConstructor(language=language)
 
-    def load(self, directory: str = './cache/priors/lexical_specificity'):
+    def load(self, directory: str = CACHE_DIR):
         """ load saved lda model and dictionary instance used to train the model """
         path_to_dict = "{}/lexical_specificity_frequency.json".format(directory)
         assert os.path.exists(path_to_dict), 'no dictionary found: {}'.format(path_to_dict)
@@ -107,7 +108,7 @@ class LexSpec:
         self.reference_corpus_size = sum(self.freq.values())
         logging.debug('loaded frequency dictionary from {}'.format(path_to_dict))
 
-    def train(self, data: list, export_directory: str = './cache/priors/lexical_specificity'):
+    def train(self, data: list, export_directory: str = CACHE_DIR):
         """ cache a dictionary {key: a word, value: occcurence of the word}
 
          Parameter
