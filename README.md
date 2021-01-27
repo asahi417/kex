@@ -1,4 +1,4 @@
-# Kex 🕵️‍
+# Kex 
 *Kex* is a python library for unsurpervised keyword extractions: 
 - [Easy interface for keyword extraction with various algorithms via python](#extract-keywords-with-kex)
 - [Quick benchmarking over 16 English public datasets](#benchamrk)
