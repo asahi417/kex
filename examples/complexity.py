@@ -15,7 +15,7 @@ data, language = kex.get_benchmark_dataset("Inspec")
 
 
 def run_model(model_name: str):
-    model = kex.AutoAlgorithm(model_name, language=language)
+    model = kex.get_algorithm(model_name, language=language)
     elapse_prior = None
     if model.prior_required:
         try:

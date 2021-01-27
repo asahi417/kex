@@ -7,6 +7,6 @@ TextRank,14.9
 SingleRank,15.0
 PositionRank,15.0
 LexRank,25.5
-ExpandRank,26.5
+TFIDFRank,26.5
 SingleTPR,29.4
 TopicRank,19.0

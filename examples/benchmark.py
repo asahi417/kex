@@ -1,4 +1,4 @@
-""" Benchmark preset methods in kex """
+""" Benchmark algorithms over built-in dataset """
 import argparse
 import os
 import logging
@@ -15,9 +15,7 @@ import pandas as pd
 import kex
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-n_keywords = 100000
-
-top_n = [5, 10, 15]
+top_n = [5, 10]
 
 
 def get_data_algorithm(_export_dir):
@@ -70,8 +68,6 @@ def aggregate_agreement(_export_dir: str, top_n_prediction: int = 5):
     # plot heatmap
     fig = plt.figure()
     fig.clear()
-    df.columns = [c.replace('Expand', 'TFIDF') for c in df.columns]
-    df.index = [c.replace('Expand', 'TFIDF') for c in df.index]
     df = df.astype(float).round()
     sns_plot = sns.heatmap(df, annot=True, fmt="g", cmap='viridis', cbar=True)
     sns_plot.set_xticklabels(sns_plot.get_xticklabels(), rotation=60)
@@ -110,10 +106,6 @@ def aggregate_result(_export_dir: str, d: int = 1):
                 df['{}.f1.{}'.format(_n, _type)][_algorithm_name][_data_name] = _f1
                 df['{}.precision.{}'.format(_n, _type)][_algorithm_name][_data_name] = _pre
                 df['{}.recall.{}'.format(_n, _type)][_algorithm_name][_data_name] = _rec
-
-                df_full = update(df_full, '{}.combined.{}'.format(_n, _type))
-                df_full['{}.combined.{}'.format(_n, _type)][_algorithm_name][_data_name] = \
-                    '{} ({}, {})'.format(_f1, _pre, _rec)
     for _k, _v in df.items():
         logging.info("** Result: {} **\n {}".format(_k, _v))
         _v.to_csv("{}/result.{}.csv".format(_export_dir, _k))
@@ -125,7 +117,7 @@ def aggregate_result(_export_dir: str, d: int = 1):
 def get_model_prediction(model_name: str, data_name: str):
     """ get prediction from single model on single dataset """
     data, language = kex.get_benchmark_dataset(data_name)
-    model = kex.AutoAlgorithm(model_name, language=language)
+    model = kex.get_algorithm(model_name, language=language)
 
     # compute prior
     if model.prior_required:
@@ -138,7 +130,7 @@ def get_model_prediction(model_name: str, data_name: str):
     for n, v in enumerate(tqdm(data)):
         ids.append(v['id'])
         # inference
-        keys = model.get_keywords(v['source'], n_keywords=n_keywords)
+        keys = model.get_keywords(v['source'], n_keywords=100000)
         preds.append([k['stemmed'] for k in keys])
         scores.append([k['score'] for k in keys])
         labels.append(v['keywords'])  # already stemmed
@@ -196,7 +188,7 @@ def run_benchmark(data: (List, str) = None,
             if len(all_ranks) == 0:  # no answer is found (TopicRank may cause it)
                 mrr.append(1 / (len(preds) + 1))
             else:
-                mrr.append(1/min(all_ranks))
+                mrr.append(1 / min(all_ranks))
             for i in tp.keys():
                 n = min(int(i), len(l_))
                 n_unfixed = int(i)

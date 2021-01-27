@@ -1,8 +1,8 @@
 # Kex
 *Kex* is a python library for unsurpervised keyword extractions: 
 - [Easy interface for keyword extraction with a variety of algorithms](#extract-keywords-with-kex)
-- [Quick benchmarking over 16 English public datasets](#benchamrk)
-- [Modules to support implementing custom keyword extractor](#implement-custom-method-with-kex)
+- [Quick benchmarking over 15 English public datasets](#benchmark-on-15-public-datasets)
+- [Custom keyword extractor implementation support](#implement-custom-extractor-with-kex)
 
 ## Get Started
 Install via pip
@@ -36,9 +36,9 @@ Built-in algorithms in *kex* is below:
 Basic usage:
 
 ```python
-import kex
-model = kex.SingleRank()  # any algorithm listed above
-sample = '''
+>>> import kex
+>>> model = kex.SingleRank()  # any algorithm listed above
+>>> sample = '''
 We propose a novel unsupervised keyphrase extraction approach that filters candidate keywords using outlier detection.
 It starts by training word embeddings on the target document to capture semantic regularities among the words. It then
 uses the minimum covariance determinant estimator to model the distribution of non-keyphrase word vectors, under the
@@ -47,8 +47,7 @@ expressed by the dimensions of the learned vector representation. Candidate keyp
 detected as outliers of this dominant distribution. Empirical results show that our approach outperforms state
 of-the-art and recent unsupervised keyphrase extraction methods.
 '''
-model.get_keywords(sample, n_keywords=2)
-
+>>> model.get_keywords(sample, n_keywords=2)
 [{'stemmed': 'non-keyphras word vector',
   'pos': 'ADJ NOUN NOUN',
   'raw': ['non-keyphrase word vectors'],
@@ -65,28 +64,52 @@ model.get_keywords(sample, n_keywords=2)
   'n_source_tokens': 112}]
 ```
 
-### Algorithm with prior
-Algorithms with priors (`TF`, `TFIDF`, `TFIDFRank`, `LexSpec`, `LexRank`, `TopicalPageRank`, `SingleTPR`) need to be trained beforehand:
+### Compute a prior
+Algorithms such as `TF`, `TFIDF`, `TFIDFRank`, `LexSpec`, `LexRank`, `TopicalPageRank`, and `SingleTPR` need to compute
+a prior distribution beforehand:  
 
 ```python
-import kex
-model = kex.SingleTPR()
-test_sentences = ['documentA', 'documentB', 'documentC']
-model.train(test_sentences, export_directory='./tmp')
+>>> import kex
+>>> model = kex.SingleTPR()
+>>> test_sentences = ['documentA', 'documentB', 'documentC']
+>>> model.train(test_sentences, export_directory='./tmp')
 ``` 
 
 Priors are cached and can be loaded on the fly:
 ```python
-import kex
-model = kex.SingleTPR()
-model.load('./tmp')
+>>> import kex
+>>> model = kex.SingleTPR()
+>>> model.load('./tmp')
 ```
 
-### Supported Language
-Currently, algorithms are available only in English, but soon we will relax the constrain to allow other language to be supported.
+### Supported language
+Currently algorithms are available only in English, but soon we will relax the constrain to allow other language to be supported.
 
-## Implement Custom Method with kex
-Here is a brief example to create a custom extractor with kex.
+## Benchmark on 15 Public Datasets
+Users can fetch 15 public keyword extraction datasets via [`kex.get_benchmark_dataset`](./kex/_get_dataset.py#L41).
+
+```python
+>>> import kex
+>>> json_line, language = kex.get_benchmark_dataset('Inspec', keep_only_valid_label=False)
+>>> json_line[0]
+{
+    'keywords': ['kind infer', 'type check', 'overload', 'nonstrict pure function program languag', ...],
+    'source': 'A static semantics for Haskell\nThis paper gives a static semantics for Haskell 98, a non-strict ...',
+    'id': '1053.txt'
+}
+```
+
+High level statistics of each dataset can be found [here](./benchmark/data_statistics.csv), and the benchmark results below:
+- [***Precision at top 5***](./benchmark/result.5.precision.fixed.csv)
+- [***Precision at top 10***](./benchmark/result.10.precision.fixed.csv) 
+- [***MRR***](./benchmark/result.mrr.csv)
+- [***Complexity (process time)***](./benchmark/complexity.csv) 
+ 
+A prior distributions are computed within each dataset, and complexity is an average over 100 trial on Inspec dataset.
+To reproduce the above benchmark results, please take a look an [example script](./examples/benchmark.py).
+
+## Implement Custom Extractor with `kex`
+We provide an API to run a basic pipeline for preprocessing, by which one can implement a custom keyword extractor.
 
 ```python
 import kex
@@ -114,20 +137,4 @@ class CustomExtractor:
         phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
         sorted_phrases = sorted(phrase_instance.values(), key=lambda x: x['offset'][0][0])
         return sorted_phrases[:min(len(sorted_phrases), n_keywords)]
-
 ```
-
-## Benchamrk
-We enable users to fetch 16 public keyword extraction datasets via 
-[`kex.get_benchmark_dataset`](./kex/_get_dataset.py) module.
-By which, we provide an [example script](./examples/benchmark.py) to run benchmark over preset algorithms.
-All the metrics are in the format of micro F1 score (recall/precision), and model priors are 
-computed within each dataset.
-Please take a look the result below:
-
-- [***top 5***](./benchmark/full-result.5.csv)
-- [***top 10***](./benchmark/full-result.10.csv) 
-- [***top 15***](./benchmark/full-result.15.csv)
-- [***complexity***](./benchmark/full-result.time.csv) 
-
-To benchmark [custom algorithm](#implement-custom-method-with-kex), see [the other script](./examples/benchmark_custom_model.py).

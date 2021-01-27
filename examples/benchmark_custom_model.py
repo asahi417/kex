@@ -41,16 +41,7 @@ if __name__ == '__main__':
 
     # run algorithm and test it over data
     tp, fn, fp = 0, 0, 0
-
     topn = 5
-    # predictions = []
-    # labels = []
-    # for v in tqdm(data):
-    #     source = v['source']
-    #     gold_keys = v['keywords']   # already stemmed
-    #     # inference
-    #     predictions.append(model.get_keywords(source, n_keywords=topn))
-    #     labels.append(gold_keys)
 
     for v in tqdm(data):
         source = v['source']
@@ -64,8 +55,8 @@ if __name__ == '__main__':
         fp += topn - len(positive_answers)
 
     # result summary: micro F1 score
-    precision = tp/(fp + tp)
-    recall = tp/(fn + tp)
+    precision = tp / (fp + tp)
+    recall = tp / (fn + tp)
     f1 = 2 * precision * recall / (precision + recall)
     logging.info(json.dumps({"precision": precision, "recall": recall, "f1": f1}, indent=4, sort_keys=True))
 

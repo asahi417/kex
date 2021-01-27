@@ -2,7 +2,7 @@ import kex
 
 
 VALID_ALGORITHMS = [
-    'FirstN', 'TF', 'LexSpec', 'TFIDF', 'TextRank', 'SingleRank', 'PositionRank', 'LexRank', 'ExpandRank', 'SingleTPR',
+    'FirstN', 'TF', 'LexSpec', 'TFIDF', 'TextRank', 'SingleRank', 'PositionRank', 'LexRank', 'TFIDFRank', 'SingleTPR',
     'TopicRank'
 ]
 

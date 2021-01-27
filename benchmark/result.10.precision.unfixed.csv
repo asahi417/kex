@@ -1,4 +1,4 @@
-,FirstN,TF,LexSpec,TFIDF,TextRank,SingleRank,PositionRank,LexRank,ExpandRank,SingleTPR,TopicRank
+,FirstN,TF,LexSpec,TFIDF,TextRank,SingleRank,PositionRank,LexRank,TFIDFRank,SingleTPR,TopicRank
 500N-KPCrowd-v1.1,34.0,24.3,32.7,32.8,25.3,25.6,27.6,27.5,27.8,24.2,33.5
 Inspec,26.8,21.0,29.0,29.6,31.7,31.9,30.5,31.0,31.4,28.6,25.4
 Krapivin2009,10.8,0.1,6.0,5.4,5.5,7.2,10.0,7.1,7.1,6.2,7.0

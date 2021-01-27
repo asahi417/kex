@@ -127,13 +127,16 @@ class PhraseConstructor:
         language: str
         stopwords_list: List
         """
-        nltk.download('averaged_perceptron_tagger')
         self.__language = language.lower()[:2]
         self.__stopwords = get_stopwords_list(self.__language, stopwords_list=stopwords_list)
         self.__maximum_word_number = maximum_word_number
         self.__maximum_char_number = maximum_char_number
         if self.__language == 'en':
             self.__stemmer = PorterStemmer()
+            try:
+                pos_tag(['this', 'is', 'a', 'sample'])
+            except LookupError:
+                nltk.download('averaged_perceptron_tagger')
             self.__pos_tagger = pos_tag
         else:
             raise ValueError('available only for English because of PoS tagger')
@@ -158,7 +161,7 @@ class PhraseConstructor:
             w for w in split_contractions(web_tokenizer(s)) if not (w.startswith("'") and len(w) > 1) and len(w) > 0
         ] for s in list(split_multi(document)) if len(s.strip()) > 0]
         stemmed = [list(map(lambda x: self.__stemmer.stem(x), words)) for words in sentence_token]
-        pos = [list(map(lambda x: self.simplify_pos(x[1]), pos_tag(words))) for words in sentence_token]
+        pos = [list(map(lambda x: self.simplify_pos(x[1]), self.__pos_tagger(words))) for words in sentence_token]
         if flatten_sentence:
             return list(chain(*sentence_token)), list(chain(*stemmed)), list(chain(*pos))
         return sentence_token, stemmed, pos
