@@ -49,6 +49,7 @@ domain = {
 # BM biomedical
 # AD: agricultural document
 
+
 def get_options():
     parser = argparse.ArgumentParser(description='Benchmark preset methods in kex')
     parser.add_argument('-d', '--data', help='data:{}'.format(kex.VALID_DATASET_LIST), default=None, type=str)

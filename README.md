@@ -19,17 +19,19 @@ pip install .
 ```
 
 ## Extract Keywords with `kex`
-*kex* retrieves keywords given a document with various algorithms:
-- `FirstN`: a heuristic baseline to pick up first n phrases as keywords 
-- `TFIDF`: a simple statistic baseline
+Built-in algorithms in *kex* is below:
+- `FirstN`: heuristic baseline to pick up first n phrases as keywords 
+- `TF`: scoring by term frequency
+- `TFIDF`: scoring by TFIDF
+- `LexSpec`: scoring by lexical specificity
 - `TextRank`: [Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
 - `SingleRank`: [Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
-- `ExpandRank`: [Wan et al., 08](https://www.aaai.org/Papers/AAAI/2008/AAAI08-136.pdf)
 - `TopicalPageRank`: [Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
-- `TopicRank`: [Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
 - `SingleTPR`: [Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
+- `TopicRank`: [Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
 - `PositionRank`: [Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
-- `MultipartiteRank`: [Boudin 18](https://arxiv.org/pdf/1803.08721.pdf)
+- `TFIDFRank`: SingleRank + TFIDF based population term
+- `LexRank`: SingleRank + lexical specificity based population term
 
 Basic usage:
 
@@ -64,7 +66,8 @@ model.get_keywords(sample, n_keywords=2)
 ```
 
 ### Algorithm with prior
-Algorithms with priors (`TFIDF`, `ExpandRank`, `TopicalPageRank`, `SingleTPR`) need to be trained beforehand:
+Algorithms with priors (`TF`, `TFIDF`, `TFIDFRank`, `LexSpec`, `LexRank`, `TopicalPageRank`, `SingleTPR`) need to be trained beforehand:
+
 ```python
 import kex
 model = kex.SingleTPR()
@@ -81,7 +84,6 @@ model.load('./tmp')
 
 ### Supported Language
 Currently, algorithms are available only in English, but soon we will relax the constrain to allow other language to be supported.
-The dependency is mainly due to the Part-of-Speech tagger and the word stemmer.
 
 ## Implement Custom Method with kex
 Here is a brief example to create a custom extractor with kex.

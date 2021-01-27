@@ -1,4 +1,4 @@
-""" get stopwords from https://github.com/LIAAD/yake/tree/master/yake/StopwordsList """
+""" stopwords are fetched from https://github.com/LIAAD/yake/tree/master/yake/StopwordsList """
 import os
 from typing import List
 

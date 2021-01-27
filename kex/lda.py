@@ -1,4 +1,4 @@
-""" Model to utilize Topic Model: Wrapper of gensim API for Topic Model with LDA """
+""" Wrapper of gensim API for a Topic Modeling with LDA """
 import os
 import logging
 
@@ -8,7 +8,6 @@ from gensim import corpora
 from ._phrase_constructor import PhraseConstructor
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-CACHE_DIR = './cache/priors/lda'
 __all__ = 'LDA'
 
 
@@ -20,23 +19,21 @@ class LDA:
         self.__dict = None
         self.phrase_constructor = PhraseConstructor(language=language)
 
-    def load(self, directory: str = None):
+    def load(self, directory: str = './cache/priors/lda'):
         """ load saved lda model and dictionary instance used to train the model """
-        directory = CACHE_DIR if directory is None else directory
         path_to_model = os.path.join(directory, 'lda_model')
         path_to_dict = os.path.join(directory, 'lda_dict')
 
         assert os.path.exists(path_to_model), 'no model found: {}'.format(path_to_model)
         assert os.path.exists(path_to_dict), 'no dict found: {}'.format(path_to_dict)
 
-        logging.info('loading model...')
+        logging.debug('loading model...')
         self.__model = gensim.models.ldamodel.LdaModel.load(path_to_model)
         self.__dict = gensim.corpora.Dictionary.load_from_text(path_to_dict)
         self.__dict.id2token = dict([(v, k) for k, v in self.__dict.token2id.items()])
 
-    def save(self, directory: str):
+    def save(self, directory: str = './cache/priors/lda'):
         assert self.is_trained, 'training before run any inference'
-        directory = CACHE_DIR if directory is None else directory
         os.makedirs(os.path.join(directory), exist_ok=True)
         self.__model.save(os.path.join(directory, 'lda_model'))
         self.__dict.save_as_text(os.path.join(directory, 'lda_dict'))
@@ -51,14 +48,14 @@ class LDA:
         """
         stemmed_tokens = list(map(lambda x: self.phrase_constructor.tokenize_and_stem(x), data))
         # build LDA model
-        logging.info("building corpus...")
+        logging.debug("building corpus...")
         self.__dict = corpora.Dictionary(stemmed_tokens)
         self.__dict.id2token = dict([(v, k) for k, v in self.__dict.token2id.items()])
         corpus = [self.__dict.doc2bow(text) for text in stemmed_tokens]
-        logging.info("training model...")
+        logging.debug("training model...")
         self.__model = gensim.models.ldamodel.LdaModel(
             corpus=corpus, num_topics=num_topics, id2word=self.__dict)
-        logging.info("saving model and corpus at {}".format(export_directory))
+        logging.debug("saving model and corpus at {}".format(export_directory))
         self.save(export_directory)
 
     def distribution_topic_document(self, document: str):

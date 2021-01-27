@@ -1,3 +1,4 @@
+""" Implementation of heuristic methods """
 from ._phrase_constructor import PhraseConstructor
 
 __all__ = 'FirstN'

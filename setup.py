@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 VERSION = '0.0.0'
 NAME = 'kex'
@@ -13,7 +13,7 @@ setup(
     license='MIT',
     description='Light/easy keyword extraction.',
     url='https://github.com/asahi417/kex',
-    download_url='https://github.com/user/reponame/archive/v_01.tar.gz',  # I explain this later on
+    download_url='https://github.com/asahi417/kex/archive/v0.0.tar.gz',
     keywords=['keyword-extraction', 'nlp', 'information-retrieval'],
     long_description=readme,
     author='Asahi Ushio',
@@ -30,12 +30,8 @@ setup(
     install_requires=[
         'gensim>=3.4.0,<3.5.0',
         'nltk==3.5',
-        'spacy==2.3.2',
         'networkx',
         'numpy>=1.16.1',
-        'untangle',
-        'tqdm',
-        'segtok',
-        'pandas'
+        'segtok'
     ]
 )

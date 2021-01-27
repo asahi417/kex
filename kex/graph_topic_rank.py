@@ -135,14 +135,10 @@ class TopicRank:
             return []
 
         graph, phrase_instance, grouped_phrases, original_sentence_token_size = output
-        # print(grouped_phrases)
-        # input()
-
         # pagerank to get score for individual word (sum of score will be one)
         node_score = self.run_pagerank(graph)
 
         # combine score to get score of phrase
-
         def aggregation(group_id, phrases):
             first_phrase_id = np.argmin([phrase_instance[p]['offset'][0][0] for p in phrases])
             phrase = phrases[first_phrase_id]

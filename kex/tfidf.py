@@ -1,4 +1,4 @@
-""" Model to utilize TFIDF: Wrapper of gensim API for TFIDF """
+""" TFIDF based keyword extraction and wrapper of gensim API for TFIDF """
 import os
 import logging
 
@@ -22,23 +22,21 @@ class TFIDF:
         self.prior_required = True
         self.phrase_constructor = PhraseConstructor(language=language)
 
-    def load(self, directory: str = None):
+    def load(self, directory: str = './cache/priors/tfidf'):
         """ load saved lda model and dictionary instance used to train the model """
-        directory = CACHE_DIR if directory is None else directory
         path_to_model = os.path.join(directory, 'tfidf_model')
         path_to_dict = os.path.join(directory, 'tfidf_dict')
 
         assert os.path.exists(path_to_model), 'no model found: {}'.format(path_to_model)
         assert os.path.exists(path_to_dict), 'no dict found: {}'.format(path_to_dict)
 
-        logging.info('loading model...')
+        logging.debug('loading model...')
         self.__model = gensim.models.TfidfModel.load(path_to_model)
         self.__dict = gensim.corpora.Dictionary.load_from_text(path_to_dict)
         self.__dict.id2token = dict([(v, k) for k, v in self.__dict.token2id.items()])
 
-    def save(self, directory: str):
+    def save(self, directory: str = './cache/priors/tfidf'):
         assert self.is_trained, 'training before run any inference'
-        directory = CACHE_DIR if directory is None else directory
         os.makedirs(os.path.join(directory), exist_ok=True)
         self.__model.save(os.path.join(directory, 'tfidf_model'))
         self.__dict.save_as_text(os.path.join(directory, 'tfidf_dict'))
@@ -53,13 +51,13 @@ class TFIDF:
         # get stemmed token
         stemmed_tokens = list(map(lambda x: self.phrase_constructor.tokenize_and_stem(x), data))
         # build TFIDF
-        logging.info("building corpus...")
+        logging.debug("building corpus...")
         self.__dict = corpora.Dictionary(stemmed_tokens)
         self.__dict.id2token = dict([(v, k) for k, v in self.__dict.token2id.items()])
         corpus = [self.__dict.doc2bow(text) for text in stemmed_tokens]
-        logging.info("training model...")
+        logging.debug("training model...")
         self.__model = gensim.models.TfidfModel(corpus=corpus, normalize=normalize)
-        logging.info("saving model and corpus at {}".format(export_directory))
+        logging.debug("saving model and corpus at {}".format(export_directory))
         self.save(export_directory)
 
     def distribution_word(self, document: str):

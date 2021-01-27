@@ -2,7 +2,7 @@
  * TextRank: Undirected Unweighted Graph
  * SingleRank: Undirected Weighted Graph (weight is co-occurrence)
  * PositionRank: Undirected Weighted Graph (weight is co-occurrence, bias is offset)
- * ExpandRank: Undirected Weighted Graph (weight is co-occurrence, bias is TFIDF word probability)
+ * TFIDFRank: Undirected Weighted Graph (weight is co-occurrence, bias is TFIDF word probability)
  * LexRank: Undirected Weighted Graph (weight is co-occurrence, bias is lexical specificity)
  * SingleTPR: Directed Weighted Graph (weight is co-occurrence, bias is LDA topic x word distribution)
 """
@@ -15,7 +15,7 @@ from .tfidf import TFIDF
 from .lda import LDA
 from .lexical_specificity import LexSpec
 
-__all__ = ('TextRank', 'SingleRank', 'PositionRank', 'ExpandRank', 'SingleTPR', 'LexRank')
+__all__ = ('TextRank', 'SingleRank', 'PositionRank', 'TFIDFRank', 'SingleTPR', 'LexRank')
 
 
 class TextRank:
@@ -233,12 +233,12 @@ class PositionRank(TextRank):
         self.page_rank_bias_type = 'position_rank'
 
 
-class ExpandRank(TextRank):
-    """ ExpandRank """
+class TFIDFRank(TextRank):
+    """ TFIDFRank """
 
     def __init__(self, language: str = 'en', *args, **kwargs):
         """ ExpandRank """
-        super(ExpandRank, self).__init__(language=language, *args, **kwargs)
+        super(TFIDFRank, self).__init__(language=language, *args, **kwargs)
         self.tfidf = TFIDF(language=language)
         self.weighted_graph = True
         self.prior_required = True

@@ -1,4 +1,4 @@
-""" Lexical Specification based keyword extraction algorithm """
+""" LexSpec: Lexical Specificity based keyword extraction """
 import os
 import logging
 import math
@@ -10,7 +10,6 @@ from itertools import chain
 from ._phrase_constructor import PhraseConstructor
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-CACHE_DIR = './cache/priors/lexical_specificity'
 __all__ = ('LexSpec', 'lexical_specificity', 'TF')
 
 
@@ -99,34 +98,31 @@ class LexSpec:
         self.prior_required = True
         self.phrase_constructor = PhraseConstructor(language=language)
 
-    def load(self, directory: str = None):
+    def load(self, directory: str = './cache/priors/lexical_specificity'):
         """ load saved lda model and dictionary instance used to train the model """
-        directory = CACHE_DIR if directory is None else directory
         path_to_dict = "{}/lexical_specificity_frequency.json".format(directory)
         assert os.path.exists(path_to_dict), 'no dictionary found: {}'.format(path_to_dict)
         with open(path_to_dict, 'r') as f:
             self.freq = json.load(f)
         self.reference_corpus_size = sum(self.freq.values())
-        logging.info('loaded frequency dictionary from {}'.format(path_to_dict))
+        logging.debug('loaded frequency dictionary from {}'.format(path_to_dict))
 
-    def train(self, data: list, export_directory: str = None):
+    def train(self, data: list, export_directory: str = './cache/priors/lexical_specificity'):
         """ cache a dictionary {key: a word, value: occcurence of the word}
 
          Parameter
         ----------------
         data: a list of document (list of string)
         """
-        export_directory = CACHE_DIR if export_directory is None else export_directory
         # get stemmed token
         stemmed_tokens = list(chain(*map(lambda x: self.phrase_constructor.tokenize_and_stem(x), data)))
         self.freq = dict(Counter(stemmed_tokens))
         self.reference_corpus_size = sum(self.freq.values())
         self.save(export_directory)
-        logging.info('compute frequency dictionary saved at {}'.format(export_directory))
+        logging.debug('compute frequency dictionary saved at {}'.format(export_directory))
 
-    def save(self, directory: str):
+    def save(self, directory: str = './cache/priors/lexical_specificity'):
         assert self.is_trained, 'training before run any inference'
-        directory = CACHE_DIR if directory is None else directory
         os.makedirs(os.path.join(directory), exist_ok=True)
         with open("{}/lexical_specificity_frequency.json".format(directory), "w") as f:
             json.dump(self.freq, f)
