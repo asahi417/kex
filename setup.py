@@ -10,7 +10,7 @@ setup(
     license='MIT',
     description='Light/easy keyword extraction.',
     url='https://github.com/asahi417/kex',
-    download_url='https://github.com/asahi417/kex/archive/v1.1.tar.gz',
+    download_url="https://github.com/asahi417/kex/archive/v2.0.3.tar.gz",
     keywords=['keyword-extraction', 'nlp', 'information-retrieval'],
     long_description=readme,
     long_description_content_type="text/markdown",
