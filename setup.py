@@ -6,7 +6,7 @@ with open('README.md', 'r') as f:
 setup(
     name='kex',
     packages=find_packages(),
-    version='2.0.2',
+    version='2.0.3',
     license='MIT',
     description='Light/easy keyword extraction.',
     url='https://github.com/asahi417/kex',
