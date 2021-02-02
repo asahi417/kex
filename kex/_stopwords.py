@@ -1,6 +1,8 @@
 """ stopwords are fetched from https://github.com/LIAAD/yake/tree/master/yake/StopwordsList """
 import os
 from typing import List
+CACHE_DIR = '{}/cache_kex'.format(os.path.expanduser('~'))
+
 
 
 def get_stopwords_list(language: str = 'en', stopwords_list: List = None):

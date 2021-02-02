@@ -48,7 +48,8 @@ domain = {
 # BI: bioinfomatics
 # BM biomedical
 # AD: agricultural document
-
+order = ["500N-KPCrowd-v1.1", 'Inspec', 'Krapivin2009', 'Nguyen2007', 'PubMed', 'Schutz2008', 'SemEval2010', 'SemEval2017',
+         'citeulike180', 'fao30', 'fao780', 'theses100', 'kdd', 'wiki20', 'www']
 
 def get_statistics(keywords, source: str):
     """ Data level feature (per entry):
@@ -162,16 +163,26 @@ if __name__ == '__main__':
         tmp = len(list(chain(*[
             [k for k in i.split('||') if len(k.split(' ')) > 1]
             for i in df_stats['label_in_candidates'].values.tolist() if type(i) is str])))
+
+        dist = list(map(lambda x: sum(map(lambda y: y == x, df_stats["n_phrase"])), set(df_stats["n_phrase"])))
+        mean = sum(dist) / len(dist)
+        (sum(map(lambda x: (x - mean) ** 2, dist)) / len(dist)) ** 0.5
+
         total_dict[data] = {
-            "domain": domain[data],
-            "type": types[data],
-            "data size": len(df_stats),
-            "avg word number": df_stats["n_word"].mean(),
-            "avg vocabulary size": df_stats["n_unique_word"].mean(),
-            "avg keyword number": df_stats["n_label"].mean(),
-            "avg keyword number (tractable only)": df_stats["n_label_in_candidates"].mean(),
-            "avg keyword number (tractable only and multiwords)": tmp/len(df_stats),
-            "avg vocabulary diversity": df_stats["n_unique_word"].sum()/df_stats["n_word"].sum()
+            "Domain": domain[data],
+            "Type": types[data],
+            "Data size": len(df_stats),
+            "Avg word": df_stats["n_word"].mean(),
+            "Avg vocab": df_stats["n_unique_word"].mean(),
+            "Avg keyword": df_stats["n_label"].mean(),
+            "Avg keyword (in candidate)": df_stats["n_label_in_candidates"].mean(),
+            "Avg keyword (in candidate and multiwords)": tmp/len(df_stats),
+            "Vocab diversity": df_stats["n_unique_word"].sum()/df_stats["n_word"].sum(),
+            "Avg phrase": df_stats["n_phrase"].sum()/len(df_stats),
+            "Std phrases":
+	        "Std word":
+            "Std vocab":
+            "Std keyword (tractable)":
         }
     df = pd.DataFrame(total_dict).T
     df.to_csv('{}/data_statistics.csv'.format(opt.export))

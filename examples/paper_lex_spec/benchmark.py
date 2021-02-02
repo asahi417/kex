@@ -16,36 +16,38 @@ import kex
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 top_n = [5, 10]
+export_dir_root = './examples/paper_lex_spec/result'
+os.makedirs(export_dir_root, exist_ok=True)
 
 
-def get_data_algorithm(_export_dir):
+def get_data_algorithm():
     all_data = sorted(list(filter(
         None,
         map(lambda x: os.path.basename(x) if os.path.isdir(x) else None,
-            glob(os.path.join(_export_dir, '*')))
+            glob(os.path.join(export_dir_root, '*')))
     )))
 
     all_algorithm = list(map(
         lambda x: x.split('.')[-2],
-        glob(os.path.join(_export_dir, '*/accuracy.*.json'))
+        glob(os.path.join(export_dir_root, '*/accuracy.*.json'))
     ))
     all_algorithm = list(filter(lambda x: x in all_algorithm, kex.VALID_ALGORITHMS))
     return all_data, all_algorithm
 
 
-def aggregate_agreement(_export_dir: str, top_n_prediction: int = 5):
+def aggregate_agreement(top_n_prediction: int = 5):
 
     def clip(_list):
         return _list[:min(len(_list), top_n_prediction)]
 
-    all_data, all_algorithm = get_data_algorithm(_export_dir)
+    all_data, all_algorithm = get_data_algorithm()
     all_df = []
     for d in all_data:
         tmp_label_dict = {}
         df = pd.DataFrame(columns=all_algorithm, index=all_algorithm)
         for a in all_algorithm:
             df[a][a] = 100.0
-            pred_df = pd.read_csv(os.path.join(_export_dir, d, 'prediction.{}.csv'.format(a)), index_col=0)
+            pred_df = pd.read_csv(os.path.join(export_dir_root, d, 'prediction.{}.csv'.format(a)), index_col=0)
             tmp_label_dict[a] = list(map(lambda x: clip(str(x).split('||')), pred_df['label_predict'].values.tolist()))
 
         for a, b in permutations(all_algorithm, 2):
@@ -53,7 +55,7 @@ def aggregate_agreement(_export_dir: str, top_n_prediction: int = 5):
                 lambda x: len(list(set(x[0]).intersection(set(x[1])))) / len(x[0]) if len(x[0]) != 0 else 0,
                 zip(tmp_label_dict[a], tmp_label_dict[b])))
             df[a][b] = sum(label_intersection) / len(label_intersection) * 100
-        df.round(1).to_csv(os.path.join(_export_dir, d, 'agreement.csv'))
+        df.round(1).to_csv(os.path.join(export_dir_root, d, 'agreement.csv'))
         logging.info('dataset:{} \n {}'.format(d, df))
         all_df.append(df)
 
@@ -62,7 +64,7 @@ def aggregate_agreement(_export_dir: str, top_n_prediction: int = 5):
         df[a][b] = sum(float(i[a][b]) for i in all_df)/len(all_df)
         df[a][a] = 100
 
-    df.round(1).to_csv(os.path.join(_export_dir, 'agreement_all.csv'))
+    df.round(1).to_csv(os.path.join(export_dir_root, 'agreement_all.csv'))
     logging.info('All dataset:\n {}'.format(df))
 
     # plot heatmap
@@ -74,12 +76,12 @@ def aggregate_agreement(_export_dir: str, top_n_prediction: int = 5):
     sns_plot.tick_params(labelsize=10)
     fig = sns_plot.get_figure()
     plt.tight_layout()
-    fig.savefig('{}/agreement_all.heatmap.png'.format(_export_dir))
-    fig.savefig('{}/agreement_all.heatmap.pdf'.format(_export_dir))
+    fig.savefig('{}/agreement_all.heatmap.png'.format(export_dir_root))
+    fig.savefig('{}/agreement_all.heatmap.pdf'.format(export_dir_root))
 
 
-def aggregate_result(_export_dir: str, d: int = 1):
-    all_data, all_algorithm = get_data_algorithm(_export_dir)
+def aggregate_result(d: int = 1):
+    all_data, all_algorithm = get_data_algorithm(export_dir_root)
     metrics = list(map(str, top_n))
 
     def update(_df, _key):
@@ -89,7 +91,7 @@ def aggregate_result(_export_dir: str, d: int = 1):
 
     df = {}
     df_full = {}
-    for i in glob(os.path.join(_export_dir, '*/accuracy.*.json')):
+    for i in glob(os.path.join(export_dir_root, '*/accuracy.*.json')):
         _data_name = i.split('/')[-2]
         _algorithm_name = i.split('accuracy.')[-1].replace('.json', '')
         tmp = json.load(open(i))
@@ -108,10 +110,10 @@ def aggregate_result(_export_dir: str, d: int = 1):
                 df['{}.recall.{}'.format(_n, _type)][_algorithm_name][_data_name] = _rec
     for _k, _v in df.items():
         logging.info("** Result: {} **\n {}".format(_k, _v))
-        _v.to_csv("{}/result.{}.csv".format(_export_dir, _k))
+        _v.to_csv("{}/result.{}.csv".format(export_dir_root, _k))
     for _k, _v in df_full.items():
         logging.info("** Result: {} **\n {}".format(_k, _v))
-        _v.to_csv("{}/result.{}.csv".format(_export_dir, _k))
+        _v.to_csv("{}/result.{}.csv".format(export_dir_root, _k))
 
 
 def get_model_prediction(model_name: str, data_name: str):
@@ -137,19 +139,10 @@ def get_model_prediction(model_name: str, data_name: str):
     return preds, labels, scores, ids
 
 
-def run_benchmark(data: (List, str) = None,
-                  model: (List, str) = None,
-                  export_dir_root: str = './benchmark_result'):
+def run_benchmark():
     """ Run keyword extraction benchmark """
-    if data is None:
-        data_list = kex.VALID_DATASET_LIST
-    else:
-        data_list = data if type(data) is list else [data]
-    if model is None:
-        model_list = kex.VALID_ALGORITHMS
-    else:
-        model_list = model if type(model) is list else [model]
-
+    data_list = kex.VALID_DATASET_LIST
+    model_list = kex.VALID_ALGORITHMS
     logging.info('Benchmark:\n - dataset: {}\n - algorithm: {}'.format(data_list, model_list))
     for data_name, model_name in product(data_list, model_list):
         logging.info(' - algorithm: {}\n - data: {}'.format(model_name, data_name))
@@ -225,18 +218,7 @@ def run_benchmark(data: (List, str) = None,
         logging.info(' - result exported to {}'.format(export_dir))
 
 
-def get_options():
-    parser = argparse.ArgumentParser(description='Benchmark preset methods in kex')
-    parser.add_argument('-m', '--model', help='model:{}'.format(kex.VALID_ALGORITHMS), default=None, type=str)
-    parser.add_argument('-d', '--data', help='data:{}'.format(kex.VALID_DATASET_LIST), default=None, type=str)
-    parser.add_argument('-e', '--export', help='log export dir', default='./benchmark', type=str)
-    return parser.parse_args()
-
-
 if __name__ == '__main__':
-    opt = get_options()
-    run_benchmark(data=opt.data.split(',') if opt.data is not None else opt.data,
-                  model=opt.model.split(',') if opt.model is not None else opt.model,
-                  export_dir_root=opt.export)
-    aggregate_result(opt.export)
-    aggregate_agreement(opt.export)
+    run_benchmark()
+    aggregate_result()
+    aggregate_agreement()
