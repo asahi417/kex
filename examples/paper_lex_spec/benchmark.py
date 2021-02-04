@@ -16,7 +16,7 @@ import kex
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 top_n = [5, 10]
-export_dir_root = './examples/paper_lex_spec/result'
+export_dir_root = './benchmark'
 os.makedirs(export_dir_root, exist_ok=True)
 
 
@@ -55,7 +55,7 @@ def aggregate_agreement(top_n_prediction: int = 5):
                 lambda x: len(list(set(x[0]).intersection(set(x[1])))) / len(x[0]) if len(x[0]) != 0 else 0,
                 zip(tmp_label_dict[a], tmp_label_dict[b])))
             df[a][b] = sum(label_intersection) / len(label_intersection) * 100
-        df.round(1).to_csv(os.path.join(export_dir_root, d, 'agreement.csv'))
+        df.to_csv(os.path.join(export_dir_root, d, 'agreement.csv'))
         logging.info('dataset:{} \n {}'.format(d, df))
         all_df.append(df)
 
@@ -64,14 +64,15 @@ def aggregate_agreement(top_n_prediction: int = 5):
         df[a][b] = sum(float(i[a][b]) for i in all_df)/len(all_df)
         df[a][a] = 100
 
-    df.round(1).to_csv(os.path.join(export_dir_root, 'agreement_all.csv'))
+    df.to_csv(os.path.join(export_dir_root, 'agreement_all.csv'))
     logging.info('All dataset:\n {}'.format(df))
 
     # plot heatmap
     fig = plt.figure()
     fig.clear()
     df = df.astype(float).round()
-    sns_plot = sns.heatmap(df, annot=True, fmt="g", cmap='viridis', cbar=True)
+    # sns_plot = sns.heatmap(df, annot=True, fmt="g", cmap='viridis', cbar=True)
+    sns_plot = sns.heatmap(df, annot=True, fmt="g", cbar=True)
     sns_plot.set_xticklabels(sns_plot.get_xticklabels(), rotation=60)
     sns_plot.tick_params(labelsize=10)
     fig = sns_plot.get_figure()
@@ -81,7 +82,7 @@ def aggregate_agreement(top_n_prediction: int = 5):
 
 
 def aggregate_result(d: int = 1):
-    all_data, all_algorithm = get_data_algorithm(export_dir_root)
+    all_data, all_algorithm = get_data_algorithm()
     metrics = list(map(str, top_n))
 
     def update(_df, _key):
@@ -96,18 +97,16 @@ def aggregate_result(d: int = 1):
         _algorithm_name = i.split('accuracy.')[-1].replace('.json', '')
         tmp = json.load(open(i))
         df = update(df, 'mrr')
-        df['mrr'][_algorithm_name][_data_name] = round(tmp['mrr'] * 100, d)
+        df['mrr'][_algorithm_name][_data_name] = tmp['mrr'] * 100
         for _n in metrics:
             for _type in ['fixed', 'unfixed']:
-                _f1 = round(tmp[_type][_n]['f_1'] * 100, d)
-                _pre = round(tmp[_type][_n]['precision'] * 100, d)
-                _rec = round(tmp[_type][_n]['recall'] * 100, d)
+                print(i, tmp)
                 df = update(df, '{}.f1.{}'.format(_n, _type))
                 df = update(df, '{}.precision.{}'.format(_n, _type))
                 df = update(df, '{}.recall.{}'.format(_n, _type))
-                df['{}.f1.{}'.format(_n, _type)][_algorithm_name][_data_name] = _f1
-                df['{}.precision.{}'.format(_n, _type)][_algorithm_name][_data_name] = _pre
-                df['{}.recall.{}'.format(_n, _type)][_algorithm_name][_data_name] = _rec
+                df['{}.f1.{}'.format(_n, _type)][_algorithm_name][_data_name] = tmp[_type][_n]['f_1'] * 100
+                df['{}.precision.{}'.format(_n, _type)][_algorithm_name][_data_name] = tmp[_type][_n]['precision'] * 100
+                df['{}.recall.{}'.format(_n, _type)][_algorithm_name][_data_name] = tmp[_type][_n]['recall'] * 100
     for _k, _v in df.items():
         logging.info("** Result: {} **\n {}".format(_k, _v))
         _v.to_csv("{}/result.{}.csv".format(export_dir_root, _k))
@@ -222,3 +221,10 @@ if __name__ == '__main__':
     run_benchmark()
     aggregate_result()
     aggregate_agreement()
+    mrr = pd.read_csv("{}/result.mrr.csv".format(export_dir_root), index_col=0)
+    mrr['metric'] = 'mrr'
+    pre5 = pd.read_csv("{}/result.5.precision.fixed.csv".format(export_dir_root), index_col=0)
+    pre5['metric'] = 'pre5'
+    pre10 = pd.read_csv("{}/result.10.precision.fixed.csv".format(export_dir_root), index_col=0)
+    pre10['metric'] = 'pre10'
+    pd.concat([pre5, mrr, pre10]).to_csv("{}/result.paper.csv".format(export_dir_root))

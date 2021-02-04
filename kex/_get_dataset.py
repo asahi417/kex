@@ -58,7 +58,8 @@ def get_benchmark_dataset(data: str = 'Inspec',
     language
     """
     assert data in VALID_DATASET_LIST, "undefined dataset: {}".format(data)
-    url = "https://github.com/LIAAD/KeywordExtractor-Datasets/raw/master/datasets"
+    # url = "https://github.com/LIAAD/KeywordExtractor-Datasets/raw/master/datasets"
+    url = "https://github.com/asahi417/KeywordExtractor-Datasets/raw/master/datasets"
     os.makedirs(cache_dir, exist_ok=True)
     if not os.path.exists("{}/{}".format(cache_dir, data)):
         os.system('wget -O {0}/{2}.zip {1}/{2}.zip'.format(cache_dir, url, data))

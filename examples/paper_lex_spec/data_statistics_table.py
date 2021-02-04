@@ -64,7 +64,7 @@ def get_statistics(data: str):
     dataset, language = kex.get_benchmark_dataset(data, keep_only_valid_label=False)
     if language == 'en':
         return
-    output = {'Data size': len(dataset), "Domain": domain[data], "Type": domain[data]}
+    output = {'Data size': len(dataset), "Domain": domain[data], "Type": types[data]}
 
     for data in tqdm(dataset):
         phrase, stemmed_token = phraser.tokenize_and_stem_and_phrase(data['source'])
