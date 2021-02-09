@@ -1,8 +1,8 @@
 # [Kex](https://pypi.org/project/kex/)
-*Kex* is a python library for unsurpervised keyword extractions: 
-- [Easy interface for keyword extraction with a variety of algorithms](#extract-keywords-with-kex)
-- [Quick benchmarking over 15 English public datasets](#benchmark-on-15-public-datasets)
-- [Custom keyword extractor implementation support](#implement-custom-extractor-with-kex)
+*Kex* is a python library for unsurpervised keyword extractions, supporting the following features: 
+- [Easy interface for keyword extraction with a variety of algorithms](https://github.com/asahi417/kex#extract-keywords-with-kex)
+- [Quick benchmarking over 15 English public datasets](https://github.com/asahi417/kex#benchmark-on-15-public-datasets)
+- [Custom keyword extractor implementation support]((https://github.com/asahi417/kex#implement-custom-extractor-with-kex)
 
 ## Get Started
 Install via pip
@@ -58,8 +58,7 @@ of-the-art and recent unsupervised keyphrase extraction methods.
 
 ### Compute a prior
 Algorithms such as `TF`, `TFIDF`, `TFIDFRank`, `LexSpec`, `LexRank`, `TopicalPageRank`, and `SingleTPR` need to compute
-a prior distribution beforehand:  
-
+a prior distribution beforehand by
 ```python
 >>> import kex
 >>> model = kex.SingleTPR()
@@ -67,7 +66,7 @@ a prior distribution beforehand:
 >>> model.train(test_sentences, export_directory='./tmp')
 ``` 
 
-Priors are cached and can be loaded on the fly:
+Priors are cached and can be loaded on the fly as 
 ```python
 >>> import kex
 >>> model = kex.SingleTPR()
@@ -90,15 +89,8 @@ Users can fetch 15 public keyword extraction datasets via [`kex.get_benchmark_da
     'id': '1053.txt'
 }
 ```
-
-High level statistics of each dataset can be found [here](./benchmark/data_statistics.csv), and the benchmark results below:
-- [***Precision at top 5***](./benchmark/result.5.precision.fixed.csv)
-- [***Precision at top 10***](./benchmark/result.10.precision.fixed.csv) 
-- [***MRR***](./benchmark/result.mrr.csv)
-- [***Complexity (process time)***](./benchmark/complexity.csv) 
  
-A prior distributions are computed within each dataset, and complexity is an average over 100 trial on Inspec dataset.
-To reproduce the above benchmark results, please take a look an [example script](./examples/benchmark.py).
+Please take a look an [example script](https://github.com/asahi417/kex/blob/master/examples/benchmark_custom_model.py) to run a benchmark on those datasets.
 
 ## Implement Custom Extractor with `kex`
 We provide an API to run a basic pipeline for preprocessing, by which one can implement a custom keyword extractor.
