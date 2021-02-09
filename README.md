@@ -2,7 +2,7 @@
 *Kex* is a python library for unsurpervised keyword extractions, supporting the following features: 
 - [Easy interface for keyword extraction with a variety of algorithms](https://github.com/asahi417/kex#extract-keywords-with-kex)
 - [Quick benchmarking over 15 English public datasets](https://github.com/asahi417/kex#benchmark-on-15-public-datasets)
-- [Custom keyword extractor implementation support]((https://github.com/asahi417/kex#implement-custom-extractor-with-kex)
+- [Custom keyword extractor implementation support](https://github.com/asahi417/kex#implement-custom-extractor-with-kex)
 
 ## Get Started
 Install via pip
@@ -77,7 +77,7 @@ Priors are cached and can be loaded on the fly as
 Currently algorithms are available only in English, but soon we will relax the constrain to allow other language to be supported.
 
 ## Benchmark on 15 Public Datasets
-Users can fetch 15 public keyword extraction datasets via [`kex.get_benchmark_dataset`](./kex/_get_dataset.py#L41).
+Users can fetch 15 public keyword extraction datasets via [`kex.get_benchmark_dataset`](https://github.com/asahi417/kex/blob/master/kex/_get_dataset.py#L41).
 
 ```python
 >>> import kex
