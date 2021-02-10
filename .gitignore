@@ -1,5 +1,6 @@
 cache
 tests/*.json
+benchmark
 benchmark/*/*.csv
 benchmark/*/*.json
-benchmark_tmp
+examples/paper_lex_spec
