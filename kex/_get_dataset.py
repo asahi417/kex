@@ -1,10 +1,16 @@
 import os
 import re
+import logging
+import requests
+import zipfile
+import shutil
 from glob import glob
-
 from ._phrase_constructor import PhraseConstructor
 from nltk.stem.porter import PorterStemmer  # only for English
 
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
+
+CACHE_DIR = '{}/cache_kex'.format(os.path.expanduser('~'))
 STEMMER = PorterStemmer()
 VALID_DATASET_LIST = [
     # "110-PT-BN-KP", "cacic", "pak2018", "WikiNews", "wicc"
@@ -39,9 +45,9 @@ def split_for_keywords(string):
 
 
 def get_benchmark_dataset(data: str = 'Inspec',
-                          cache_dir: str = "./cache",
-                          keep_only_valid_label: bool = True):
-    """ Get a dataset for keyword extraction (all not stemmed)
+                          cache_dir: str = None,
+                          keep_only_valid_label: bool = False):
+    """ Get a dataset for keyword extraction (labels are not stemmed)
 
      Parameter
     -------------
@@ -58,18 +64,23 @@ def get_benchmark_dataset(data: str = 'Inspec',
     language
     """
     assert data in VALID_DATASET_LIST, "undefined dataset: {}".format(data)
-    # url = "https://github.com/LIAAD/KeywordExtractor-Datasets/raw/master/datasets"
     url = "https://github.com/asahi417/KeywordExtractor-Datasets/raw/master/datasets"
+    cache_dir = CACHE_DIR if cache_dir is None else cache_dir
     os.makedirs(cache_dir, exist_ok=True)
     if not os.path.exists("{}/{}".format(cache_dir, data)):
-        os.system('wget -O {0}/{2}.zip {1}/{2}.zip'.format(cache_dir, url, data))
+        with open('{}/{}.zip'.format(cache_dir, data), "wb") as f:
+            r = requests.get('{}/{}.zip'.format(url, data))
+            f.write(r.content)
         if data == "110-PT-BN-KP":
-            os.system("unzip {0}/{1}.zip -d {0}/{1}".format(cache_dir, data))
+            with zipfile.ZipFile('{}/{}.zip'.format(cache_dir, data), 'r') as zip_ref:
+                zip_ref.extractall('{}/{}'.format(cache_dir, data))
         elif data == "WikiNews":
-            os.system("unzip {0}/{1}.zip -d {0}".format(cache_dir, data))
-            os.system("mv {0}/WKC {0}/{1}".format(cache_dir, data))
+            with zipfile.ZipFile('{}/{}.zip'.format(cache_dir, data), 'r') as zip_ref:
+                zip_ref.extractall(cache_dir)
+            shutil.move('{}/WKC'.format(cache_dir), '{}/{}'.format(cache_dir, data))
         else:
-            os.system("unzip {0}/{1}.zip -d {0}/".format(cache_dir, data))
+            with zipfile.ZipFile('{}/{}.zip'.format(cache_dir, data), 'r') as zip_ref:
+                zip_ref.extractall(cache_dir)
     if not os.path.exists("{}/{}".format(cache_dir, data)):
         raise ValueError('data `{}` is not in the list {}'.format(data, url))
 

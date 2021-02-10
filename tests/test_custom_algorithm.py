@@ -28,7 +28,7 @@ class CustomExtractor:
 
     def __init__(self, maximum_word_number: int = 3):
         """ First N keywords extractor """
-        self.phrase_constructor = grapher.PhraseConstructor(maximum_word_number=maximum_word_number)
+        self.phrase_constructor = kex.PhraseConstructor(maximum_word_number=maximum_word_number)
 
     def get_keywords(self, document: str, n_keywords: int = 10):
         """ Get keywords

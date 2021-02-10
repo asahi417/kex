@@ -2,7 +2,7 @@
 import unittest
 import logging
 
-from kex import AutoAlgorithm, VALID_ALGORITHMS
+from kex import get_algorithm, VALID_ALGORITHMS
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 
@@ -99,7 +99,7 @@ class TestAlgorithms(unittest.TestCase):
     def test_text_rank(self):
         for i in VALID_ALGORITHMS:
             logging.info("TESTING ALGORITHM: {}".format(i))
-            model = AutoAlgorithm(i)
+            model = get_algorithm(i)
 
             if model.prior_required:
                 model.train(TEST_DOCS, export_directory='./cache/unittest/priors')

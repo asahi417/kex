@@ -10,20 +10,20 @@ Install via pip
 pip install kex
 ```
 
-## Extract Keywords with `kex`
+## Extract Keywords with Kex
 Built-in algorithms in *kex* is below:
 - `FirstN`: heuristic baseline to pick up first n phrases as keywords 
 - `TF`: scoring by term frequency
 - `TFIDF`: scoring by TFIDF
-- `LexSpec`: scoring by lexical specificity
+- `LexSpec`: scoring by [lexical specificity](https://www.aclweb.org/anthology/N15-1059.pdf)
 - `TextRank`: [Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
 - `SingleRank`: [Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
 - `TopicalPageRank`: [Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
 - `SingleTPR`: [Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
 - `TopicRank`: [Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
 - `PositionRank`: [Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
-- `TFIDFRank`: SingleRank + TFIDF based population term
-- `LexRank`: SingleRank + lexical specificity based population term
+- `TFIDFRank`: SingleRank + TFIDF based word distribution prior
+- `LexRank`: SingleRank + lexical specificity based word distribution prior
 
 Basic usage:
 
@@ -56,7 +56,7 @@ of-the-art and recent unsupervised keyphrase extraction methods.
   'n_source_tokens': 112}]
 ```
 
-### Compute a prior
+### Compute a statistical prior
 Algorithms such as `TF`, `TFIDF`, `TFIDFRank`, `LexSpec`, `LexRank`, `TopicalPageRank`, and `SingleTPR` need to compute
 a prior distribution beforehand by
 ```python
@@ -81,7 +81,7 @@ Users can fetch 15 public keyword extraction datasets via [`kex.get_benchmark_da
 
 ```python
 >>> import kex
->>> json_line, language = kex.get_benchmark_dataset('Inspec', keep_only_valid_label=False)
+>>> json_line, language = kex.get_benchmark_dataset('Inspec')
 >>> json_line[0]
 {
     'keywords': ['kind infer', 'type check', 'overload', 'nonstrict pure function program languag', ...],
@@ -90,9 +90,9 @@ Users can fetch 15 public keyword extraction datasets via [`kex.get_benchmark_da
 }
 ```
  
-Please take a look an [example script](https://github.com/asahi417/kex/blob/master/examples/benchmark_custom_model.py) to run a benchmark on those datasets.
+Please take a look an [example script](https://github.com/asahi417/kex/blob/master/examples/benchmark.py) to run a benchmark on those datasets.
 
-## Implement Custom Extractor with `kex`
+## Implement Custom Extractor with Kex
 We provide an API to run a basic pipeline for preprocessing, by which one can implement a custom keyword extractor.
 
 ```python

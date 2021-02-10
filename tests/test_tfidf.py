@@ -1,8 +1,8 @@
-""" UnitTest for TFIDF/ExpandRank """
+""" UnitTest for TFIDF/TFIDFRank """
 import unittest
 import logging
 
-from kex import TFIDF, ExpandRank
+from kex import TFIDF, TFIDFRank
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 TEST_DOCS = [
@@ -143,7 +143,7 @@ class TestTFIDF(unittest.TestCase):
         logging.info(dist)
 
     def test_expand_rank(self):
-        model = ExpandRank()
+        model = TFIDFRank()
         model.train(TEST_DOCS, export_directory='./cache/unittest/priors')
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \
@@ -165,7 +165,7 @@ class TestTFIDF(unittest.TestCase):
             logging.info(i)
 
         # load
-        model = ExpandRank()
+        model = TFIDFRank()
         model.load('./cache/unittest/priors')
         test = 'Efficient discovery of grid services is essential for the success of grid computing. The ' \
                'standardization of grids based on web services has resulted in the need for scalable web service ' \

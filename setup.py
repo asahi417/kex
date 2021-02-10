@@ -3,14 +3,15 @@ from setuptools import setup, find_packages
 with open('README.md', 'r') as f:
     readme = f.read()
 
+VERSION = '2.0.5'
 setup(
     name='kex',
-    packages=find_packages(),
-    version='2.0.4',
+    packages=find_packages(exclude=['examples', 'tests', 'asset', 'benchmark']),
+    version=VERSION,
     license='MIT',
-    description='Light/easy keyword extraction.',
+    description='Light/easy keyword extraction from documents.',
     url='https://github.com/asahi417/kex',
-    download_url="https://github.com/asahi417/kex/archive/v2.0.4.tar.gz",
+    download_url="https://github.com/asahi417/kex/archive/v{}.tar.gz".format(VERSION),
     keywords=['keyword-extraction', 'nlp', 'information-retrieval'],
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -31,7 +32,8 @@ setup(
         'nltk==3.5',
         'networkx',
         'numpy>=1.16.1',
-        'segtok'
+        'segtok',
+        'requests'
     ],
     python_requires='>=3.6',
 )
