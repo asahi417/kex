@@ -1,8 +1,10 @@
 [![license](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://github.com/asahi417/kex/blob/master/LICENSE)
 [![PyPI version](https://badge.fury.io/py/kex.svg)](https://badge.fury.io/py/kex)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/kex.svg)](https://pypi.python.org/pypi/kex/)
+[![PyPI status](https://img.shields.io/pypi/status/kex.svg)](https://pypi.python.org/pypi/kex/)
 
 
-# [Kex](https://pypi.org/project/kex/)
+# KEX
 *Kex* is a python library for unsurpervised keyword extractions, supporting the following features: 
 - [Easy interface for keyword extraction with a variety of algorithms](https://github.com/asahi417/kex#extract-keywords-with-kex)
 - [Quick benchmarking over 15 English public datasets](https://github.com/asahi417/kex#benchmark-on-15-public-datasets)
