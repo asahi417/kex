@@ -6,7 +6,7 @@ import logging
 from typing import List
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 
-CACHE_DIR = '{}/cache_kex'.format(os.path.expanduser('~'))
+CACHE_DIR = '{}/.cache/kex'.format(os.path.expanduser('~'))
 STOPWORDS_DIR = '{}/stopwords'.format(CACHE_DIR)
 
 

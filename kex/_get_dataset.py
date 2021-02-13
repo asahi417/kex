@@ -10,7 +10,7 @@ from nltk.stem.porter import PorterStemmer  # only for English
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 
-CACHE_DIR = '{}/cache_kex'.format(os.path.expanduser('~'))
+CACHE_DIR = '{}/.cache/kex'.format(os.path.expanduser('~'))
 STEMMER = PorterStemmer()
 VALID_DATASET_LIST = [
     # "110-PT-BN-KP", "cacic", "pak2018", "WikiNews", "wicc"

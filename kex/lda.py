@@ -9,7 +9,7 @@ from ._phrase_constructor import PhraseConstructor
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 __all__ = 'LDA'
-CACHE_DIR = '{}/cache_kex/lda'.format(os.path.expanduser('~'))
+CACHE_DIR = '{}/.cache/kex/lda'.format(os.path.expanduser('~'))
 
 
 class LDA:

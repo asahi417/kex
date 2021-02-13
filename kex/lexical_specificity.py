@@ -10,7 +10,7 @@ from itertools import chain
 from ._phrase_constructor import PhraseConstructor
 
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-CACHE_DIR = '{}/cache_kex/lexspec'.format(os.path.expanduser('~'))
+CACHE_DIR = '{}/.cache/kex/lexspec'.format(os.path.expanduser('~'))
 __all__ = ('LexSpec', 'lexical_specificity', 'TF')
 
 
