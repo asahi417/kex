@@ -3,4 +3,3 @@ tests/*.json
 benchmark
 benchmark/*/*.csv
 benchmark/*/*.json
-examples/paper_lex_spec
