@@ -1,6 +1,6 @@
 # Reproduce Analysis of LexSpec Paper 
 Here we go through our code to reproduce the result described in 
-[Back to the Basics: A Quantitative Analysis of Statistical and Graph-Based Term Weighting Schemes for Keyword Extraction]().
+[Back to the Basics: A Quantitative Analysis of Statistical and Graph-Based Term Weighting Schemes for Keyword Extraction](https://arxiv.org/abs/2104.08028).
 
 ## Setup
 You need [kex library](https://pypi.org/project/kex/).
