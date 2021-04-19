@@ -81,40 +81,6 @@ def aggregate_agreement(top_n_prediction: int = 5):
     fig.savefig('{}/agreement_all.heatmap.pdf'.format(export_dir_root))
 
 
-def aggregate_result(d: int = 1):
-    all_data, all_algorithm = get_data_algorithm()
-    metrics = list(map(str, top_n))
-
-    def update(_df, _key):
-        if _key not in _df.keys():
-            _df[_key] = pd.DataFrame(index=all_data, columns=all_algorithm)
-        return _df
-
-    df = {}
-    df_full = {}
-    for i in glob(os.path.join(export_dir_root, '*/accuracy.*.json')):
-        _data_name = i.split('/')[-2]
-        _algorithm_name = i.split('accuracy.')[-1].replace('.json', '')
-        tmp = json.load(open(i))
-        df = update(df, 'mrr')
-        df['mrr'][_algorithm_name][_data_name] = tmp['mrr'] * 100
-        for _n in metrics:
-            for _type in ['fixed', 'unfixed']:
-                print(i, tmp)
-                df = update(df, '{}.f1.{}'.format(_n, _type))
-                df = update(df, '{}.precision.{}'.format(_n, _type))
-                df = update(df, '{}.recall.{}'.format(_n, _type))
-                df['{}.f1.{}'.format(_n, _type)][_algorithm_name][_data_name] = tmp[_type][_n]['f_1'] * 100
-                df['{}.precision.{}'.format(_n, _type)][_algorithm_name][_data_name] = tmp[_type][_n]['precision'] * 100
-                df['{}.recall.{}'.format(_n, _type)][_algorithm_name][_data_name] = tmp[_type][_n]['recall'] * 100
-    for _k, _v in df.items():
-        logging.info("** Result: {} **\n {}".format(_k, _v))
-        _v.to_csv("{}/result.{}.csv".format(export_dir_root, _k))
-    for _k, _v in df_full.items():
-        logging.info("** Result: {} **\n {}".format(_k, _v))
-        _v.to_csv("{}/result.{}.csv".format(export_dir_root, _k))
-
-
 def get_model_prediction(model_name: str, data_name: str):
     """ get prediction from single model on single dataset """
     data, language = kex.get_benchmark_dataset(data_name)
@@ -168,12 +134,8 @@ def run_benchmark():
             df_prediction.to_csv(prediction_file)
 
         # run algorithm and test it over data
-        tp = {n: 0 for n in list(map(str, top_n))}
-        fn = {n: 0 for n in list(map(str, top_n))}
-        fp = {n: 0 for n in list(map(str, top_n))}
-        tp_unfixed = {n: 0 for n in list(map(str, top_n))}
-        fn_unfixed = {n: 0 for n in list(map(str, top_n))}
-        fp_unfixed = {n: 0 for n in list(map(str, top_n))}
+        precisions = {n: [] for n in list(map(str, top_n))}
+        precisions_unfixed = {n: [] for n in list(map(str, top_n))}
         mrr = []
         for n_, (l_, p) in enumerate(zip(labels, preds)):
             all_ranks = [n + 1 for n, p_ in enumerate(p) if p_ in l_]
@@ -181,34 +143,19 @@ def run_benchmark():
                 mrr.append(1 / (len(preds) + 1))
             else:
                 mrr.append(1 / min(all_ranks))
-            for i in tp.keys():
-                n = min(int(i), len(l_))
+            for i in top_n:
+                n = min(i, len(l_))
                 n_unfixed = int(i)
-
-                positive_answers = list(set(p[:n]).intersection(set(l_)))
-                tp[i] += len(positive_answers)
-                fn[i] += len(l_) - len(positive_answers)
-                fp[i] += n - len(positive_answers)
-
-                positive_answers = list(set(p[:n_unfixed]).intersection(set(l_)))
-                tp_unfixed[i] += len(positive_answers)
-                fn_unfixed[i] += len(l_) - len(positive_answers)
-                fp_unfixed[i] += n_unfixed - len(positive_answers)
+                positive = list(set(p[:n]).intersection(set(l_)))
+                precisions[str(i)].append(len(positive)/n)
+                precisions_unfixed[str(i)].append(len(positive) / n_unfixed)
 
         # result summary: micro F1 score
-        result_json = {'mrr': sum(mrr)/len(mrr), 'fixed': {}, 'unfixed': {}}
-        for i in tp.keys():
-
-            precision = tp[str(i)] / (fp[str(i)] + tp[str(i)])
-            recall = tp[str(i)] / (fn[str(i)] + tp[str(i)])
-            f1 = 2 * precision * recall / (precision + recall)
-            result_json['fixed'][i] = {"recall": recall, "precision": precision, "f_1": f1}
-
-            precision = tp_unfixed[str(i)] / (fp_unfixed[str(i)] + tp_unfixed[str(i)])
-            recall = tp_unfixed[str(i)] / (fn_unfixed[str(i)] + tp_unfixed[str(i)])
-            f1 = 2 * precision * recall / (precision + recall)
-            result_json['unfixed'][i] = {"recall": recall, "precision": precision, "f_1": f1}
-
+        result_json = {
+            'mrr': sum(mrr)/len(mrr),
+            'pre': {k: sum(v)/len(v) for k, v in precisions.items()},
+            'pre_unfixed': {k: sum(v)/len(v) for k, v in precisions_unfixed.items()}
+        }
         # export
         os.makedirs(export_dir, exist_ok=True)
         with open(accuracy_file, 'w') as f:
@@ -216,15 +163,42 @@ def run_benchmark():
         logging.info(json.dumps(result_json, indent=4, sort_keys=True))
         logging.info(' - result exported to {}'.format(export_dir))
 
+    ####################
+    # aggregate result #
+    ####################
+    all_data, all_algorithm = get_data_algorithm()
+    metrics = list(map(str, top_n))
+
+    def update(_df, _key):
+        if _key not in _df.keys():
+            _df[_key] = pd.DataFrame(index=all_data, columns=all_algorithm)
+        return _df
+
+    df = {}
+    for i in glob(os.path.join(export_dir_root, '*/accuracy.*.json')):
+        _data_name = i.split('/')[-2]
+        _algorithm_name = i.split('accuracy.')[-1].replace('.json', '')
+        tmp = json.load(open(i))
+        df = update(df, 'mrr')
+        df['mrr'][_algorithm_name][_data_name] = tmp['mrr'] * 100
+        for _type in ['pre', 'pre_unfixed']:
+            for _n in metrics:
+                title = '{}.{}'.format(_type, _n)
+                df = update(df, title)
+                df[title][_algorithm_name][_data_name] = tmp[_type][_n] * 100
+
+    df['mrr']['metric'] = 'mrr'
+    df_list = [df['mrr']]
+    df_list_unfixed = [df['mrr']]
+    for i in top_n:
+        df['pre.{}'.format(i)]['metric'] = 'pre{}'.format(i)
+        df_list.append(df['pre.{}'.format(i)])
+        df['pre_unfixed.{}'.format(i)]['metric'] = 'pre{}'.format(i)
+        df_list_unfixed.append(df['pre_unfixed.{}'.format(i)])
+    pd.concat(df_list).to_csv("{}/metric.csv".format(export_dir_root))
+    pd.concat(df_list_unfixed).to_csv("{}/metric.unfixed.csv".format(export_dir_root))
+
 
 if __name__ == '__main__':
     run_benchmark()
-    aggregate_result()
     aggregate_agreement()
-    mrr = pd.read_csv("{}/result.mrr.csv".format(export_dir_root), index_col=0)
-    mrr['metric'] = 'mrr'
-    pre5 = pd.read_csv("{}/result.5.precision.fixed.csv".format(export_dir_root), index_col=0)
-    pre5['metric'] = 'pre5'
-    pre10 = pd.read_csv("{}/result.10.precision.fixed.csv".format(export_dir_root), index_col=0)
-    pre10['metric'] = 'pre10'
-    pd.concat([pre5, mrr, pre10]).to_csv("{}/result.paper.csv".format(export_dir_root))
