@@ -1,7 +1,5 @@
-import os
 import logging
 from tqdm import tqdm
-from itertools import chain
 
 import pandas as pd
 import kex
@@ -65,7 +63,7 @@ def get_statistics(data: str):
     if language == 'en':
         return
     output = {'Data size': len(dataset), "Domain": domain[data], "Type": types[data]}
-
+    all_data = []
     for data in tqdm(dataset):
         phrase, stemmed_token = phraser.tokenize_and_stem_and_phrase(data['source'])
         keywords_valid = list(set(phrase.keys()).intersection(set(data['keywords'])))
@@ -77,7 +75,12 @@ def get_statistics(data: str):
         n_label_in_candidates.append(len(keywords_valid))
         n_label_in_candidates_multi.append(len([k for k in keywords_valid if len(k.split(' ')) > 1]))
         label_in_candidates.append(keywords_valid)
-
+        all_data.append(
+            {'filename': data['id'], 'n_phrase': len(phrase), 'n_word': len(stemmed_token),
+             'n_vocab': len(list(set(stemmed_token))), 'n_label': len(data['keywords']),
+             'n_label_in_candidate': len(keywords_valid),
+             'n_label_in_candidate_multi': len([k for k in keywords_valid if len(k.split(' ')) > 1])}
+        )
 
     output['Avg phrase'] = sum(n_phrase) / len(dataset)
     output['Std phrase'] = (sum([(a - output['Avg phrase']) ** 2 for a in n_phrase]) / len(dataset)) ** 0.5
@@ -99,16 +102,18 @@ def get_statistics(data: str):
 
     output['Vocab diversity'] = sum(n_word) / sum(n_vocab)
 
-    return output
+    return output, all_data
 
 
 if __name__ == '__main__':
 
     all_stats = {}
+    each_data = []
     for data_name in data_list:
         logging.info('data: {}'.format(data_name))
-        all_stats[data_name] = get_statistics(data_name)
+        a, b = get_statistics(data_name)
+        all_stats[data_name] = a
+        each_data += b
 
-    df = pd.DataFrame(all_stats)
-    print(df)
-    df.to_csv('./benchmark/data_statistics.csv')
+    pd.DataFrame(all_stats).to_csv('./benchmark/data_statistics.csv')
+    pd.DataFrame(each_data).to_csv('./benchmark/data_statistics_individual.csv')

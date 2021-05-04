@@ -23,8 +23,3 @@ python complexity.py
 ```shell script
 python data_statistics_table.py
 ```
-
-- Low level statistics for each data. 
-```shell script
-python individual_data_statistics.py
-```
