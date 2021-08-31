@@ -10,6 +10,10 @@
 - [Quick benchmarking over 15 English public datasets](https://github.com/asahi417/kex#benchmark-on-15-public-datasets)
 - [Custom keyword extractor implementation support](https://github.com/asahi417/kex#implement-custom-extractor-with-kex)
 
+***Accepted by EMNLP 2021 main conference 🎉***: Our paper about the keyword extraction got accepted by EMNLP 2021 main conference!
+To reproduce all the result in the paper, please follow [this instruction](examples/result_back_to_the_basic/README.md).
+
+
 ## Get Started
 Install via pip
 ```shell script
@@ -127,4 +131,16 @@ class CustomExtractor:
         phrase_instance, stemmed_tokens = self.phrase_constructor.tokenize_and_stem_and_phrase(document)
         sorted_phrases = sorted(phrase_instance.values(), key=lambda x: x['offset'][0][0])
         return sorted_phrases[:min(len(sorted_phrases), n_keywords)]
+```
+
+## Reference paper
+If you use any of these resources, please cite the following [paper]():
+```
+@inproceedings{ushio-etal-2021-ner,
+    title={{B}ack to the {B}asics: {A} {Q}uantitative {A}nalysis of {S}tatistical and {G}raph-{B}ased {T}erm {W}eighting {S}chemes for {K}eyword {E}xtraction},
+    author={Ushio, Asahi and Liberatore, Federico and Camacho-Collados, Jose},
+        booktitle={Proceedings of the {EMNLP} 2021 Main Conference},
+    year = {2021},
+    publisher={Association for Computational Linguistics}
+}
 ```
