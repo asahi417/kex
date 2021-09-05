@@ -1,4 +1,4 @@
-# Reproduce Analysis of LexSpec Paper 
+# Reproduce Analysis of EMNLP-21 Paper 
 Here we go through our code to reproduce the result described in 
 **Back to the Basics: A Quantitative Analysis of Statistical and Graph-Based Term Weighting Schemes for Keyword Extraction**.
 

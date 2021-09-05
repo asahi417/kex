@@ -11,7 +11,7 @@
 - [Custom keyword extractor implementation support](https://github.com/asahi417/kex#implement-custom-extractor-with-kex)
 
 ***Accepted by EMNLP 2021 main conference 🎉***: Our paper about the keyword extraction got accepted by EMNLP 2021 main conference!
-To reproduce all the result in the paper, please follow [this instruction](examples/result_back_to_the_basic/README.md).
+To reproduce all the result in the paper, please follow [these instructions](examples/result_back_to_the_basic/README.md).
 
 
 ## Get Started
@@ -134,9 +134,9 @@ class CustomExtractor:
 ```
 
 ## Reference paper
-If you use any of these resources, please cite the following [paper]():
+If you use any of these resources, please cite the following [paper](https://arxiv.org/abs/2104.08028):
 ```
-@inproceedings{ushio-etal-2021-ner,
+@inproceedings{ushio-etal-2021-kex,
     title={{B}ack to the {B}asics: {A} {Q}uantitative {A}nalysis of {S}tatistical and {G}raph-{B}ased {T}erm {W}eighting {S}chemes for {K}eyword {E}xtraction},
     author={Ushio, Asahi and Liberatore, Federico and Camacho-Collados, Jose},
         booktitle={Proceedings of the {EMNLP} 2021 Main Conference},
