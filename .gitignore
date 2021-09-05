@@ -3,3 +3,4 @@ tests/*.json
 benchmark
 benchmark/*/*.csv
 benchmark/*/*.json
+correlation_heatmap
