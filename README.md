@@ -10,7 +10,9 @@
 - [Quick benchmarking over 15 English public datasets](https://github.com/asahi417/kex#benchmark-on-15-public-datasets)
 - [Custom keyword extractor implementation support](https://github.com/asahi417/kex#implement-custom-extractor-with-kex)
 
-***Accepted by EMNLP 2021 main conference 🎉***: Our paper about the keyword extraction got accepted by EMNLP 2021 main conference!
+***Our paper got accepted by EMNLP 2021 main conference 🎉*** (camera-ready is [here]()):  
+In our paper, we conducted an extensive comparison and analysis over existing keyword extraction algorithms and proposed new algorithms `LexRank` and `LexSpec` that
+achieve very competitive baseline with very low complexity.
 To reproduce all the result in the paper, please follow [these instructions](examples/result_back_to_the_basic/README.md).
 
 
