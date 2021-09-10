@@ -10,11 +10,10 @@
 - [Quick benchmarking over 15 English public datasets](https://github.com/asahi417/kex#benchmark-on-15-public-datasets)
 - [Custom keyword extractor implementation support](https://github.com/asahi417/kex#implement-custom-extractor-with-kex)
 
-***Our paper got accepted by EMNLP 2021 main conference 🎉*** (camera-ready is [here]()):  
+***Our paper got accepted by EMNLP 2021 main conference 🎉*** (camera-ready is [here](https://github.com/asahi417/kex/blob/master/asset/EMNLP21_Keyword_Extraction_camera.pdf)):  
 In our paper, we conducted an extensive comparison and analysis over existing keyword extraction algorithms and proposed new algorithms `LexRank` and `LexSpec` that
 achieve very competitive baseline with very low complexity.
 To reproduce all the result in the paper, please follow [these instructions](examples/result_back_to_the_basic/README.md).
-
 
 ## Get Started
 Install via pip
@@ -27,7 +26,7 @@ Built-in algorithms in *kex* is below:
 - `FirstN`: heuristic baseline to pick up first n phrases as keywords 
 - `TF`: scoring by term frequency
 - `TFIDF`: scoring by TFIDF
-- `LexSpec`: scoring by [lexical specificity](https://www.aclweb.org/anthology/N15-1059.pdf)
+- `LexSpec`: [Ushio et al., 21](https://github.com/asahi417/kex/blob/master/asset/EMNLP21_Keyword_Extraction_camera.pdf)
 - `TextRank`: [Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
 - `SingleRank`: [Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
 - `TopicalPageRank`: [Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
@@ -35,7 +34,7 @@ Built-in algorithms in *kex* is below:
 - `TopicRank`: [Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
 - `PositionRank`: [Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
 - `TFIDFRank`: SingleRank + TFIDF based word distribution prior
-- `LexRank`: SingleRank + lexical specificity based word distribution prior
+- `LexRank`: [Ushio et al., 21](https://github.com/asahi417/kex/blob/master/asset/EMNLP21_Keyword_Extraction_camera.pdf)
 
 Basic usage:
 
@@ -136,7 +135,7 @@ class CustomExtractor:
 ```
 
 ## Reference paper
-If you use any of these resources, please cite the following [paper](https://arxiv.org/abs/2104.08028):
+If you use any of these resources, please cite the following paper:
 ```
 @inproceedings{ushio-etal-2021-kex,
     title={{B}ack to the {B}asics: {A} {Q}uantitative {A}nalysis of {S}tatistical and {G}raph-{B}ased {T}erm {W}eighting {S}chemes for {K}eyword {E}xtraction},
