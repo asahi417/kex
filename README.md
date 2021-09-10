@@ -12,7 +12,8 @@
 
 ***Our paper got accepted by EMNLP 2021 main conference 🎉*** (camera-ready is [here](https://github.com/asahi417/kex/blob/master/asset/EMNLP21_Keyword_Extraction_camera.pdf)):  
 In our paper, we conducted an extensive comparison and analysis over existing keyword extraction algorithms and proposed new algorithms `LexRank` and `LexSpec` that
-achieve very competitive baseline with very low complexity.
+achieve very competitive baseline with very low complexity. Our proposed algorithms are based on the lexical specificity and we write a short introduction to the 
+lexical specificity [here](./asset/lexical_specificity.md).
 To reproduce all the result in the paper, please follow [these instructions](examples/result_back_to_the_basic/README.md).
 
 ## Get Started
