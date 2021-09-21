@@ -11,10 +11,9 @@
 - [Custom keyword extractor implementation support](https://github.com/asahi417/kex#implement-custom-extractor-with-kex)
 
 ***Our paper got accepted by EMNLP 2021 main conference 🎉*** (camera-ready is [here](https://arxiv.org/abs/2104.08028)):  
-In our paper, we conducted an extensive comparison and analysis over existing keyword extraction algorithms and proposed new algorithms `LexRank` and `LexSpec` that
-achieve very competitive baseline with very low complexity. Our proposed algorithms are based on the lexical specificity and we write a short introduction to the 
+In our paper, we conducted an extensive comparison and analysis over existing keyword extraction algorithms and proposed new competitive algorithms as `LexRank` and `LexSpec`. These algorithms are based on the lexical specificity and we write a short introduction to 
 lexical specificity [here](./asset/lexical_specificity.md).
-To reproduce all the result in the paper, please follow [these instructions](examples/result_back_to_the_basic/README.md).
+To reproduce all the results in the paper, please follow [these instructions](examples/result_back_to_the_basic/README.md).
 
 ## Get Started
 Install via pip
@@ -27,7 +26,7 @@ Built-in algorithms in *kex* is below:
 - `FirstN`: heuristic baseline to pick up first n phrases as keywords 
 - `TF`: scoring by term frequency
 - `TFIDF`: scoring by TFIDF
-- `LexSpec`: [Ushio et al., 21](https://github.com/asahi417/kex/blob/master/asset/EMNLP21_Keyword_Extraction_camera.pdf)
+- `LexSpec`: [Lafon et al., 1980](https://www.persee.fr/doc/mots_0243-6450_1980_num_1_1_1008)
 - `TextRank`: [Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
 - `SingleRank`: [Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
 - `TopicalPageRank`: [Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
@@ -35,7 +34,7 @@ Built-in algorithms in *kex* is below:
 - `TopicRank`: [Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
 - `PositionRank`: [Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
 - `TFIDFRank`: SingleRank + TFIDF based word distribution prior
-- `LexRank`: [Ushio et al., 21](https://github.com/asahi417/kex/blob/master/asset/EMNLP21_Keyword_Extraction_camera.pdf)
+- `LexRank`: [Ushio et al., 21](https://arxiv.org/abs/2104.08028)
 
 Basic usage:
 
