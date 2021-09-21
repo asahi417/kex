@@ -10,7 +10,7 @@
 - [Quick benchmarking over 15 English public datasets](https://github.com/asahi417/kex#benchmark-on-15-public-datasets)
 - [Custom keyword extractor implementation support](https://github.com/asahi417/kex#implement-custom-extractor-with-kex)
 
-***Our paper got accepted by EMNLP 2021 main conference 🎉*** (camera-ready is [here](https://github.com/asahi417/kex/blob/master/asset/EMNLP21_Keyword_Extraction_camera.pdf)):  
+***Our paper got accepted by EMNLP 2021 main conference 🎉*** (camera-ready is [here](https://arxiv.org/abs/2104.08028)):  
 In our paper, we conducted an extensive comparison and analysis over existing keyword extraction algorithms and proposed new algorithms `LexRank` and `LexSpec` that
 achieve very competitive baseline with very low complexity. Our proposed algorithms are based on the lexical specificity and we write a short introduction to the 
 lexical specificity [here](./asset/lexical_specificity.md).
@@ -136,7 +136,7 @@ class CustomExtractor:
 ```
 
 ## Reference paper
-If you use any of these resources, please cite the following paper:
+If you use any of these resources, please cite the following [paper](https://arxiv.org/abs/2104.08028):
 ```
 @inproceedings{ushio-etal-2021-kex,
     title={{B}ack to the {B}asics: {A} {Q}uantitative {A}nalysis of {S}tatistical and {G}raph-{B}ased {T}erm {W}eighting {S}chemes for {K}eyword {E}xtraction},
