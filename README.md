@@ -88,7 +88,7 @@ Priors are cached and can be loaded on the fly as
 Currently algorithms are available only in English, but soon we will relax the constrain to allow other language to be supported.
 
 ## Benchmark on 15 Public Datasets
-Users can fetch 15 public keyword extraction datasets via [`kex.get_benchmark_dataset`](https://github.com/asahi417/kex/blob/master/kex/_get_dataset.py#L41).
+Users can fetch 15 public keyword extraction datasets via [`kex.get_benchmark_dataset`](https://github.com/asahi417/kex/blob/master/kex/_get_dataset.py#L15).
 
 ```python
 >>> import kex
