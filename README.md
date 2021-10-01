@@ -25,15 +25,15 @@ pip install kex
 Built-in algorithms in *kex* is below:
 - `FirstN`: heuristic baseline to pick up first n phrases as keywords 
 - `TF`: scoring by term frequency
-- `TFIDF`: scoring by TFIDF
-- `LexSpec`: [Lafon et al., 1980](https://www.persee.fr/doc/mots_0243-6450_1980_num_1_1_1008)
 - `TextRank`: [Mihalcea et al., 04](https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf)
 - `SingleRank`: [Wan et al., 08](https://aclanthology.info/pdf/C/C08/C08-1122.pdf)
 - `TopicalPageRank`: [Liu et al.,10](http://nlp.csai.tsinghua.edu.cn/~lzy/publications/emnlp2010.pdf)
 - `SingleTPR`: [Sterckx et al.,15](https://core.ac.uk/download/pdf/55828317.pdf)
 - `TopicRank`: [Bougouin et al.,13](http://www.aclweb.org/anthology/I13-1062)
 - `PositionRank`: [Florescu et al.,18](http://people.cs.ksu.edu/~ccaragea/papers/acl17.pdf)
-- `TFIDFRank`: SingleRank + TFIDF based word distribution prior
+- `TFIDF`: [Ushio et al., 21](https://arxiv.org/abs/2104.08028)
+- `TFIDFRank`: [Ushio et al., 21](https://arxiv.org/abs/2104.08028)
+- `LexSpec`: [Ushio et al., 21](https://arxiv.org/abs/2104.08028)
 - `LexRank`: [Ushio et al., 21](https://arxiv.org/abs/2104.08028)
 
 Basic usage:
