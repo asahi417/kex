@@ -11,9 +11,11 @@
 - [Custom keyword extractor implementation support](https://github.com/asahi417/kex#implement-custom-extractor-with-kex)
 
 ***Our paper got accepted by EMNLP 2021 main conference 🎉*** (camera-ready is [here](https://arxiv.org/abs/2104.08028)):  
-This paper has proposed three new algorithms (`LexSpec`, `LexRank`, and `TFIDFRank`) and conducted an extensive comparison/analysis over existing keyword extraction algorithms with the proposed methods.
-These algorithms are based on the lexical specificity and we write a short introduction to 
-lexical specificity [here](./asset/lexical_specificity.md).
+This paper has proposed three new algorithms (`LexSpec`, `LexRank`, `TFIDFRank`) and conducted an extensive comparison/analysis over existing keyword extraction algorithms with the proposed methods.
+Our algorithms are very simple and fast to compute yet established very strong baseline across the dataset (**the best MRR/Precision@5 in the average over all the datasets**).
+The `TFIDFRank` is based on the `SingleRank` algorithm but with the TFIDF as the population term and 
+the `LexSpec` and `LexRank` are based on the lexical specificity where we write a short introduction to 
+lexical specificity [here](./asset/lexical_specificity.md) as it is less popular than TFIDF.
 To reproduce all the results in the paper, please follow [these instructions](examples/result_back_to_the_basic/README.md).
 
 ## Get Started
