@@ -1,6 +1,4 @@
 cache
 tests/*.json
-benchmark
-benchmark/*/*.csv
-benchmark/*/*.json
+benchmark.zip
 correlation_heatmap

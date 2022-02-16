@@ -12,7 +12,7 @@ STOPWORDS_DIR = '{}/stopwords'.format(CACHE_DIR)
 
 def download_stopwords_dump():
     os.makedirs(CACHE_DIR, exist_ok=True)
-    url = "https://github.com/asahi417/kex/raw/master/asset/stopwords.tar.gz"
+    url = "https://github.com/asahi417/kex/releases/download/v2.0.5/stopwords.tar.gz"
     filename = '{}/{}'.format(CACHE_DIR, os.path.basename(url))
     logging.info('downloading stopwords dump from `{}` to `{}`'.format(url, CACHE_DIR))
     with open(filename, "wb") as f:
