@@ -14,7 +14,7 @@
 In our paper, we conducted an extensive comparison and analysis over existing keyword extraction algorithms and proposed new algorithms `LexRank` and `LexSpec` that
 achieve very competitive baseline with very low complexity. Our proposed algorithms are based on the lexical specificity and we write a short introduction to the 
 lexical specificity [here](./asset/lexical_specificity.md).
-To reproduce all the result in the paper, please follow [these instructions](examples/result_back_to_the_basic/README.md).
+To reproduce all the result in the paper, please follow [these instructions](https://github.com/asahi417/kex/tree/emnlp_2021/examples/result_back_to_the_basic).
 
 ## Get Started
 Install via pip
@@ -102,7 +102,7 @@ Users can fetch 15 public keyword extraction datasets via [`kex.get_benchmark_da
 }
 ```
  
-Please take a look an [example script](https://github.com/asahi417/kex/blob/master/examples/benchmark.py) to run a benchmark on those datasets.
+Please take a look an [example script](https://github.com/asahi417/kex/blob/emnlp_2021/examples/result_back_to_the_basic/benchmark.py) to run a benchmark on those datasets.
 
 ## Implement Custom Extractor with Kex
 We provide an API to run a basic pipeline for preprocessing, by which one can implement a custom keyword extractor.
