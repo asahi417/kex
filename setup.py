@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 with open('README.md', 'r') as f:
     readme = f.read()
 
-VERSION = '2.0.5'
+VERSION = '2.0.6'
 setup(
     name='kex',
     packages=find_packages(exclude=['examples', 'tests', 'asset', 'benchmark']),
